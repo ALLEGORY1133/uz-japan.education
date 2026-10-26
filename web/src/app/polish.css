@@ -1,0 +1,185 @@
+/* =====================================================================
+   polish.css — "akademik muharrir" dizayn qatlami
+   Ilhom: Harvard, Stanford, Oxford saytlari — serif sarlavhalar, keng bo'shliq,
+   aniq ierarxiya, mayin harakat, sticky navigatsiya.
+
+   layout.tsx da globals.css dan KEYIN ulanadi. Eski ko'rinishga qaytish uchun
+   layout.tsx dagi `import "../polish.css"` qatorini o'chirib qo'ying.
+   ===================================================================== */
+
+:root {
+  --font-serif: var(--f-serif), "Iowan Old Style", Georgia, var(--f-jp), serif;
+  --shadow-1: 0 1px 2px rgba(20, 24, 63, .06), 0 10px 28px -14px rgba(20, 24, 63, .22);
+  --shadow-2: 0 2px 4px rgba(20, 24, 63, .06), 0 30px 60px -28px rgba(20, 24, 63, .38);
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+body { font-size: 16px; line-height: 1.55; text-rendering: optimizeLegibility; }
+::selection { background: rgba(229, 72, 59, .22); }
+
+/* ---------- tipografiya: serif sarlavhalar ---------- */
+h1, h2, h3, .disp { font-family: var(--font-serif); font-weight: 600; letter-spacing: -.015em; }
+.brand b { font-family: var(--font-serif); font-weight: 700; letter-spacing: -.01em; }
+.brand b span { font-family: var(--font-body); font-weight: 500; letter-spacing: .08em; text-transform: uppercase; font-size: 10.5px; opacity: .8; margin-top: 2px; }
+
+/* ---------- header: sticky, aylantirilganda qattiq fon ---------- */
+.site-header:not(.solid) { position: fixed; top: 14px; }
+.header-bar { height: 62px; transition: background .35s var(--ease), box-shadow .35s var(--ease), height .35s var(--ease); }
+.site-header.scrolled .header-bar { height: 56px; background: rgba(20, 24, 63, .94); box-shadow: 0 14px 34px -14px rgba(14, 14, 44, .65); }
+.site-header.solid .header-bar { box-shadow: var(--shadow-1); }
+.nav { gap: 4px; }
+.nav a { position: relative; background: transparent !important; padding: 10px 14px; letter-spacing: .01em; }
+.nav a::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 5px; height: 2px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .35s var(--ease); }
+.nav a:hover::after, .nav a[aria-current="page"]::after { transform: scaleX(1); }
+
+/* ---------- hero ---------- */
+.hero::after { content: ""; position: absolute; inset: auto 0 0 0; height: 180px; background: linear-gradient(to bottom, transparent, rgba(20, 24, 63, .6)); pointer-events: none; z-index: 3; }
+.slide-title { font-family: var(--font-serif); font-weight: 600; font-size: clamp(40px, 6.2vw, 92px); line-height: 1.03; letter-spacing: -.025em; max-width: 860px; text-wrap: balance; }
+.slide-title em { font-style: italic; font-weight: 500; }
+.slide-desc { font-size: clamp(16px, 1.4vw, 19px); line-height: 1.65; max-width: 600px; }
+.pill { font-size: 11px; letter-spacing: .22em; padding: 9px 18px; background: rgba(255, 255, 255, .1); backdrop-filter: blur(8px); }
+.hero-count b { font-family: var(--font-serif); font-weight: 300; font-style: italic; font-size: clamp(90px, 10vw, 150px); }
+.slide.active .slide-body > * { animation: rise-in .9s var(--ease) both; }
+.slide.active .slide-body > *:nth-child(2) { animation-delay: .08s; }
+.slide.active .slide-body > *:nth-child(3) { animation-delay: .16s; }
+.slide.active .slide-body > *:nth-child(4) { animation-delay: .24s; }
+@keyframes rise-in { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+
+/* ---------- qidiruv paneli (Stanford "find" uslubi) ---------- */
+.finder { position: relative; z-index: 7; margin-top: -66px; display: grid; grid-template-columns: minmax(240px, .8fr) 2fr; gap: 28px; align-items: center; padding: 28px 32px; background: #fff; border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--shadow-2); }
+.finder .eyebrow { display: block; margin-bottom: 6px; }
+.finder h2 { margin: 0; font-size: clamp(22px, 2.2vw, 30px); line-height: 1.15; }
+.finder form { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 12px; align-items: end; }
+.finder label { display: flex; flex-direction: column; gap: 6px; font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); min-width: 0; }
+.finder input, .finder select { font-family: inherit; font-size: 15px; letter-spacing: 0; text-transform: none; font-weight: 500; color: var(--ink); padding: 13px 14px; min-height: 50px; border: 1.5px solid #d9d4e8; border-radius: 12px; background: #fff; width: 100%; transition: border-color .2s, box-shadow .2s; }
+.finder input:focus, .finder select:focus { outline: none; border-color: var(--red); box-shadow: 0 0 0 4px rgba(229, 72, 59, .14); }
+.finder .btn { min-height: 50px; }
+.finder + .quick { margin-top: 18px; }
+
+/* ---------- tezkor menyu ---------- */
+.qn { border-radius: 16px; box-shadow: none; transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .2s; }
+.qn:hover { border-color: #d5d0e4; box-shadow: var(--shadow-1); }
+
+/* ---------- bo'lim sarlavhalari ---------- */
+.section { padding-top: 100px; }
+.eyebrow { display: inline-flex; align-items: center; gap: 12px; letter-spacing: .2em; font-size: 11.5px; }
+.eyebrow::before { content: ""; width: 28px; height: 2px; background: currentColor; opacity: .85; }
+.h2 { font-size: clamp(32px, 4vw, 48px); line-height: 1.08; font-weight: 600; margin-top: 10px; text-wrap: balance; }
+.sub { font-size: 15.5px; max-width: 560px; line-height: 1.55; }
+.section-head { margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+
+/* ---------- bento kartalar ---------- */
+.bento { border-radius: 26px; }
+.bento h2 { font-weight: 600; letter-spacing: -.02em; }
+.bento.students h2 { font-size: clamp(32px, 3.4vw, 46px); }
+.bento.collab h2 { font-size: clamp(26px, 2.6vw, 34px); }
+.bento.map { box-shadow: var(--shadow-1); }
+.event-card { border-radius: 22px; box-shadow: var(--shadow-1); transition: transform .35s var(--ease), box-shadow .35s var(--ease); }
+.event-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); }
+.event-date b { font-family: var(--font-serif); font-weight: 600; }
+
+/* ---------- universitet chiplar (marquee) ---------- */
+.uchip { box-shadow: var(--shadow-1); border-color: transparent; }
+.uchip b { font-weight: 700; }
+
+/* ---------- statistika ---------- */
+.stats { border-radius: 26px; padding: 60px 48px; gap: 0; }
+.stat { padding: 0 28px; border-left: 1px solid rgba(255, 255, 255, .14); }
+.stat:first-child { padding-left: 0; border-left: 0; }
+.stat b { font-family: var(--font-serif); font-weight: 500; font-size: clamp(48px, 5.6vw, 76px); letter-spacing: -.035em; }
+.stat b i { font-style: italic; }
+.stat span { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; margin-top: 12px; }
+@media (max-width: 760px) { .stat { padding: 18px 0; border-left: 0; border-top: 1px solid rgba(255, 255, 255, .14); } .stat:first-child { border-top: 0; } .stats { padding: 36px 28px; } }
+
+/* ---------- kartalar: yangilik, havola, universitet ---------- */
+.card-link, .uni-card { border-radius: 18px; box-shadow: none; transition: transform .45s var(--ease), box-shadow .45s var(--ease), border-color .25s; }
+.card-link:hover, .uni-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-2); }
+.card-cover { height: 190px; transition: transform .9s var(--ease); }
+.card-link:hover .card-cover { transform: scale(1.06); }
+.card-body { padding: 24px; gap: 12px; }
+.card-body h3 { font-family: var(--font-serif); font-weight: 600; font-size: 21px; line-height: 1.25; }
+.card-foot { font-size: 13px; letter-spacing: .02em; }
+.card-foot span:last-child { transition: transform .3s var(--ease); }
+.card-link:hover .card-foot span:last-child, .uni-card:hover .card-foot span:last-child { transform: translateX(4px); }
+.tag { letter-spacing: .04em; }
+
+/* bosh sahifada birinchi yangilik — katta "muharrir" kartasi */
+@media (min-width: 1000px) {
+  #news .grid-cards { grid-template-columns: 1.55fr 1fr 1fr; }
+  #news .card-link:first-child .card-cover { height: 290px; }
+  #news .card-link:first-child .card-body h3 { font-size: 28px; line-height: 1.18; }
+  #news .card-link:first-child .card-body p { font-size: 15.5px; }
+}
+
+/* universitet kartasi: brend rangli chiziq */
+.uni-card { position: relative; overflow: hidden; padding: 28px 24px 22px; gap: 16px; }
+.uni-card::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 5px; background: var(--brand, var(--red)); transition: height .3s var(--ease); }
+.uni-card:hover { border-color: var(--brand, var(--red)); }
+.uni-card:hover::before { height: 8px; }
+.uni-card h3 { font-family: var(--font-serif); font-weight: 600; font-size: 21px; line-height: 1.22; }
+.results-count { margin: 22px 0 0; font-size: 14px; color: var(--muted); }
+.results-count b { font-family: var(--font-serif); font-size: 22px; color: var(--ink); margin-right: 4px; }
+
+/* ---------- ichki sahifalar ---------- */
+.page-hero { padding-bottom: 72px; }
+.page-hero::before { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120' fill='none' stroke='%23ffffff' stroke-opacity='.08'%3E%3Crect x='30' y='30' width='60' height='60'/%3E%3Crect x='30' y='30' width='60' height='60' transform='rotate(45 60 60)'/%3E%3C/svg%3E"); background-size: 120px 120px; }
+.page-hero .wrap { position: relative; }
+.page-hero h1 { font-size: clamp(36px, 5.2vw, 64px); font-weight: 600; line-height: 1.06; letter-spacing: -.025em; text-wrap: balance; }
+.filters { border-radius: 20px; box-shadow: var(--shadow-2); border-color: transparent; padding: 20px; }
+.filters label { letter-spacing: .06em; text-transform: uppercase; font-size: 11.5px; }
+.facts { border-radius: 18px; box-shadow: var(--shadow-2); border-color: transparent; }
+.facts div + div { border-left: 1px solid var(--line); }
+.facts b { font-family: var(--font-serif); font-weight: 600; font-size: 17px; }
+.panel { border-radius: 20px; padding: 32px; box-shadow: var(--shadow-1); border-color: transparent; }
+.panel h2 { font-weight: 600; font-size: 25px; margin-bottom: 16px; }
+.panel p { font-size: 15.5px; line-height: 1.75; }
+.uni-logo { border-radius: 22px; box-shadow: 0 14px 34px -12px rgba(0, 0, 0, .45); }
+.web-card { border-radius: 22px; }
+.web-id b { font-family: var(--font-serif); font-weight: 600; }
+.tl .dot i { box-shadow: 0 0 0 4px rgba(229, 72, 59, .16); }
+.kv div { border-radius: 14px; }
+.kv b { font-family: var(--font-serif); font-weight: 600; font-size: 17px; }
+.article { max-width: 720px; }
+.article p { font-family: var(--font-serif); font-size: 19px; line-height: 1.8; }
+.article .cover { border-radius: 20px; }
+
+/* ---------- footer ---------- */
+.footer { margin-top: 110px; }
+.footer::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; background: linear-gradient(90deg, var(--red), var(--teal) 50%, var(--violet)); }
+.footer-ghost { font-family: var(--font-serif); font-style: italic; font-weight: 600; opacity: .06; }
+.footer h4 { letter-spacing: .2em; }
+.footer-bottom div:last-child { font-family: var(--font-serif); font-style: italic; font-size: 15px; }
+
+/* ---------- xato sahifasi ---------- */
+.err-page { padding: 170px 0 110px; text-align: center; }
+.err-code { margin: 0; font-family: var(--font-serif); font-style: italic; font-weight: 300; font-size: clamp(96px, 16vw, 180px); line-height: 1; color: var(--red); opacity: .9; }
+.err-page h1 { margin: 6px 0 12px; font-size: clamp(30px, 4vw, 44px); }
+.err-text { max-width: 520px; margin: 0 auto; color: var(--muted); font-size: 16.5px; line-height: 1.65; }
+.err-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 28px; }
+.err-digest { margin-top: 24px; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* ---------- aylantirishda paydo bo'lish (zamonaviy brauzerlarda; boshqalarda oddiy ko'rinadi) ---------- */
+@keyframes rise-scroll { from { opacity: 0; translate: 0 32px; } to { opacity: 1; translate: 0 0; } }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .finder, .bento, .stats, .card-link, .uni-card, .panel, .event-card, .section-head, .web-card {
+      animation: rise-scroll linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 30%;
+    }
+  }
+}
+
+/* ---------- moslashuvchanlik ---------- */
+@media (max-width: 960px) {
+  .finder { grid-template-columns: 1fr; gap: 20px; padding: 24px; }
+}
+@media (max-width: 760px) {
+  .finder form { grid-template-columns: 1fr; }
+  .section { padding-top: 72px; }
+  .panel { padding: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .slide.active .slide-body > * { animation: none; }
+  .card-link:hover .card-cover { transform: none; }
+}
