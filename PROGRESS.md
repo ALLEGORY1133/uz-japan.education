@@ -10,6 +10,8 @@ Oxirgi yangilanish: 2026-10-27
 - Fayl xavfsizligi (virus/skaner tekshiruvi), shriftlar serverda (@fontsource).
 - Migratsiya `applications/0007_repair_missing_columns` (bazada `reply` ustuni yo'q bo'lgan 500 xatosi uchun).
 
+- RBAC: 3 rol — platform_admin, university_rep, content_manager (Kontent menejeri: slayder, sayt media, yangilik/tadbir, statistika, media kutubxonasi; arizalar/murojaatlar/foydalanuvchilar/KPI/tarix/sozlamalar/universitetlarga KIRA OLMAYDI). Migratsiya accounts/0003. Oxirgi yangilanish: 2026-10-27.
+
 ## Ochiq / tekshirilmagan
 - Haqiqiy `next build` va Postgres bilan sinalmagan (faqat sintaksis va mock).
 - Paket nomlari (@fontsource-*) tekshirilmagan — `npm install` 404 bersa nomni to'g'rilash kerak.

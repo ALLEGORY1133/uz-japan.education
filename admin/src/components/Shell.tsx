@@ -13,7 +13,7 @@ type Item = { href: string; label: string; icon: string };
 type Group = { title?: string; items: Item[] };
 
 export default function Shell({ children }: { children: React.ReactNode }) {
-  const { user, isAdmin, logout } = useAuth();
+  const { user, isAdmin, isManager, logout } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -22,7 +22,23 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   const [bellOpen, setBellOpen] = useState(false);
   const [newCount, setNewCount] = useState<number | null>(null);
 
-  const groups: Group[] = isAdmin
+  const managerGroups: Group[] = [
+    { items: [{ href: "/", label: "Boşqaruv", icon: "dashboard" }] },
+    {
+      title: "Sayt kontenti",
+      items: [
+        { href: "/hero", label: "Boş sahifa slayderi", icon: "hero" },
+        { href: "/site-media", label: "Sayt rasm va videolari", icon: "media" },
+        { href: "/media", label: "Media kutubxonasi", icon: "media" },
+        { href: "/news", label: "Yangilik va tadbirlar", icon: "news" },
+        { href: "/stats", label: "Statistika", icon: "stats" },
+      ],
+    },
+  ];
+
+  const groups: Group[] = isManager
+    ? managerGroups
+    : isAdmin
     ? [
         {
           items: [
@@ -86,7 +102,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    api<{ applications: { new: number } }>("/dashboard/").then((d) => setNewCount(d.applications.new)).catch(() => {});
+    if (!isManager) api<{ applications: { new: number } }>("/dashboard/").then((d) => setNewCount(d.applications.new)).catch(() => {});
   }, [pathname]);
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
@@ -123,7 +139,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
             <span className="avatar" aria-hidden="true">{initial}</span>
             <div className="who">
               <b>{user?.username}</b>
-              <span>{isAdmin ? "Platforma administratori" : user?.university_name || "Universitet vakili"}</span>
+              <span>{isAdmin ? "Platforma administratori" : isManager ? "Kontent menejeri" : user?.university_name || "Universitet vakili"}</span>
             </div>
           </Link>
           <button type="button" className="btn ghost sm" onClick={logout}>Çiqiş</button>

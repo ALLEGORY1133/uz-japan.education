@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { api, listOf } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 
-const ROLE: Record<string, string> = { platform_admin: "Platforma administratori", university_rep: "Universitet vakili" };
+const ROLE: Record<string, string> = { platform_admin: "Platforma administratori", university_rep: "Universitet vakili", content_manager: "Kontent menejeri" };
 const fmt = (iso?: string | null) => {
   const d = iso ? new Date(iso) : null;
   return d && !Number.isNaN(d.getTime()) ? d.toLocaleString("ru-RU", { dateStyle: "medium", timeStyle: "short" }) : "—";

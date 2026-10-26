@@ -6,6 +6,7 @@ class User(AbstractUser):
     class Role(models.TextChoices):
         PLATFORM_ADMIN = "platform_admin", "Platforma administratori"
         UNIVERSITY_REP = "university_rep", "Universitet vakili"
+        CONTENT_MANAGER = "content_manager", "Kontent menejeri"
 
     role = models.CharField(max_length=20, choices=Role.choices, default=Role.UNIVERSITY_REP)
     university = models.ForeignKey(
@@ -20,6 +21,14 @@ class User(AbstractUser):
     @property
     def is_platform_admin(self) -> bool:
         return self.is_superuser or self.role == self.Role.PLATFORM_ADMIN
+
+    @property
+    def is_content_manager(self) -> bool:
+        return self.role == self.Role.CONTENT_MANAGER and not self.is_superuser
+
+    @property
+    def can_edit_content(self) -> bool:
+        return self.is_platform_admin or self.is_content_manager
 
     @property
     def is_university_rep(self) -> bool:

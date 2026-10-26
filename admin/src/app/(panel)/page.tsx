@@ -74,16 +74,18 @@ function Fuji() {
 }
 
 export default function Dashboard() {
-  const { user, isAdmin } = useAuth();
+  const { user, isAdmin, isManager } = useAuth();
   const [d, setD] = useState<Dash | null>(null);
   const [apps, setApps] = useState<any[] | null>(null);
   const [news, setNews] = useState<any[] | null>(null);
   const [health, setHealth] = useState<"loading" | "ok" | "down">("loading");
 
   useEffect(() => {
-    api<Dash>("/dashboard/").then(setD).catch(() => {});
-    api("/applications/?page=1").then((r) => setApps(listOf(r).slice(0, 5))).catch(() => setApps([]));
-    if (isAdmin) api("/news/?page=1").then((r) => setNews(listOf(r).slice(0, 3))).catch(() => setNews([]));
+    if (!isManager) {
+      api<Dash>("/dashboard/").then(setD).catch(() => {});
+      api("/applications/?page=1").then((r) => setApps(listOf(r).slice(0, 5))).catch(() => setApps([]));
+    }
+    if (isAdmin || isManager) api("/news/?page=1").then((r) => setNews(listOf(r).slice(0, 3))).catch(() => setNews([]));
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), 4000);
     fetch(`${API}/api/health/`, { signal: ctrl.signal, cache: "no-store" })
@@ -91,7 +93,7 @@ export default function Dashboard() {
       .catch(() => setHealth("down"))
       .finally(() => clearTimeout(t));
     return () => { clearTimeout(t); ctrl.abort(); };
-  }, [isAdmin]);
+  }, [isAdmin, isManager]);
 
   const a = d?.applications;
   const name = user?.first_name || user?.username || "";
@@ -103,7 +105,14 @@ export default function Dashboard() {
     { label: "Körib çiqilmoqda", value: a?.reviewing, sub: "Jarayonda", icon: "stack", tone: "purple" },
   ];
 
-  const links: [string, string, string, string][] = isAdmin
+  const links: [string, string, string, string][] = isManager
+    ? [
+        ["/news", "Yangilik va tadbirlar", "Kontentni boşqariş", "news"],
+        ["/hero", "Boş sahifa slayderi", "Asosiy bannerlar", "hero"],
+        ["/media", "Media kutubxonasi", "Rasm va videolar", "media"],
+        ["/stats", "Statistika", "Bosh sahifadagi raqamlar", "stats"],
+      ]
+    : isAdmin
     ? [
         ["/applications", "Arizalar röyxati", "Barça arizalarni köriş", "inbox"],
         ["/universities", "Universitetlar", "Universitetlar röyxati", "university"],
@@ -127,12 +136,12 @@ export default function Dashboard() {
             <div className="welcome-copy">
               <h1>Xuş kelibsiz,<br /><span>{name}!</span></h1>
               <p className="welcome-sub">{isAdmin ? "UzJapan admin panelida siz öz faoliyatingizni oson va qulay boşqarişingiz mumkin." : user?.university_name}</p>
-              <Link href="/applications" className="btn teal">Arizalarni köriş <Icon name="arrow" size={16} /></Link>
+              <Link href={isManager ? "/news" : "/applications"} className="btn teal">{isManager ? "Kontentni boşqariş" : "Arizalarni köriş"} <Icon name="arrow" size={16} /></Link>
             </div>
             <Fuji />
           </section>
 
-          <div className="stat-grid">
+          <div className="stat-grid" style={isManager ? { display: "none" } : undefined}>
             {stats.map((s) => (
               <div className={`stat-card tone-${s.tone}`} key={s.label}>
                 <span className="stat-ico"><Icon name={s.icon} size={19} /></span>
@@ -156,7 +165,7 @@ export default function Dashboard() {
         </div>
 
         <aside className="dash-rail">
-          {isAdmin && (
+          {(isAdmin || isManager) && (
             <section className="rail-card">
               <div className="rail-head"><h2>Sönggi yangiliklar</h2><Link href="/news">Barçasi</Link></div>
               {news === null ? <p className="muted">Yuklanmoqda…</p> : news.length === 0 ? <p className="muted">Hozirça yangilik yöq.</p> : news.map((n, i) => (

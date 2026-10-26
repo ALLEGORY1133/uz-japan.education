@@ -12,7 +12,7 @@ const FIELDS: FieldDef[] = [
   { name: "last_name", label: "Familiya" },
   { name: "email", label: "Email", type: "email" },
   { name: "role", label: "Rol", type: "select", options: [
-    { value: "university_rep", label: "Universitet vakili" }, { value: "platform_admin", label: "Platforma administratori" },
+    { value: "university_rep", label: "Universitet vakili" }, { value: "content_manager", label: "Kontent menejeri" }, { value: "platform_admin", label: "Platforma administratori" },
   ] },
   { name: "university", label: "Universitet", type: "select", remote: { endpoint: "/universities/", label: "name", empty: "— (vakil uçun majburiy)" }, showIf: (v) => v.role === "university_rep" },
   { name: "password", label: "Parol", type: "password", help: "Kamida 8 belgi. Tahrirda böş qoldirsangiz özgarmaydi." },
@@ -34,7 +34,7 @@ export default function UsersPage() {
         fields={FIELDS}
         defaults={{ role: "university_rep", is_active: true }}
         addLabel="+ Foydalanuvçi qöşiş"
-        row={(u) => ({ title: u.username, sub: `${u.role === "platform_admin" ? "Administrator" : "Vakil"} · ${u.email || ""}`, badge: u.is_active ? undefined : <span className="badge">Nofaol</span> })}
+        row={(u) => ({ title: u.username, sub: `${u.role === "platform_admin" ? "Administrator" : u.role === "content_manager" ? "Kontent menejeri" : "Vakil"} · ${u.email || ""}`, badge: u.is_active ? undefined : <span className="badge">Nofaol</span> })}
       />
     </>
   );

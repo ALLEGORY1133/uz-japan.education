@@ -14,7 +14,7 @@ type Item = {
 const fmt = (n: number | null) => (n == null ? "—" : n > 1048576 ? `${(n / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
 
 export default function MediaLibraryPage() {
-  const { isAdmin } = useAuth();
+  const { canContent: isAdmin } = useAuth();
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
   const [q, setQ] = useState("");

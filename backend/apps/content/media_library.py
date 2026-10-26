@@ -14,7 +14,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.core.images import optimize_upload
-from apps.core.permissions import IsPlatformAdmin
+from apps.core.permissions import IsContentEditor
 from apps.universities.models import University, UniversityMedia
 
 from .models import HeroSlide, HeroSlideImage, News, NewsMedia, SiteMedia
@@ -79,7 +79,7 @@ def _info(request, source, obj):
 
 
 class MediaLibraryView(APIView):
-    permission_classes = [IsPlatformAdmin]
+    permission_classes = [IsContentEditor]
 
     def get(self, request):
         items = []
@@ -92,7 +92,7 @@ class MediaLibraryView(APIView):
 
 
 class MediaLibraryItemView(APIView):
-    permission_classes = [IsPlatformAdmin]
+    permission_classes = [IsContentEditor]
     parser_classes = [MultiPartParser, FormParser]
 
     def _get(self, source, pk):
