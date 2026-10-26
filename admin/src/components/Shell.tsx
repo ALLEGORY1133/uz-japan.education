@@ -1,5 +1,6 @@
 "use client";
 
+import AdminAssistant from "./AdminAssistant";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -173,6 +174,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           </div>
         </header>
         {children}
+        <AdminAssistant />
       </main>
       {searchOpen && (
         <div className="search-back" onMouseDown={(e) => e.target === e.currentTarget && setSearchOpen(false)}>

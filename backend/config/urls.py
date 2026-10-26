@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.http import JsonResponse
 from django.urls import include, path
+from apps.assistant.views import AdminAssistantView, PublicAssistantView
 from apps.core.audit_api import AuditLogViewSet
 from apps.core.kpi_api import KPIDashboardView, KPIExportView
 from rest_framework.routers import DefaultRouter
@@ -132,6 +133,7 @@ urlpatterns = [
     path("django-admin/", admin.site.urls),
     path("api/health/", health),
     path("api/public/home/", HomeView.as_view()),
+    path("api/public/assistant/", PublicAssistantView.as_view()),
     path("api/public/applications/", ApplicationCreateView.as_view()),
     path("api/public/applications/status/", ApplicationStatusView.as_view()),
     path("api/public/applications/<str:code>/documents/", ApplicationDocumentUploadView.as_view()),
@@ -149,6 +151,7 @@ urlpatterns = [
     path("api/admin/auth/reset/", ResetPasswordView.as_view()),
     path("api/admin/me/", MeView.as_view()),
     path("api/admin/dashboard/", DashboardView.as_view()),
+    path("api/admin/assistant/", AdminAssistantView.as_view()),
     path("api/admin/site-settings/", AdminSiteSettingsView.as_view()),
     path("api/admin/kpi/", KPIDashboardView.as_view()),
     path("api/admin/kpi/export/", KPIExportView.as_view()),

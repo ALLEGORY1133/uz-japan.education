@@ -11,8 +11,10 @@ Oxirgi yangilanish: 2026-10-27
 - Migratsiya `applications/0007_repair_missing_columns` (bazada `reply` ustuni yo'q bo'lgan 500 xatosi uchun).
 
 - RBAC: 3 rol — platform_admin, university_rep, content_manager (Kontent menejeri: slayder, sayt media, yangilik/tadbir, statistika, media kutubxonasi; arizalar/murojaatlar/foydalanuvchilar/KPI/tarix/sozlamalar/universitetlarga KIRA OLMAYDI). Migratsiya accounts/0003. Oxirgi yangilanish: 2026-10-27.
+- Yordamchi (AI'siz, qoidalar + qidiruv): backend/apps/assistant (engine.py, views.py). `POST /api/public/assistant/` (mehmonlar, ochiq ma'lumot, uz/en/ja) va `POST /api/admin/assistant/` (rolga qarab: admin hammasi, vakil o'z universiteti, menejer faqat kontent). Veb: components/Assistant.tsx + assistant.css; admin: components/AdminAssistant.tsx. Keyin LLM ulash mumkin (engine natijasini modelga berish).
 
 ## Ochiq / tekshirilmagan
+- Yordamchi mantiqi soxta (stub) ma'lumot bilan sinalgan, haqiqiy Django/DB bilan emas.
 - Haqiqiy `next build` va Postgres bilan sinalmagan (faqat sintaksis va mock).
 - Paket nomlari (@fontsource-*) tekshirilmagan — `npm install` 404 bersa nomni to'g'rilash kerak.
 - Alifbo o'tkazish avtomatik: so'zlarni ko'zdan kechirish kerak.

@@ -6,6 +6,7 @@ import "@fontsource-variable/source-serif-4/wght-italic.css";
 import "./globals.css";
 import "./polish.css";
 import "./skin.css";
+import "./assistant.css";
 import type { Metadata } from "next";
 import { AuthProvider } from "@/lib/auth";
 

@@ -132,6 +132,7 @@ REST_FRAMEWORK = {
         "cabinet_verify": os.environ.get("THROTTLE_CABINET_VERIFY", "30/hour"),
         "cabinet_read": os.environ.get("THROTTLE_CABINET_READ", "600/hour"),
         "inquiries": os.environ.get("THROTTLE_INQUIRIES", "10/hour"),
+        "assistant": os.environ.get("THROTTLE_ASSISTANT", "120/hour"),
         "app_docs": os.environ.get("THROTTLE_APP_DOCS", "300/hour"),
     },
 }
