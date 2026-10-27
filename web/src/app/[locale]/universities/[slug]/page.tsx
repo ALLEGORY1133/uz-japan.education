@@ -96,7 +96,7 @@ export default async function UniversityPage({ params }: { params: Promise<{ loc
               {u.native_name && <div className="jp" style={{ color: "#cfe0ff", fontSize: 16 }}>{u.native_name}</div>}
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
-              {u.admission_status !== "closed" && (
+              {u.admission_status === "open" && (
                 u.apply_mode === "external" && u.apply_url ? (
                   <a className="btn btn-primary" href={u.apply_url} target="_blank" rel="noopener noreferrer">{t("apply.cta")} ↗</a>
                 ) : (
@@ -213,6 +213,7 @@ export default async function UniversityPage({ params }: { params: Promise<{ loc
               status={u.admission_status}
               applyUrl={u.apply_url}
               deadline={deadline}
+              startDate={u.application_start ? formatDate(u.application_start, locale) : ""}
               labels={applyLabels}
             />
 

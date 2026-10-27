@@ -3,11 +3,12 @@ type Props = {
   status: "open" | "soon" | "closed";
   applyUrl: string;
   deadline: string;
+  startDate?: string;
   labels: Record<string, string>;
 };
 
 /** Universitet sahifasidagi yon karta: arizani to'ldirish alohida sahifada (ApplyForm). */
-export default function ApplyPanel({ mode, status, applyUrl, deadline, labels: L }: Props) {
+export default function ApplyPanel({ mode, status, applyUrl, deadline, startDate, labels: L }: Props) {
   const head = (
     <>
       <div className="eyebrow">{L.eyebrow}</div>
@@ -20,6 +21,17 @@ export default function ApplyPanel({ mode, status, applyUrl, deadline, labels: L
       <div className="panel" style={{ borderTop: "4px solid var(--muted)" }}>
         {head}
         <p>{L.closed}</p>
+      </div>
+    );
+  }
+
+  if (status === "soon") {
+    return (
+      <div className="panel" style={{ borderTop: "4px solid #f5a524" }}>
+        {head}
+        <p>{L.soon}</p>
+        {startDate && <p style={{ marginTop: 8 }}>{L.soonFrom}: <b>{startDate}</b></p>}
+        {deadline && <p style={{ marginTop: 4 }}>{L.deadline}: <b>{deadline}</b></p>}
       </div>
     );
   }

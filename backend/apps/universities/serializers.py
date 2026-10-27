@@ -33,6 +33,7 @@ class PublicLinkSerializer(BaseModelSerializer):
 
 class UniversityListSerializer(BaseModelSerializer):
     degrees = serializers.SerializerMethodField()
+    admission_status = serializers.SerializerMethodField()
 
     class Meta:
         model = University
@@ -41,6 +42,9 @@ class UniversityListSerializer(BaseModelSerializer):
             "logo", "brand_color", "website_url", "admission_status",
             "application_deadline", "degrees",
         ]
+
+    def get_admission_status(self, obj):
+        return obj.effective_status
 
     def get_degrees(self, obj):
         out = []

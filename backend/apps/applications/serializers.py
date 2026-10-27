@@ -40,8 +40,11 @@ class ApplicationCreateSerializer(serializers.ModelSerializer):
         }
 
     def validate_university(self, uni):
-        if uni.admission_status == University.AdmissionStatus.CLOSED:
+        status = uni.effective_status
+        if status == "closed":
             raise serializers.ValidationError("Bu universitetda qabul yopiq.")
+        if status == "soon":
+            raise serializers.ValidationError("Bu universitetda ariza qabuli hali boşlanmagan.")
         if uni.apply_mode == University.ApplyMode.EXTERNAL:
             raise serializers.ValidationError("Bu universitet arizani öz saytida qabul qiladi.")
         return uni

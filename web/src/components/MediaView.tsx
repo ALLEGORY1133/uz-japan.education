@@ -4,6 +4,18 @@ type Item = { kind: "image" | "video"; file: string | null; video_url: string; c
 
 /** Rasm, yuklangan video yoki YouTube/Vimeo — bittasini mos ravishda chiqaradi. */
 export default function MediaView({ item }: { item: Item }) {
+  const media = renderMedia(item);
+  if (!media) return null;
+  const cap = (item.caption || "").trim();
+  return (
+    <>
+      {media}
+      {cap && <figcaption className={`mv-cap ${item.kind === "image" ? "" : "top"}`}><span>{cap}</span></figcaption>}
+    </>
+  );
+}
+
+function renderMedia(item: Item) {
   if (item.kind === "image") {
     const src = mediaUrl(item.file);
     // eslint-disable-next-line @next/next/no-img-element

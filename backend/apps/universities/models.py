@@ -77,6 +77,20 @@ class University(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    @property
+    def effective_status(self):
+        """Haqiqiy qabul holati: admin belgisi + sanalar. Boshlanish sanasi kelmagan bo'lsa — 'soon', muddat o'tgan bo'lsa — 'closed'."""
+        from django.utils import timezone
+
+        today = timezone.localdate()
+        if self.admission_status == self.AdmissionStatus.CLOSED:
+            return "closed"
+        if self.application_start and today < self.application_start:
+            return "soon"
+        if self.application_deadline and today > self.application_deadline:
+            return "closed"
+        return self.admission_status
+
     class Meta:
         ordering = ["country", "sort_order", "id"]
         verbose_name = "Universitet"

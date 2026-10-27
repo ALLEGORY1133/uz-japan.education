@@ -25,7 +25,7 @@ export default async function ApplyPage({ params }: { params: Promise<{ locale: 
   }
   const back = `/${locale}/universities/${slug}`;
   // Tashqi ariza yoki yopiq qabul bo'lsa — universitet sahifasiga qaytaramiz
-  if (u.apply_mode === "external" || u.admission_status === "closed") redirect(back);
+  if (u.apply_mode === "external" || u.admission_status !== "open") redirect(back);
 
   const labels: Record<string, string> = {
     ...pickPrefix(locale, "apply."),
