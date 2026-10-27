@@ -27,7 +27,7 @@ class User(AbstractUser):
         CUSTOM = "custom", "Maxsus rol"
 
     role = models.CharField(max_length=20, choices=Role.choices, default=Role.UNIVERSITY_REP)
-    custom_role = models.ForeignKey(Role, null=True, blank=True, on_delete=models.PROTECT, related_name="users", verbose_name="Maxsus rol")
+    custom_role = models.ForeignKey("accounts.Role", null=True, blank=True, on_delete=models.PROTECT, related_name="users", verbose_name="Maxsus rol")
     university = models.ForeignKey(
         "universities.University",
         null=True,
