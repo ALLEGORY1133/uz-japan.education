@@ -11,7 +11,7 @@ from rest_framework.views import APIView
 from apps.accounts.models import User
 from apps.applications.models import Application, ApplicationDocument
 from apps.core.models import AuditLog
-from apps.core.permissions import IsPlatformAdmin
+from apps.core.permissions import SectionPermission
 
 REQUIRED_DOCS = {"passport", "diploma", "transcript", "motivation"}
 SLA_DAYS = 3
@@ -141,14 +141,16 @@ def build_kpi(request):
 class KPIDashboardView(APIView):
     """Oylik KPI (saqlangan ariza, hujjat va audit ma’lumotlari asosida). Faqat platforma administratori."""
 
-    permission_classes = [IsPlatformAdmin]
+    permission_classes = [SectionPermission]
+    section = "kpi"
 
     def get(self, request):
         return Response(build_kpi(request))
 
 
 class KPIExportView(APIView):
-    permission_classes = [IsPlatformAdmin]
+    permission_classes = [SectionPermission]
+    section = "kpi"
 
     @staticmethod
     def _safe(v):

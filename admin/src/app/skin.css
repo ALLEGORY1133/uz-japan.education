@@ -466,3 +466,21 @@ h1, h2, h3 { font-weight: 800; letter-spacing: -.02em; }
 .iq-reply { margin: 6px 0; padding: 12px 16px; border-radius: 14px; border-left: 4px solid #4b3ae3; background: #f1efff; }
 .iq-reply small { color: var(--muted); font-weight: 700; }
 .iq-reply p { margin: 4px 0 0; white-space: pre-wrap; font-size: 14px; }
+
+/* ===== Rollar sahifasi ===== */
+.rl-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 18px; border-bottom: 1px solid var(--line, #ece9f7); flex-wrap: wrap; }
+.rl-row:last-child { border-bottom: 0; }
+.rl-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.rl-act { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.rl-modal { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; padding: 16px; background: rgba(20, 16, 60, .5); backdrop-filter: blur(4px); }
+.rl-box { width: min(560px, 100%); max-height: calc(100vh - 32px); overflow: auto; padding: 22px; border-radius: 20px; background: #fff; box-shadow: 0 40px 80px -30px rgba(20, 16, 60, .6); }
+.rl-box h2 { margin: 0 0 14px; }
+.rl-f { display: grid; gap: 6px; margin-bottom: 12px; font-weight: 700; font-size: 13px; }
+.rl-f input { height: 42px; padding: 0 12px; border: 1px solid #ddd8f3; border-radius: 12px; font: inherit; }
+.rl-matrix { display: grid; gap: 8px; margin: 14px 0; }
+.rl-line { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 10px; border-radius: 12px; background: #f6f4fd; flex-wrap: wrap; }
+.rl-line > span { font-weight: 700; font-size: 14px; }
+.rl-seg { display: inline-flex; padding: 3px; border-radius: 999px; background: #e7e3f6; }
+.rl-seg button { border: 0; padding: 6px 12px; border-radius: 999px; background: transparent; font-weight: 800; font-size: 12px; color: #6b6590; cursor: pointer; }
+.rl-seg button.on { background: #fff; color: #1b1840; box-shadow: 0 6px 12px -8px rgba(21, 19, 43, .5); }
+.rl-foot { display: flex; justify-content: flex-end; gap: 10px; margin-top: 12px; }

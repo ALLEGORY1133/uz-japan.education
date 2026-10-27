@@ -10,7 +10,9 @@ export type Me = {
   email: string;
   first_name: string;
   last_name: string;
-  role: "platform_admin" | "university_rep" | "content_manager";
+  role: "platform_admin" | "university_rep" | "content_manager" | "custom";
+  custom_role_name?: string | null;
+  permissions?: Record<string, "view" | "edit">;
   university: number | null;
   university_name: string | null;
   last_login?: string | null;
@@ -23,6 +25,7 @@ type Ctx = {
   isAdmin: boolean;
   isManager: boolean;
   canContent: boolean;
+  can: (section: string, level?: "view" | "edit") => boolean;
   login: (u: string, p: string) => Promise<void>;
   logout: () => void;
 };
@@ -71,7 +74,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <AuthCtx.Provider value={{ user, loading, isAdmin: user?.role === "platform_admin", isManager: user?.role === "content_manager", canContent: user?.role === "platform_admin" || user?.role === "content_manager", login, logout }}>
+    <AuthCtx.Provider value={{ user, loading, isAdmin: user?.role === "platform_admin", isManager: user?.role === "content_manager" || user?.role === "custom", canContent: !!user?.permissions?.media, can: (section, level) => { const l = user?.permissions?.[section]; return level === "edit" ? l === "edit" : !!l; }, login, logout }}>
       {children}
     </AuthCtx.Provider>
   );

@@ -5,7 +5,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.response import Response
 
-from .permissions import IsContentEditor, IsPlatformAdmin, IsStaffUser
+from .permissions import IsPlatformAdmin, IsStaffUser, SectionPermission
 
 
 class ReorderMixin:
@@ -36,7 +36,8 @@ class ReorderMixin:
 class AdminOnlyViewSet(ReorderMixin, viewsets.ModelViewSet):
     """Sayt kontenti: administrator va kontent menejeri (slayder, yangiliklar, statistika...)."""
 
-    permission_classes = [IsContentEditor]
+    permission_classes = [SectionPermission]
+    section = None  # har bir subklass o'z bo'limini ko'rsatadi
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
 

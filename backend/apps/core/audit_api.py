@@ -4,7 +4,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from .models import AuditLog
-from .permissions import IsPlatformAdmin
+from .permissions import SectionPermission
 
 
 class AuditLogSerializer(serializers.ModelSerializer):
@@ -22,7 +22,8 @@ class AuditLogSerializer(serializers.ModelSerializer):
 class AuditLogViewSet(viewsets.ReadOnlyModelViewSet):
     """GET /api/admin/history/?action=&model_key=&user=&q=&date_from=&date_to= — faqat platforma administratori."""
 
-    permission_classes = [IsPlatformAdmin]
+    permission_classes = [SectionPermission]
+    section = "history"
     serializer_class = AuditLogSerializer
     filterset_fields = ["action", "model_key", "user"]
 

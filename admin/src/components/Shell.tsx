@@ -23,19 +23,23 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   const [bellOpen, setBellOpen] = useState(false);
   const [newCount, setNewCount] = useState<number | null>(null);
 
+  const perms = user?.permissions || {};
+  const pick = (defs: [string, string, string, string][]) => defs.filter(([k]) => perms[k]).map(([, href, label, icon]) => ({ href, label, icon }));
   const managerGroups: Group[] = [
-    { items: [{ href: "/", label: "Boşqaruv", icon: "dashboard" }] },
+    { items: [{ href: "/", label: "Boşqaruv", icon: "dashboard" }, ...pick([["applications", "/applications", "Arizalar", "inbox"], ["inquiries", "/inquiries", "Murojaatlar", "inbox"], ["kpi", "/kpi", "KPI samaradorligi", "stats"]])] },
     {
       title: "Sayt kontenti",
-      items: [
-        { href: "/hero", label: "Boş sahifa slayderi", icon: "hero" },
-        { href: "/site-media", label: "Sayt rasm va videolari", icon: "media" },
-        { href: "/media", label: "Media kutubxonasi", icon: "media" },
-        { href: "/news", label: "Yangilik va tadbirlar", icon: "news" },
-        { href: "/stats", label: "Statistika", icon: "stats" },
-      ],
+      items: pick([
+        ["hero", "/hero", "Boş sahifa slayderi", "hero"],
+        ["site_media", "/site-media", "Sayt rasm va videolari", "media"],
+        ["media", "/media", "Media kutubxonasi", "media"],
+        ["news", "/news", "Yangilik va tadbirlar", "news"],
+        ["stats", "/stats", "Statistika", "stats"],
+        ["settings", "/settings", "Aloqa va tarmoqlar", "settings"],
+      ]),
     },
-  ];
+    { title: "Tizim", items: pick([["history", "/history", "Harakatlar tarixi", "clock"]]) },
+  ].filter((g) => g.items.length > 0);
 
   const groups: Group[] = isManager
     ? managerGroups
@@ -66,6 +70,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           title: "Tizim",
           items: [
             { href: "/users", label: "Foydalanuvçilar", icon: "users" },
+            { href: "/roles", label: "Rollar", icon: "users" },
             { href: "/history", label: "Harakatlar tarixi", icon: "clock" },
           ],
         },
@@ -140,7 +145,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
             <span className="avatar" aria-hidden="true">{initial}</span>
             <div className="who">
               <b>{user?.username}</b>
-              <span>{isAdmin ? "Platforma administratori" : isManager ? "Kontent menejeri" : user?.university_name || "Universitet vakili"}</span>
+              <span>{isAdmin ? "Platforma administratori" : isManager ? user?.custom_role_name || "Kontent menejeri" : user?.university_name || "Universitet vakili"}</span>
             </div>
           </Link>
           <button type="button" className="btn ghost sm" onClick={logout}>Çiqiş</button>

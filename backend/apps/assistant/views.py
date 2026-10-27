@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView
 
-from apps.core.permissions import IsContentEditor, IsStaffUser
+from apps.core.permissions import IsAnyStaff
 
 from .engine import admin_answer, public_answer
 
@@ -23,8 +23,7 @@ class PublicAssistantView(APIView):
 class AdminAssistantView(APIView):
     """POST /api/admin/assistant/ {message} — rolga qarab arizalar/murojaatlar/statistika."""
 
-    def get_permissions(self):
-        return [IsStaffUser()] if not self.request.user.is_authenticated or not self.request.user.is_content_manager else [IsContentEditor()]
+    permission_classes = [IsAnyStaff]
 
     def post(self, request):
         return Response(admin_answer(request.data.get("message", ""), request.user))

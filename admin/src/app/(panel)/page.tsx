@@ -85,7 +85,7 @@ export default function Dashboard() {
       api<Dash>("/dashboard/").then(setD).catch(() => {});
       api("/applications/?page=1").then((r) => setApps(listOf(r).slice(0, 5))).catch(() => setApps([]));
     }
-    if (isAdmin || isManager) api("/news/?page=1").then((r) => setNews(listOf(r).slice(0, 3))).catch(() => setNews([]));
+    if ((isAdmin || isManager) && (isAdmin || user?.permissions?.news)) api("/news/?page=1").then((r) => setNews(listOf(r).slice(0, 3))).catch(() => setNews([]));
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), 4000);
     fetch(`${API}/api/health/`, { signal: ctrl.signal, cache: "no-store" })
@@ -105,13 +105,17 @@ export default function Dashboard() {
     { label: "Körib çiqilmoqda", value: a?.reviewing, sub: "Jarayonda", icon: "stack", tone: "purple" },
   ];
 
+  const ALL_MANAGER_LINKS: [string, string, string, string, string][] = [
+    ["applications", "/applications", "Arizalar", "Kelgan arizalar", "inbox"],
+    ["inquiries", "/inquiries", "Murojaatlar", "Savollarga javob", "inbox"],
+    ["news", "/news", "Yangilik va tadbirlar", "Kontentni boşqariş", "news"],
+    ["hero", "/hero", "Boş sahifa slayderi", "Asosiy bannerlar", "hero"],
+    ["media", "/media", "Media kutubxonasi", "Rasm va videolar", "media"],
+    ["stats", "/stats", "Statistika", "Bosh sahifadagi raqamlar", "stats"],
+    ["kpi", "/kpi", "KPI", "Samaradorlik", "stats"],
+  ];
   const links: [string, string, string, string][] = isManager
-    ? [
-        ["/news", "Yangilik va tadbirlar", "Kontentni boşqariş", "news"],
-        ["/hero", "Boş sahifa slayderi", "Asosiy bannerlar", "hero"],
-        ["/media", "Media kutubxonasi", "Rasm va videolar", "media"],
-        ["/stats", "Statistika", "Bosh sahifadagi raqamlar", "stats"],
-      ]
+    ? ALL_MANAGER_LINKS.filter(([k]) => user?.permissions?.[k]).map(([, h, l, s2, i]) => [h, l, s2, i])
     : isAdmin
     ? [
         ["/applications", "Arizalar röyxati", "Barça arizalarni köriş", "inbox"],
@@ -136,7 +140,7 @@ export default function Dashboard() {
             <div className="welcome-copy">
               <h1>Xuş kelibsiz,<br /><span>{name}!</span></h1>
               <p className="welcome-sub">{isAdmin ? "UzJapan admin panelida siz öz faoliyatingizni oson va qulay boşqarişingiz mumkin." : user?.university_name}</p>
-              <Link href={isManager ? "/news" : "/applications"} className="btn teal">{isManager ? "Kontentni boşqariş" : "Arizalarni köriş"} <Icon name="arrow" size={16} /></Link>
+              <Link href={isManager ? (links[0]?.[0] || "/") : "/applications"} className="btn teal">{isManager ? "Boşlaş" : "Arizalarni köriş"} <Icon name="arrow" size={16} /></Link>
             </div>
             <Fuji />
           </section>

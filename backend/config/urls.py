@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.http import JsonResponse
 from django.urls import include, path
+from apps.accounts.roles_api import RoleViewSet
 from apps.assistant.views import AdminAssistantView, PublicAssistantView
 from apps.core.audit_api import AuditLogViewSet
 from apps.core.kpi_api import KPIDashboardView, KPIExportView
@@ -127,6 +128,7 @@ admin_router.register("news", AdminNewsViewSet, basename="admin-news")
 admin_router.register("news-media", AdminNewsMediaViewSet, basename="admin-news-media")
 admin_router.register("stats", AdminStatViewSet, basename="admin-stat")
 admin_router.register("users", AdminUserViewSet, basename="admin-user")
+admin_router.register("roles", RoleViewSet, basename="admin-role")
 admin_router.register("history", AuditLogViewSet, basename="admin-history")
 
 urlpatterns = [

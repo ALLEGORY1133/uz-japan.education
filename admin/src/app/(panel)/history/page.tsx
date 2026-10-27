@@ -14,7 +14,8 @@ function fmt(iso: string) {
 }
 
 export default function HistoryPage() {
-  const { isAdmin } = useAuth();
+  const { can } = useAuth();
+  const isAdmin = can("history");
   const [items, setItems] = useState<any[]>([]);
   const [count, setCount] = useState(0);
   const [page, setPage] = useState(1);

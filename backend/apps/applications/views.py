@@ -18,7 +18,7 @@ from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView
 
-from apps.core.permissions import IsPlatformAdmin, IsStaffUser
+from apps.core.permissions import ApplicationsAccess, IsPlatformAdmin, IsStaffUser, SectionPermission
 
 from .documents import check_and_prepare
 from .models import Application, ApplicationDocument, Inquiry
@@ -215,12 +215,10 @@ class AdminApplicationViewSet(
 ):
     """Administrator: hamma arizalar; vakil: faqat o'z universiteti arizalari. Faqat yuborilganlari."""
 
-    permission_classes = [IsStaffUser]
+    permission_classes = [ApplicationsAccess]
+    section = "applications"
     filterset_fields = ["status", "university", "degree", "funding"]
     http_method_names = ["get", "patch", "head", "options"]
-
-    def get_permissions(self):
-        return [IsStaffUser()]
 
     def get_serializer_class(self):
         return AdminApplicationSerializer
@@ -228,7 +226,7 @@ class AdminApplicationViewSet(
     def get_queryset(self):
         qs = Application.objects.select_related("university").prefetch_related("documents").filter(is_submitted=True)
         user = self.request.user
-        if user.is_platform_admin:
+        if user.is_platform_admin or user.perm("applications"):
             return qs
         return qs.filter(university_id=user.university_id)
 
@@ -276,12 +274,13 @@ class AdminApplicationViewSet(
 class DashboardView(APIView):
     """GET /api/admin/dashboard/ — arizalar soni (holat bo'yicha)."""
 
-    permission_classes = [IsStaffUser]
+    permission_classes = [ApplicationsAccess]
+    section = "applications"
 
     def get(self, request):
         qs = Application.objects.filter(is_submitted=True)
         user = request.user
-        if not user.is_platform_admin:
+        if not (user.is_platform_admin or user.perm("applications")):
             qs = qs.filter(university_id=user.university_id)
         counts = {row["status"]: row["n"] for row in qs.values("status").annotate(n=Count("id"))}
         return Response(
@@ -348,7 +347,8 @@ class AdminInquiryViewSet(
 ):
     """Murojaatlar: faqat platforma administratori. O'zgartirish — faqat 'ko'rib chiqildi' belgisi."""
 
-    permission_classes = [IsPlatformAdmin]
+    permission_classes = [SectionPermission]
+    section = "inquiries"
     serializer_class = InquirySerializer
     queryset = Inquiry.objects.all()
     filterset_fields = ["is_handled", "interest"]

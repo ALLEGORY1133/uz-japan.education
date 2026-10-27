@@ -265,17 +265,23 @@ def admin_answer(message, user):
     if not q:
         return reply("Salom! Arizalar, statuslar, murojaatlar va universitetlar haqida so‘rang. Masalan: «yangi arizalar», «Kyoto arizalari», «UJ-XXXXXXXXXX holati».")
 
-    if user.is_content_manager:
+    is_rep = user.is_university_rep
+    can_apps = bool(user.is_platform_admin or is_rep or user.perm("applications"))
+    can_inq = bool(user.is_platform_admin or user.perm("inquiries"))
+    glob = bool(user.is_platform_admin or (can_apps and not is_rep))  # hamma universitetlar arizalari
+    if not can_apps and not can_inq:
         n_pub = News.objects.filter(is_published=True).count()
         n_all = News.objects.count()
         if has(q, raw, ("yangilik", "tadbir", "news", "kontent")):
             return reply(f"Yangilik va tadbirlar: jami {n_all} ta, shundan e’lon qilingan {n_pub} ta.", [{"label": "Yangiliklar", "url": "/news"}])
-        return reply("Siz kontent menejerisiz: arizalar va murojaatlarga kirishingiz yo‘q. Yangiliklar, slayder, media va statistika haqida so‘rashingiz mumkin.")
+        return reply("Sizning rolingiz arizalar va murojaatlarga kirmaydi. Yangiliklar haqida so‘rashingiz mumkin.")
 
     qs = Application.objects.filter(is_submitted=True)
-    if not user.is_platform_admin:
+    if not can_apps:
+        qs = qs.none()
+    elif not glob:
         qs = qs.filter(university_id=user.university_id)
-    scope = "Barcha universitetlar" if user.is_platform_admin else (user.university.name if user.university_id else "—")
+    scope = "Barcha universitetlar" if glob else (user.university.name if user.university_id else "—")
 
     # kuzatuv kodi bo'yicha
     m = re.search(r"uj\s?-?\s?([0-9a-f]{10})", q.replace(" ", ""))
@@ -287,15 +293,15 @@ def admin_answer(message, user):
 
     # universitet bo'yicha (faqat administrator)
     uni = None
-    if user.is_platform_admin:
+    if glob:
         uni = find_university(q, raw, list(University.objects.all()))
         if uni:
             qs = qs.filter(university=uni)
             scope = uni.short_name or uni.name
 
     if has(q, raw, ("murojaat", "inquiry", "savol")):
-        if not user.is_platform_admin:
-            return reply("Murojaatlar faqat platforma administratori uchun.")
+        if not can_inq:
+            return reply("Murojaatlarga kirish huquqingiz yo‘q.")
         pend = Inquiry.objects.filter(reply="").count()
         total = Inquiry.objects.count()
         new_today = Inquiry.objects.filter(created_at__gte=timezone.now() - timedelta(days=1)).count()
@@ -336,13 +342,13 @@ def admin_answer(message, user):
         if not status and not period:
             by = {r["status"]: r["c"] for r in qs.values("status").annotate(c=Count("id"))}
             a += " " + ", ".join(f"{lbl.lower()} — {by.get(k, 0)}" for k, lbl in Application.Status.choices) + "."
-            if user.is_platform_admin and not uni:
+            if glob and not uni:
                 top = qs.values("university__short_name").annotate(c=Count("id")).order_by("-c")[:3]
                 if top:
                     a += " Eng ko‘p: " + ", ".join(f"{t['university__short_name']} ({t['c']})" for t in top) + "."
         return reply(a, [{"label": "Arizalar", "url": "/applications"}])
 
-    if has(q, raw, ("universitet", "university")) and user.is_platform_admin:
+    if has(q, raw, ("universitet", "university")) and glob:
         c = University.objects.count()
         p = University.objects.filter(is_published=True).count()
         o = University.objects.filter(admission_status="open").count()

@@ -24,3 +24,11 @@ class LoginAttemptAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request):
         return False
+
+
+from .models import Role  # noqa: E402
+
+
+@admin.register(Role)
+class RoleAdmin(admin.ModelAdmin):
+    list_display = ("name", "description")
