@@ -41,6 +41,7 @@ class LoginSerializer(TokenObtainPairSerializer):
 class UserAdminSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False, allow_blank=False, min_length=8)
     custom_role_name = serializers.CharField(source="custom_role.name", read_only=True, default=None)
+    role_key = serializers.CharField(write_only=True, required=False)
 
     class Meta:
         model = User
@@ -50,7 +51,23 @@ class UserAdminSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ["date_joined"]
 
+    def to_representation(self, obj):
+        data = super().to_representation(obj)
+        data["role_key"] = f"custom:{obj.custom_role_id}" if obj.role == User.Role.CUSTOM and obj.custom_role_id else obj.role
+        return data
+
     def validate(self, attrs):
+        key = attrs.pop("role_key", None)
+        if key:
+            if key.startswith("custom:"):
+                role = Role.objects.filter(pk=key.split(":", 1)[1] or 0).first() if key.split(":", 1)[1].isdigit() else None
+                if not role:
+                    raise serializers.ValidationError({"role_key": "Rol topilmadi."})
+                attrs["role"], attrs["custom_role"] = User.Role.CUSTOM, role
+            elif key in dict(User.Role.choices) and key != User.Role.CUSTOM:
+                attrs["role"] = key
+            else:
+                raise serializers.ValidationError({"role_key": "Noto‘g‘ri rol."})
         role = attrs.get("role", getattr(self.instance, "role", None))
         university = attrs.get("university", getattr(self.instance, "university", None))
         if role == User.Role.UNIVERSITY_REP and not university:
