@@ -81,6 +81,43 @@ async function refreshAccess(): Promise<boolean> {
 
 type Opts = { method?: string; json?: any; form?: FormData };
 
+export type UploadEvent = { id: string; name: string; loaded: number; total: number; state: "progress" | "processing" | "done" | "error" };
+let upSeq = 0;
+
+function emitUpload(d: UploadEvent) {
+  if (typeof window !== "undefined") window.dispatchEvent(new CustomEvent("uzj-upload", { detail: d }));
+}
+
+/** Fayl yuklash: XMLHttpRequest orqali (fetch yuklash jarayonini ko'rsatmaydi). Jarayon `uzj-upload` hodisasi bilan chiqadi. */
+function xhrUpload(url: string, method: string, headers: Record<string, string>, form: FormData): Promise<Response> {
+  const files = Array.from(form.values()).filter((v): v is File => typeof v !== "string");
+  const name = files.length > 1 ? `${files[0].name} +${files.length - 1}` : files[0]?.name || "Fayl";
+  const id = `up${++upSeq}`;
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url);
+    Object.entries(headers).forEach(([k, v]) => xhr.setRequestHeader(k, v));
+    xhr.responseType = "blob";
+    xhr.timeout = 30 * 60 * 1000;
+    const cancel = (e: Event) => { if ((e as CustomEvent).detail === id) xhr.abort(); };
+    window.addEventListener("uzj-upload-cancel", cancel);
+    const end = () => window.removeEventListener("uzj-upload-cancel", cancel);
+    xhr.upload.onprogress = (e) => {
+      const total = e.lengthComputable ? e.total : files.reduce((s, f) => s + f.size, 0);
+      emitUpload({ id, name, loaded: e.loaded, total, state: e.loaded >= total ? "processing" : "progress" });
+    };
+    xhr.onload = () => {
+      end();
+      emitUpload({ id, name, loaded: 1, total: 1, state: xhr.status < 400 ? "done" : "error" });
+      resolve(new Response(xhr.status === 204 ? null : xhr.response, { status: xhr.status, statusText: xhr.statusText }));
+    };
+    const fail = () => { end(); emitUpload({ id, name, loaded: 0, total: 1, state: "error" }); reject(new Error("upload")); };
+    xhr.onerror = fail; xhr.onabort = fail; xhr.ontimeout = fail;
+    emitUpload({ id, name, loaded: 0, total: files.reduce((s, f) => s + f.size, 0) || 1, state: "progress" });
+    xhr.send(form);
+  });
+}
+
 /** path: /api/admin ga nisbatan, masalan "/universities/1/" */
 export async function api<T = any>(path: string, opts: Opts = {}): Promise<T> {
   const send = () => {
@@ -93,6 +130,7 @@ export async function api<T = any>(path: string, opts: Opts = {}): Promise<T> {
       headers["Content-Type"] = "application/json";
       body = JSON.stringify(opts.json);
     }
+    if (opts.form) return xhrUpload(`${API}/api/admin${path}`, opts.method || "POST", headers, opts.form);
     // Server javob bermasa (masalan qayta ishga tushayotgan bo'lsa) sahifa abadiy "Yuklanmoqda"da qotib qolmasin.
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), opts.form ? 120000 : 15000);

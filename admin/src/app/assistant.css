@@ -30,3 +30,19 @@
 .asst-form button:disabled { opacity: .5; cursor: default; }
 @media (max-width: 520px) { .asst { right: 12px; bottom: 12px; } .asst-fab em { display: none; } .asst-fab { padding: 0 16px; } }
 @media (prefers-reduced-motion: reduce) { .asst-fab span, .asst-panel, .asst-dots i { animation: none !important; } }
+
+/* Yuklash jarayoni */
+.upt { position: fixed; left: 18px; bottom: 18px; z-index: 95; display: grid; gap: 10px; width: min(340px, calc(100vw - 100px)); }
+.upt-card { padding: 12px 14px; border-radius: 16px; background: #fff; border: 1px solid #e7e4f3; box-shadow: 0 24px 44px -22px rgba(30, 20, 90, .5); animation: asst-in .3s cubic-bezier(.2, .8, .2, 1); }
+.upt-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.upt-top b { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.upt-top button { flex: none; width: 24px; height: 24px; border: 0; border-radius: 50%; background: #f0edfb; color: #4b3ae3; cursor: pointer; font-size: 15px; line-height: 1; }
+.upt-top span { font-weight: 900; color: #1fa35a; }
+.upt-card.error .upt-top span { color: #d9363e; }
+.upt-bar { height: 8px; margin: 9px 0 7px; overflow: hidden; border-radius: 99px; background: #ece9f7; }
+.upt-bar i { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #e5483b, #8b3df0); transition: width .25s ease; }
+.upt-card.processing .upt-bar i { background-size: 200% 100%; background-image: linear-gradient(90deg, #8b3df0, #e5483b, #8b3df0); animation: upt-sh 1.2s linear infinite; }
+.upt-card.done .upt-bar i { background: #1fa35a; }
+.upt-card.error .upt-bar i { background: #d9363e; }
+.upt-card small { color: #6b6590; font-size: 12px; }
+@keyframes upt-sh { to { background-position: -200% 0; } }
