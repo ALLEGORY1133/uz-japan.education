@@ -21,6 +21,7 @@ Oxirgi yangilanish: 2026-10-28
 - Bosh sahifa v2 (web/src/app/home2.css, components/Carousel.tsx): statistika hero tagida kartalar; bo'limlar ketma-ket (#students, #cooperation, #exchange), har biri animatsiyali karusel (scroll-snap, avto-aylanish, nuqtalar); universitetlar karuseli (banner/brend gradient, holat) + Marquee; yangiliklar karuseli (rasm yoki video, `news.video` API maydoni). Footerga «Foydali havolalar» ustuni (admin havolalari + JASSO/MEXT/JICA). Faqat sintaksis tekshirilgan, haqiqiy next build qilinmagan.
 - Admin: nav'da «Sozlamalar» (avval «Aloqa va tarmoqlar») + kichik admin footer (Shell.tsx, skin.css `.admin-foot`).
 - CORS: localhost va 127.0.0.1 juftligi avtomatik ruxsat (127.0.0.1:3011 dan login osilib qolardi). Backend qayta ishga tushirilsin.
+- Gunicorn endi gthread (3 worker x 4 thread): sync worker brauzerning bo'sh preconnect ulanishlarida osilib qolardi (admin login/me/ javobsiz, curl esa ishlardi). Dockerfile CMD.
 - Qaltirash tuzatildi (web+admin `steady.css`, oxirida import): hover/tilt'da element o'zi siljimaydi (kursor chekkada turganda titrash sababi: element qochib-qaytishi va 3D tilt teskari aloqasi). Soya/rang/ichki animatsiya qoldi. Brauzerda tekshirilmagan.
 
 ## Ochiq / tekshirilmagan
