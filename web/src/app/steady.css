@@ -1,0 +1,11 @@
+/* Qaltirashni yo'qotish: sichqoncha ostidagi element o'zi siljimaydi/egilmaydi
+   (aks holda kursor chekkada turganda element qochib, qaytib, titrab ketadi).
+   Hover effekti: soya, rang, ichki ikonka/rasm harakati saqlanadi. */
+.qn:hover, .icon-card:hover, .uni-card:hover, .card-link:hover, .event-card:hover, .web-card:hover, .af-card:hover, .stat:hover, .bento:hover, .hm-card:hover,
+.hs-card:hover, .cs:hover, .ab-feat:hover, .ab-list li:hover, .article .art-list li:hover, .cab-card:hover, .cab-tabs button:hover, .hm-links a:hover,
+.uchip:hover, .hx-chips a:hover, .cr-ctl > button:hover, .btn:hover, .nav a:hover, .footer-nav a:hover, .footer-cols a:hover, .socials a:hover, .checks li:hover,
+.bento .btn-white:hover, .bento .btn-dark:hover, .video-tile:hover, .circle-btn:hover, .asst-fab:hover,
+.quick .qn:hover { transform: none !important; }
+.qn, .icon-card, .uni-card, .card-link, .event-card, .web-card, .af-card, .stat, .bento, .hm-card { transform: none !important; }
+.cs:hover, .hs-card:hover, .card-link:hover, .uni-card:hover, .qn:hover, .icon-card:hover { box-shadow: 0 26px 40px -26px rgba(20, 24, 63, .5); }
+.cs-pic img, .cs-pic video { animation: none; }

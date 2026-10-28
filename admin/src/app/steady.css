@@ -1,0 +1,4 @@
+/* Qaltirashni yo'qotish: hover'da element o'zi siljimaydi (kursor chekkada turganda titrab ketardi). */
+.btn:hover:not(:disabled), .icon:hover:not(:disabled), .stat-card:hover, .quick-links a:hover, .row:hover, .dropzone:hover, .dropzone.over, .mcard:hover,
+.who-card:hover, .rail-card:hover, .rail-news:hover, .tbl tbody tr:hover, .mp-card:hover, .stat-grid > *:hover, .side nav a:hover, .top-btn:hover,
+.lc-eye:hover, .asst-fab:hover, .btn:hover { transform: none !important; }

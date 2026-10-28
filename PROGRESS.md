@@ -19,6 +19,7 @@ Oxirgi yangilanish: 2026-10-28
 - Admin kiritgan `*_uz` matnlar saqlashda avtomatik yangi alifboga o'tadi (core/apps.py pre_save + alphabet.normalize_instance, havola/email'ga tegmaydi); entrypoint har ishga tushganda `convert_alphabet` ham ishlaydi.
 - Yordamchi qidiruvi yaxshilandi: fold x/h, q/k, w/v; universitet nomi bo'yicha so'z/prefiks/yaqin yozilish (jahon, milliy, milli), bir nechta mos kelsa hammasini ko'rsatadi; yo'nalish/talab/yangilik/tavsif bo'yicha umumiy qidiruv; «qachon boshlanadi» intenti.
 - Bosh sahifa v2 (web/src/app/home2.css, components/Carousel.tsx): statistika hero tagida kartalar; bo'limlar ketma-ket (#students, #cooperation, #exchange), har biri animatsiyali karusel (scroll-snap, avto-aylanish, nuqtalar); universitetlar karuseli (banner/brend gradient, holat) + Marquee; yangiliklar karuseli (rasm yoki video, `news.video` API maydoni). Footerga «Foydali havolalar» ustuni (admin havolalari + JASSO/MEXT/JICA). Faqat sintaksis tekshirilgan, haqiqiy next build qilinmagan.
+- Qaltirash tuzatildi (web+admin `steady.css`, oxirida import): hover/tilt'da element o'zi siljimaydi (kursor chekkada turganda titrash sababi: element qochib-qaytishi va 3D tilt teskari aloqasi). Soya/rang/ichki animatsiya qoldi. Brauzerda tekshirilmagan.
 
 ## Ochiq / tekshirilmagan
 - Yordamchi mantiqi soxta (stub) ma'lumot bilan sinalgan, haqiqiy Django/DB bilan emas.

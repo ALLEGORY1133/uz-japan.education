@@ -16,6 +16,7 @@ import "../home.css";
 import "../home2.css";
 import "../cabinet.css";
 import "../assistant.css";
+import "../steady.css";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Assistant from "@/components/Assistant";
