@@ -150,6 +150,14 @@ CORS_ALLOW_HEADERS = (*default_headers, "x-cabinet-token")
 CORS_ALLOWED_ORIGINS = env_list(
     "CORS_ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:3001"
 )
+# localhost va 127.0.0.1 bir xil kompyuter: ikkalasidan ochilganda ham CORS ishlasin.
+_twins = []
+for _o in CORS_ALLOWED_ORIGINS:
+    if "://localhost" in _o:
+        _twins.append(_o.replace("://localhost", "://127.0.0.1"))
+    elif "://127.0.0.1" in _o:
+        _twins.append(_o.replace("://127.0.0.1", "://localhost"))
+CORS_ALLOWED_ORIGINS = list(dict.fromkeys([*CORS_ALLOWED_ORIGINS, *_twins]))
 CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS", "")
 
 EMAIL_BACKEND = os.environ.get(
