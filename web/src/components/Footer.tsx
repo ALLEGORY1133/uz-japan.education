@@ -1,9 +1,17 @@
 import Link from "next/link";
 import { Logo } from "./Icons";
 import type { TFn } from "@/lib/i18n";
-import type { Locale, SiteSettings } from "@/lib/types";
+import SmartLink from "./SmartLink";
+import type { LinkItem, Locale, SiteSettings } from "@/lib/types";
 
-export default function Footer({ locale, t, settings }: { locale: Locale; t: TFn; settings?: SiteSettings }) {
+const USEFUL: { title: string; url: string }[] = [
+  { title: "Study in Japan (JASSO)", url: "https://www.studyinjapan.go.jp" },
+  { title: "MEXT", url: "https://www.mext.go.jp" },
+  { title: "JASSO", url: "https://www.jasso.go.jp" },
+  { title: "JICA", url: "https://www.jica.go.jp" },
+];
+
+export default function Footer({ locale, t, settings, links = [] }: { locale: Locale; t: TFn; settings?: SiteSettings; links?: LinkItem[] }) {
   const s = settings;
   const socials = [
     { url: s?.telegram_url, label: "Telegram", text: "Tg" },
@@ -47,6 +55,15 @@ export default function Footer({ locale, t, settings }: { locale: Locale; t: TFn
             <Link href={`/${locale}#cooperation`}>{t("nav.cooperation")}</Link>
             <Link href={`/${locale}/news?category=event`}>{t("nav.events")}</Link>
             <Link href={`/${locale}/news`}>{t("nav.news")}</Link>
+          </nav>
+          <nav className="footer-nav" aria-label={t("footer.links")}>
+            <h4>{t("footer.links")}</h4>
+            {links.slice(0, 5).map((l) => (
+              <SmartLink key={`l${l.id}`} href={l.url} locale={locale}>{l.title}</SmartLink>
+            ))}
+            {USEFUL.map((l) => (
+              <a key={l.url} href={l.url} target="_blank" rel="noopener noreferrer">{l.title} ↗</a>
+            ))}
           </nav>
           <div style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 14, color: "#c8c4e0" }}>
             <h4>{t("footer.contact")}</h4>

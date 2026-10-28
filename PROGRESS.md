@@ -1,6 +1,6 @@
 # PROGRESS
 
-Oxirgi yangilanish: 2026-10-27
+Oxirgi yangilanish: 2026-10-28
 
 ## Tugagan
 - Saytda bosh sahifa, universitetlar, yangiliklar, "Biz haqimizda" (fotorealistik banner, 3 tilli), talaba kabineti.
@@ -18,6 +18,7 @@ Oxirgi yangilanish: 2026-10-27
 - Media izohlari (caption) rasm/video ustida animatsiya bilan (MediaView `.mv-cap`).
 - Admin kiritgan `*_uz` matnlar saqlashda avtomatik yangi alifboga o'tadi (core/apps.py pre_save + alphabet.normalize_instance, havola/email'ga tegmaydi); entrypoint har ishga tushganda `convert_alphabet` ham ishlaydi.
 - Yordamchi qidiruvi yaxshilandi: fold x/h, q/k, w/v; universitet nomi bo'yicha so'z/prefiks/yaqin yozilish (jahon, milliy, milli), bir nechta mos kelsa hammasini ko'rsatadi; yo'nalish/talab/yangilik/tavsif bo'yicha umumiy qidiruv; «qachon boshlanadi» intenti.
+- Bosh sahifa v2 (web/src/app/home2.css, components/Carousel.tsx): statistika hero tagida kartalar; bo'limlar ketma-ket (#students, #cooperation, #exchange), har biri animatsiyali karusel (scroll-snap, avto-aylanish, nuqtalar); universitetlar karuseli (banner/brend gradient, holat) + Marquee; yangiliklar karuseli (rasm yoki video, `news.video` API maydoni). Footerga «Foydali havolalar» ustuni (admin havolalari + JASSO/MEXT/JICA). Faqat sintaksis tekshirilgan, haqiqiy next build qilinmagan.
 
 ## Ochiq / tekshirilmagan
 - Yordamchi mantiqi soxta (stub) ma'lumot bilan sinalgan, haqiqiy Django/DB bilan emas.

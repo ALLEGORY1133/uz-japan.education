@@ -33,7 +33,7 @@ class HomeView(APIView):
                 University.objects.filter(is_published=True), many=True, context=ctx
             ).data,
             "news": PublicNewsListSerializer(
-                News.objects.filter(is_published=True)[:3], many=True, context=ctx
+                News.objects.filter(is_published=True).prefetch_related("media")[:8], many=True, context=ctx
             ).data,
             "links": PublicLinkSerializer(
                 UsefulLink.objects.filter(university__isnull=True, is_visible=True), many=True, context=ctx
@@ -53,7 +53,7 @@ class PublicNewsViewSet(viewsets.ReadOnlyModelViewSet):
     filterset_fields = ["category"]
 
     def get_queryset(self):
-        return News.objects.filter(is_published=True)
+        return News.objects.filter(is_published=True).prefetch_related("media")
 
     def get_serializer_class(self):
         return PublicNewsDetailSerializer if self.action == "retrieve" else PublicNewsListSerializer

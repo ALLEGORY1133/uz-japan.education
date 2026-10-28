@@ -27,6 +27,7 @@ export type UniversityListItem = {
   short_name: string;
   native_name: string;
   logo: string | null;
+  banner?: string | null;
   brand_color: string;
   website_url: string;
   admission_status: "open" | "soon" | "closed";
@@ -92,6 +93,7 @@ export type NewsItem = {
   event_starts_at: string | null;
   event_location: string;
   href: string;
+  video?: string | null;
   body?: string;
   media?: { id: number; kind: "image" | "video"; file: string | null; video_url: string; caption: string }[];
 };

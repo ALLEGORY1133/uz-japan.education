@@ -13,6 +13,7 @@ import "../fun.css";
 import "../lively.css";
 import "../about.css";
 import "../home.css";
+import "../home2.css";
 import "../cabinet.css";
 import "../assistant.css";
 import type { Metadata } from "next";
@@ -24,7 +25,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { getHome } from "@/lib/api";
 import { getT, isLocale, localeNames, locales } from "@/lib/i18n";
-import type { SiteSettings } from "@/lib/types";
+import type { LinkItem, SiteSettings } from "@/lib/types";
 
 const FONT_VARS = {"--f-bricolage": "'Bricolage Grotesque Variable'", "--f-onest": "'Onest Variable'", "--f-serif": "'Source Serif 4 Variable'", "--f-jp": "'Noto Sans JP'", "--f-jpserif": "'Noto Serif JP'" } as React.CSSProperties;
 
@@ -45,8 +46,11 @@ export default async function LocaleLayout({
   const t = getT(locale);
 
   let settings: SiteSettings | undefined;
+  let links: LinkItem[] = [];
   try {
-    settings = (await getHome(locale)).settings;
+    const home = await getHome(locale);
+    settings = home.settings;
+    links = home.links;
   } catch {
     settings = undefined; // backend vaqtincha ishlamasa ham footer chiqadi
   }
@@ -68,7 +72,7 @@ export default async function LocaleLayout({
       <body>
         <Header locale={locale} labels={labels} locales={locales.map((c) => ({ code: c, name: localeNames[c] }))} />
         {children}
-        <Footer locale={locale} t={t} settings={settings} />
+        <Footer locale={locale} t={t} settings={settings} links={links} />
         <RevealRoot />
         <TiltRoot />
         <Assistant locale={locale} L={{ title: t("asst.title"), sub: t("asst.sub"), ph: t("asst.ph"), send: t("asst.send"), open: t("asst.open"), close: t("asst.close"), err: t("asst.err"), hi: t("asst.hi"), s1: t("asst.s1"), s2: t("asst.s2"), s3: t("asst.s3"), s4: t("asst.s4") }} />

@@ -39,7 +39,7 @@ class UniversityListSerializer(BaseModelSerializer):
         model = University
         fields = [
             "id", "slug", "country", "city", "name", "short_name", "native_name",
-            "logo", "brand_color", "website_url", "admission_status",
+            "logo", "banner", "brand_color", "website_url", "admission_status",
             "application_deadline", "degrees",
         ]
 
@@ -65,7 +65,7 @@ class UniversityDetailSerializer(UniversityListSerializer):
 
     class Meta(UniversityListSerializer.Meta):
         fields = UniversityListSerializer.Meta.fields + [
-            "description", "banner", "admission_url", "contact_email", "contact_phone",
+            "description", "admission_url", "contact_email", "contact_phone",
             "instruction_language", "apply_mode", "apply_url",
             "application_start", "results_date", "term_start",
             "contract_fee", "payment_terms", "living_cost",

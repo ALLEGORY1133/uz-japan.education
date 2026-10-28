@@ -31,14 +31,23 @@ class PublicSiteMediaSerializer(BaseModelSerializer):
 
 class PublicNewsListSerializer(BaseModelSerializer):
     href = serializers.SerializerMethodField()
+    video = serializers.SerializerMethodField()
 
     class Meta:
         model = News
         fields = [
             "id", "slug", "title", "summary", "category", "cover",
             "link_type", "external_url", "source_name", "published_at",
-            "event_starts_at", "event_location", "href",
+            "event_starts_at", "event_location", "href", "video",
         ]
+
+    def get_video(self, obj):
+        """Bosh sahifa karuseli uchun: yangilikdagi birinchi yuklangan video fayl (bo'lsa)."""
+        for m in obj.media.all():
+            if m.kind == "video" and m.file:
+                req = self.context.get("request")
+                return req.build_absolute_uri(m.file.url) if req else m.file.url
+        return None
 
     def get_href(self, obj):
         """Frontend uchun tayyor manzil: tashqi bo'lsa URL, ichki bo'lsa /news/<slug>."""
