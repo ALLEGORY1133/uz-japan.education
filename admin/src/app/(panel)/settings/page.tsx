@@ -43,7 +43,7 @@ export default function SettingsPage() {
   return (
     <>
       <div className="page-head">
-        <div><h1>Aloqa va tarmoqlar</h1><p>Sayt pastki qismidagi aloqa ma’lumotlari va ijtimoiy tarmoq havolalari.</p></div>
+        <div><h1>Sozlamalar</h1><p>Sayt footer’idagi aloqa ma’lumotlari va ijtimoiy tarmoq havolalari. «Foydali havolalar» alohida bo‘limda.</p></div>
       </div>
       {!values ? <p className="muted">Yuklanmoqda…</p> : (
         <form className="card" onSubmit={submit}>

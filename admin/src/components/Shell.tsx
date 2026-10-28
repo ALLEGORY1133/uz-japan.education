@@ -36,7 +36,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         ["media", "/media", "Media kutubxonasi", "media"],
         ["news", "/news", "Yangilik va tadbirlar", "news"],
         ["stats", "/stats", "Statistika", "stats"],
-        ["settings", "/settings", "Aloqa va tarmoqlar", "settings"],
+        ["settings", "/settings", "Sozlamalar", "settings"],
       ]),
     },
     { title: "Tizim", items: pick([["history", "/history", "Harakatlar tarixi", "clock"]]) },
@@ -64,7 +64,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
             { href: "/links", label: "Foydali havolalar", icon: "links" },
             { href: "/news", label: "Yangilik va tadbirlar", icon: "news" },
             { href: "/stats", label: "Statistika", icon: "stats" },
-            { href: "/settings", label: "Aloqa va tarmoqlar", icon: "settings" },
+            { href: "/settings", label: "Sozlamalar", icon: "settings" },
           ],
         },
         {
@@ -180,6 +180,15 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           </div>
         </header>
         {children}
+        <footer className="admin-foot">
+          <span>© {new Date().getFullYear()} UzJapan Education · Admin panel</span>
+          <span className="af-links">
+            <a href={WEB} target="_blank" rel="noopener noreferrer">Oçiq sayt ↗</a>
+            <Link href="/profile">Profil</Link>
+            {perms["settings"] && <Link href="/settings">Sozlamalar</Link>}
+            <kbd>Ctrl + K</kbd>
+          </span>
+        </footer>
         <AdminAssistant />
         <UploadTray />
       </main>

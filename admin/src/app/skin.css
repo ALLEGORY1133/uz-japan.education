@@ -484,3 +484,10 @@ h1, h2, h3 { font-weight: 800; letter-spacing: -.02em; }
 .rl-seg button { border: 0; padding: 6px 12px; border-radius: 999px; background: transparent; font-weight: 800; font-size: 12px; color: #6b6590; cursor: pointer; }
 .rl-seg button.on { background: #fff; color: #1b1840; box-shadow: 0 6px 12px -8px rgba(21, 19, 43, .5); }
 .rl-foot { display: flex; justify-content: flex-end; gap: 10px; margin-top: 12px; }
+
+/* kichik admin footer */
+.admin-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 18px; margin-top: 40px; padding: 14px 2px 6px; border-top: 1px solid var(--line, #e7e4f0); font-size: 12px; color: #8a86a6; }
+.admin-foot .af-links { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; }
+.admin-foot a { color: #6b66a0; font-weight: 600; }
+.admin-foot a:hover { color: #4b3ae3; }
+.admin-foot kbd { font: inherit; font-size: 11px; padding: 1px 6px; border-radius: 6px; background: #efecff; color: #4b3ae3; }
