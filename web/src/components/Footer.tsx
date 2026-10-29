@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Logo } from "./Icons";
 import type { TFn } from "@/lib/i18n";
 import SmartLink from "./SmartLink";
@@ -21,20 +20,16 @@ export default function Footer({ locale, t, settings, links = [] }: { locale: Lo
   ].filter((x) => x.url);
 
   return (
-    <footer className="footer" id="contact">
-      <div className="footer-ghost" aria-hidden="true">UzJapan</div>
+    <footer className="footer footer-sm" id="contact">
       <div className="wrap footer-in">
-        <div className="footer-cols">
-          <div style={{ maxWidth: 380 }}>
+        <div className="fs-row">
+          <div className="fs-brand">
             <div className="brand">
-              <Logo size={38} />
-              <b style={{ fontSize: 20 }}>
+              <Logo size={30} />
+              <b style={{ fontSize: 17 }}>
                 UzJapan<span>Education</span>
               </b>
             </div>
-            <p style={{ fontSize: 14, lineHeight: 1.6, color: "#c8c4e0", marginTop: 16 }}>
-              {t("footer.about")} <b style={{ color: "#fff" }}>Connect · Learn · Grow</b>
-            </p>
             {socials.length > 0 && (
               <div className="socials">
                 {socials.map((x) => (
@@ -45,27 +40,18 @@ export default function Footer({ locale, t, settings, links = [] }: { locale: Lo
               </div>
             )}
           </div>
-          <nav className="footer-nav" aria-label={t("footer.sections")}>
-            <h4>{t("footer.sections")}</h4>
-            <Link href={`/${locale}/about`}>{t("nav.about")}</Link>
-            <Link href={`/${locale}/cabinet`}>{t("cab.title")}</Link>
-            <Link href={`/${locale}/universities`}>{t("nav.universities")}</Link>
-            <Link href={`/${locale}#students`}>{t("nav.scholarships")}</Link>
-            <Link href={`/${locale}#online`}>{t("nav.exchange")}</Link>
-            <Link href={`/${locale}#cooperation`}>{t("nav.cooperation")}</Link>
-            <Link href={`/${locale}/news?category=event`}>{t("nav.events")}</Link>
-            <Link href={`/${locale}/news`}>{t("nav.news")}</Link>
-          </nav>
-          <nav className="footer-nav" aria-label={t("footer.links")}>
+          <nav className="fs-links" aria-label={t("footer.links")}>
             <h4>{t("footer.links")}</h4>
-            {links.slice(0, 5).map((l) => (
-              <SmartLink key={`l${l.id}`} href={l.url} locale={locale}>{l.title}</SmartLink>
-            ))}
-            {USEFUL.map((l) => (
-              <a key={l.url} href={l.url} target="_blank" rel="noopener noreferrer">{l.title} ↗</a>
-            ))}
+            <div>
+              {links.slice(0, 4).map((l) => (
+                <SmartLink key={`l${l.id}`} href={l.url} locale={locale}>{l.title}</SmartLink>
+              ))}
+              {USEFUL.map((l) => (
+                <a key={l.url} href={l.url} target="_blank" rel="noopener noreferrer">{l.title} ↗</a>
+              ))}
+            </div>
           </nav>
-          <div style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 14, color: "#c8c4e0" }}>
+          <div className="fs-contact">
             <h4>{t("footer.contact")}</h4>
             {s?.contact_email && <a href={`mailto:${s.contact_email}`}>{s.contact_email}</a>}
             {s?.contact_phone && <a href={`tel:${s.contact_phone.replace(/\s/g, "")}`}>{s.contact_phone}</a>}

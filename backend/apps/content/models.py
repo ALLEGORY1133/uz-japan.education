@@ -80,6 +80,20 @@ class SiteMedia(models.Model):
         STUDENTS_CARD = "students_card", "Talabalar kartasi"
         COLLAB_CARD = "collab_card", "Hamkorlik kartasi"
         ONLINE_VIDEO = "online_video", "Onlayn hamkorlik videosi"
+        VIDEO_BAND = "video_band", "Bosh sahifa: katta video / rasm (Biz haqimizda)"
+        APPLY_BG = "apply_bg", "Bosh sahifa: ariza bandi foni"
+        GALLERY_1 = "gallery_1", "Galereya lentasi · 1"
+        GALLERY_2 = "gallery_2", "Galereya lentasi · 2"
+        GALLERY_3 = "gallery_3", "Galereya lentasi · 3"
+        GALLERY_4 = "gallery_4", "Galereya lentasi · 4"
+        GALLERY_5 = "gallery_5", "Galereya lentasi · 5"
+        GALLERY_6 = "gallery_6", "Galereya lentasi · 6"
+        GALLERY_7 = "gallery_7", "Galereya lentasi · 7"
+        GALLERY_8 = "gallery_8", "Galereya lentasi · 8"
+        GALLERY_9 = "gallery_9", "Galereya lentasi · 9"
+        GALLERY_10 = "gallery_10", "Galereya lentasi · 10"
+        GALLERY_11 = "gallery_11", "Galereya lentasi · 11"
+        GALLERY_12 = "gallery_12", "Galereya lentasi · 12"
 
     key = models.CharField(max_length=30, choices=Key.choices, unique=True)
     kind = models.CharField(max_length=5, choices=MediaKind.choices, default=MediaKind.IMAGE)

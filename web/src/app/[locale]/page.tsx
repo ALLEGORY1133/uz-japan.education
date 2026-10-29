@@ -25,7 +25,19 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const stat = (i: number) => ["#e5483b", "#0fa896", "#5b3fd0", "#f5a524", "#2b7bd8", "#a02c78"][i % 6];
   const cr = { prev: t("slider.prev"), next: t("slider.next") };
   const studentsImg = mediaUrl(data.media.students_card?.image);
-  const collabImg = mediaUrl(data.media.collab_card?.image);
+
+  const gallery = DEMO.gallery.map((d, i) => mediaUrl(data.media[`gallery_${i + 1}`]?.image) || d);
+  // Katta video/rasm joylari: admin yuklagan bo'lsa shu, bo'lmasa demo
+  const bgOf = (key: string, demoVideo: string, demoPoster: string) => {
+    const m = data.media[key];
+    const vid = m?.kind === "video" ? mediaUrl(m.video) : null;
+    const img = m?.kind === "image" ? mediaUrl(m.image) : null;
+    if (vid) return { video: vid, image: null, poster: demoPoster };
+    if (img) return { video: null, image: img, poster: img };
+    return { video: demoVideo, image: null, poster: demoPoster };
+  };
+  const band = bgOf("video_band", "/demo/sakura.mp4", "/demo/fuji.jpg");
+  const applyBg = bgOf("apply_bg", "/demo/lanterns.mp4", "/demo/lantern.jpg");
 
   const pic = (img: string | null, demo: string, icon: string, color: string) => (
     <span className="cs-pic" style={{ "--c": color } as CSSProperties}>
@@ -62,7 +74,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       {/* Galereya lentasi: doimiy harakatdagi rasmlar */}
       <section className="gl" aria-hidden="true">
         <div className="gl-track">
-          {[...DEMO.gallery, ...DEMO.gallery].map((src, i) => (
+          {[...gallery, ...gallery].map((src, i) => (
             // eslint-disable-next-line @next/next/no-img-element
             <img key={i} src={src} alt="" loading="lazy" className={i % 3 === 1 ? "tall" : ""} />
           ))}
@@ -71,9 +83,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
       {/* Video band: kirish matni */}
       <section className="vb" id="directions">
-        <video className="vb-vid" autoPlay muted loop playsInline poster="/demo/fuji.jpg" preload="metadata">
-          <source src="/demo/sakura.mp4" type="video/mp4" />
-        </video>
+        {band.image ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img className="vb-vid" src={band.image} alt="" />
+        ) : (
+          <video className="vb-vid" autoPlay muted loop playsInline poster={band.poster} preload="metadata" src={band.video || undefined} />
+        )}
         <div className="vb-shade" aria-hidden="true" />
         <div className="wrap vb-in">
           <span className="eyebrow">{t("home.s1.eyebrow")}</span>
@@ -82,7 +97,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <div className="vb-chips">
             <SmartLink href="#students" locale={locale}>{t("nav.scholarships")}</SmartLink>
             <SmartLink href="#cooperation" locale={locale}>{t("nav.cooperation")}</SmartLink>
-            <SmartLink href="#exchange" locale={locale}>{t("nav.news")}</SmartLink>
+            <SmartLink href="/news" locale={locale}>{t("nav.news")}</SmartLink>
           </div>
         </div>
       </section>
@@ -152,53 +167,15 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </section>
       )}
 
-      {/* 3) Yangiliklar, hamkorlik, tadbirlar */}
-      <section className="wrap hx" id="exchange" style={{ "--c": "#5b3fd0" } as CSSProperties}>
-        <div className="hx-head">
-          <span className="eyebrow">{t("nav.news")}</span>
-          <h2 className="h2 disp">{t("home.c3.t")}</h2>
-          <p>{t("home.c3.d")}</p>
-          <div className="hx-chips">
-            <SmartLink href={`/${locale}/news`} locale={locale}>{t("nav.news")}</SmartLink>
-            <SmartLink href={`/${locale}/news?category=cooperation`} locale={locale}>{t("nav.cooperation")}</SmartLink>
-            <SmartLink href={`/${locale}/news?category=event`} locale={locale}>{t("nav.events")} →</SmartLink>
-          </div>
-        </div>
-        {data.news.length > 0 && (
-          <Carousel label={t("home.c3.t")} {...cr} auto={3400}>
-            {data.news.map((n, i) => {
-              const cover = mediaUrl(n.cover) || pickDemo(DEMO[n.category as "news" | "cooperation" | "event"] || DEMO.news, i);
-              const external = n.link_type === "external" && !!n.external_url;
-              return (
-                <SmartLink key={n.id} href={n.href} locale={locale} className="cs cs-news">
-                  <span className="cs-pic">
-                    {n.video ? (
-                      <video src={mediaUrl(n.video) || undefined} poster={cover || undefined} muted loop autoPlay playsInline preload="metadata" />
-                    ) : (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={cover} alt="" loading="lazy" />
-                    )}
-                    <span className={`tag ${n.category} cs-tag`}>{t(`news.cat.${n.category}`)}</span>
-                  </span>
-                  <span className="cs-body">
-                    <small>{formatDate(n.event_starts_at || n.published_at, locale)}</small>
-                    <b>{n.title}</b>
-                    {n.summary && <small className="cs-sum">{n.summary}</small>}
-                    <span className="cs-go">{external ? t("news.join") : t("news.read")} {external ? "↗" : "→"}</span>
-                  </span>
-                </SmartLink>
-              );
-            })}
-          </Carousel>
-        )}
-      </section>
-
       {/* Onlayn ariza / savol formasi */}
       <section className="wrap hm-qw" id="online">
         <div className="hm-q">
-          <video className="hm-q-vid" autoPlay muted loop playsInline poster="/demo/lantern.jpg" preload="metadata" aria-hidden="true">
-            <source src="/demo/lanterns.mp4" type="video/mp4" />
-          </video>
+          {applyBg.image ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img className="hm-q-vid" src={applyBg.image} alt="" aria-hidden="true" />
+          ) : (
+            <video className="hm-q-vid" autoPlay muted loop playsInline poster={applyBg.poster} preload="metadata" aria-hidden="true" src={applyBg.video || undefined} />
+          )}
           <i className="hm-q-glow" aria-hidden="true" />
           <div className="hm-q-fuji jp" aria-hidden="true">鳥居</div>
           <div className="hm-q-copy">

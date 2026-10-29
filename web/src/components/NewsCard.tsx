@@ -1,10 +1,11 @@
 import SmartLink from "./SmartLink";
 import { formatDate, type TFn } from "@/lib/i18n";
 import { mediaUrl } from "@/lib/media";
+import { DEMO, pickDemo } from "@/lib/demo";
 import type { Locale, NewsItem } from "@/lib/types";
 
 export default function NewsCard({ n, locale, t, index = 0 }: { n: NewsItem; locale: Locale; t: TFn; index?: number }) {
-  const cover = mediaUrl(n.cover);
+  const cover = mediaUrl(n.cover) || pickDemo(DEMO[n.category as "news" | "cooperation" | "event"] || DEMO.news, index);
   const external = n.link_type === "external" && !!n.external_url;
   const date = formatDate(n.event_starts_at || n.published_at, locale);
 

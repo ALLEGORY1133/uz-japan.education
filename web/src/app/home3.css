@@ -70,3 +70,16 @@
 main { overflow-x: clip; }
 .footer-cols > div:first-child { flex: 1 1 260px; }
 .footer-cols > nav, .footer-cols > div:last-child { flex: 0 1 190px; }
+
+/* ixcham footer */
+.footer-sm { margin-top: 72px; }
+.footer-sm .footer-in { padding-top: 26px; padding-bottom: 14px; }
+.fs-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr) minmax(0, 1.3fr); gap: 20px clamp(20px, 4vw, 56px); align-items: start; }
+.fs-brand { display: flex; flex-direction: column; gap: 12px; }
+.fs-brand .socials { margin-top: 0; }
+.fs-links > div { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.fs-links a { padding: 3px 0; font-size: 13.5px; }
+.fs-contact { display: flex; flex-direction: column; gap: 3px; font-size: 13.5px; color: #c8c4e0; }
+.footer-sm h4 { margin: 0 0 8px; }
+.footer-sm .footer-bottom { margin-top: 18px; padding-top: 12px; }
+@media (max-width: 860px) { .fs-row { grid-template-columns: 1fr; } }

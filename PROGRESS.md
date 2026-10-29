@@ -25,6 +25,10 @@ Oxirgi yangilanish: 2026-10-29
 - Qaltirash tuzatildi (web+admin `steady.css`, oxirida import): hover/tilt'da element o'zi siljimaydi (kursor chekkada turganda titrash sababi: element qochib-qaytishi va 3D tilt teskari aloqasi). Soya/rang/ichki animatsiya qoldi. Brauzerda tekshirilmagan.
 - Bosh sahifa v3 (home3.css, lib/demo.ts, public/demo/): rasm/video markazida. Hero → statistika kartalari → harakatdagi galereya lentasi → video band (sakura.mp4, matn ustida) → rasm ustida matnli karusel kartalar (talaba kabineti, universitetlar, yangiliklar; avto-aylanish 3.0–3.4 s) → onlayn ariza bandi (lanterns.mp4 fon). Demo tasvirlar (12 jpg + 2 mp4, ~1.5 MB) o'zim chizgan illyustratsiyalar (real foto emas — sandbox internetdan yuklay olmaydi); admin yuklagan rasm/banner/cover ustun turadi, yo'q joyda demo chiqadi (country/category bo'yicha). Skrinshot (SSR harness) bilan 1440 va 390 px tekshirilgan; haqiqiy next build qilinmagan.
 - Real foto/video qo'yish: admin panelda universitet banner, yangilik cover/video, sayt media.
+- Admin «Sayt rasm va videolari» endi joylar (slot) ko'rinishida: video_band, apply_bg, students_card, gallery_1..12; har birida joriy rasm (yoki demo), «Yuklash/Almashtirish», «Standartga qaytarish» + yo'riqnoma. Backend: SiteMedia.Key kengaytirildi, migratsiya content/0005_sitemedia_keys. Web home shu joylardan oladi, yo'q bo'lsa demo.
+- Yangiliklar bosh sahifadan olib tashlandi; /news sahifasi tepasida karusel (rasm/video, demo fallback). NewsCard ham demo fallback ishlatadi.
+- Footer ixcham: asosiy menyu ustuni olib tashlandi; faqat brend+tarmoqlar, foydali havolalar, aloqa, pastki qator.
+- Haqiqiy fotosuratlar: sandbox foto saytlariga (Unsplash/Pexels/Wikimedia) kira olmaydi — demo rasmlar chizilgan. Foydalanuvchi real foto yuklashi kerak (web/public/demo/README.md).
 
 ## Ochiq / tekshirilmagan
 - Yordamchi mantiqi soxta (stub) ma'lumot bilan sinalgan, haqiqiy Django/DB bilan emas.

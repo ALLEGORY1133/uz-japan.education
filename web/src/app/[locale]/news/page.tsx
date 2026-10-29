@@ -1,8 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Carousel from "@/components/Carousel";
 import NewsCard from "@/components/NewsCard";
+import SmartLink from "@/components/SmartLink";
 import { getNews } from "@/lib/api";
-import { getT, isLocale } from "@/lib/i18n";
+import { DEMO, pickDemo } from "@/lib/demo";
+import { formatDate, getT, isLocale } from "@/lib/i18n";
+import { mediaUrl } from "@/lib/media";
 
 export const dynamic = "force-dynamic";
 
@@ -42,6 +46,36 @@ export default async function NewsPage({
           <h1 className="disp">{t("news.title")}</h1>
         </div>
       </section>
+
+      {items.length > 1 && (
+        <section className="wrap hx news-feat" style={{ "--c": "#5b3fd0", paddingTop: 36 } as React.CSSProperties}>
+          <Carousel label={t("news.title")} prev={t("slider.prev")} next={t("slider.next")} auto={3400}>
+            {items.slice(0, 6).map((n, i) => {
+              const cover = mediaUrl(n.cover) || pickDemo(DEMO[n.category as "news" | "cooperation" | "event"] || DEMO.news, i);
+              const external = n.link_type === "external" && !!n.external_url;
+              return (
+                <SmartLink key={n.id} href={n.href} locale={locale} className="cs cs-news">
+                  <span className="cs-pic">
+                    {n.video ? (
+                      <video src={mediaUrl(n.video) || undefined} poster={cover} muted loop autoPlay playsInline preload="metadata" />
+                    ) : (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={cover} alt="" loading="lazy" />
+                    )}
+                    <span className={`tag ${n.category} cs-tag`}>{t(`news.cat.${n.category}`)}</span>
+                  </span>
+                  <span className="cs-body">
+                    <small>{formatDate(n.event_starts_at || n.published_at, locale)}</small>
+                    <b>{n.title}</b>
+                    {n.summary && <small className="cs-sum">{n.summary}</small>}
+                    <span className="cs-go">{external ? t("news.join") : t("news.read")} {external ? "↗" : "→"}</span>
+                  </span>
+                </SmartLink>
+              );
+            })}
+          </Carousel>
+        </section>
+      )}
 
       <div className="wrap" style={{ paddingTop: 28 }}>
         <div className="tabs" role="navigation" style={{ flexWrap: "wrap" }}>
