@@ -102,7 +102,7 @@ const uz: Dict = {
   "asst.open": "Savol bering",
   "asst.close": "Yopish",
   "asst.err": "Xatolik yuz berdi. Birozdan söng qayta urinib köring.",
-  "asst.hi": "Salom! Universitetlar, ariza muddatlari, talablar va grantlar haqida so‘rang.",
+  "asst.hi": "Salom! Universitetlar, ariza muddatlari, talablar va grantlar haqida sörang.",
   "asst.s1": "Qaysi universitetlar bor?",
   "asst.s2": "Ariza muddati qachon?",
   "asst.s3": "Qanday ariza topshiraman?",

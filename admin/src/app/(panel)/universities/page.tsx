@@ -33,7 +33,7 @@ export default function UniversitiesPage() {
         defaults={{ country: "jp", brand_color: "#14183F", is_published: true }}
         row={(u) => ({
           title: u.name || u.slug,
-          sub: `${u.country === "jp" ? "Yaponiya" : "O‘zbekiston"} · ${u.slug}`,
+          sub: `${u.country === "jp" ? "Yaponiya" : "Özbekiston"} · ${u.slug}`,
           thumb: u.logo ? mediaUrl(u.logo) : null,
           badge: (
             <a className="btn outline sm" href={`/universities/${u.id}`}>Tahrirlaş →</a>

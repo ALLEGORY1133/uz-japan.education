@@ -95,7 +95,7 @@ export default function InquiriesPage() {
               </div>
             )}
             <label className="field full" style={{ marginTop: 8 }}>
-              <span className="label">{i.reply ? "Javobni özgartiriş" : "Javob yoziş"} (talaba kabinetida ko‘rinadi va emailga yuboriladi)</span>
+              <span className="label">{i.reply ? "Javobni özgartiriş" : "Javob yoziş"} (talaba kabinetida körinadi va emailga yuboriladi)</span>
               <textarea rows={3} value={drafts[i.id] ?? ""} onChange={(e) => setDrafts((d) => ({ ...d, [i.id]: e.target.value }))} placeholder="Javob matni…" />
             </label>
             <div className="row-actions" style={{ justifyContent: "flex-start", gap: 8 }}>

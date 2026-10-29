@@ -33,7 +33,7 @@ const FONT_VARS = {"--f-bricolage": "'Bricolage Grotesque Variable'", "--f-onest
 
 export const metadata: Metadata = {
   title: { default: "UzJapan Education", template: "%s · UzJapan Education" },
-  description: "O‘zbekiston va Yaponiya universitetlari o‘rtasidagi ta’lim aloqalari platformasi.",
+  description: "Özbekiston va Yaponiya universitetlari örtasidagi ta’lim aloqalari platformasi.",
 };
 
 export default async function LocaleLayout({

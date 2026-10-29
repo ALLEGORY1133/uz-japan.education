@@ -8,7 +8,7 @@ type Msg = { who: "me" | "bot"; text: string; links?: { label: string; url: stri
 
 export default function AdminAssistant() {
   const [open, setOpen] = useState(false);
-  const [msgs, setMsgs] = useState<Msg[]>([{ who: "bot", text: "Salom! Arizalar, statuslar, murojaatlar va universitetlar haqida so‘rang. Masalan: «yangi arizalar», «Kyoto arizalari», «UJ-… holati»." }]);
+  const [msgs, setMsgs] = useState<Msg[]>([{ who: "bot", text: "Salom! Arizalar, statuslar, murojaatlar va universitetlar haqida sörang. Masalan: «yangi arizalar», «Kyoto arizalari», «UJ-… holati»." }]);
   const [chips, setChips] = useState<string[]>(["Jami arizalar", "Yangi arizalar", "Bugungi arizalar", "Kutilayotgan murojaatlar"]);
   const [val, setVal] = useState("");
   const [busy, setBusy] = useState(false);
@@ -39,7 +39,7 @@ export default function AdminAssistant() {
         <section className="asst-panel" role="dialog" aria-label="Yordamchi">
           <header className="asst-head">
             <span className="asst-av">✦</span>
-            <span><b>Admin yordamchi</b><small>Arizalar va statistika bo‘yicha savol-javob</small></span>
+            <span><b>Admin yordamchi</b><small>Arizalar va statistika böyiça savol-javob</small></span>
             <button type="button" className="asst-x" onClick={() => setOpen(false)} aria-label="Yopiş">×</button>
           </header>
           <div className="asst-body" aria-live="polite">

@@ -76,11 +76,11 @@ export default function UniversityEdit() {
           <h1>{uni.name || uni.slug}</h1>
           <p>
             {uni.logo && <img src={mediaUrl(uni.logo)} alt="" style={{ height: 24, verticalAlign: "middle", marginRight: 8 }} />}
-            Ma’lumotlar o‘zgarishi ommaviy saytdagi qabul sahifasida darhol ko‘rinadi.
+            Ma’lumotlar özgarişi ommaviy saytdagi qabul sahifasida darhol körinadi.
           </p>
         </div>
         <a className="btn outline sm" href={`${process.env.NEXT_PUBLIC_WEB_URL || "http://localhost:3000"}/uz/universities/${uni.slug}`} target="_blank" rel="noopener noreferrer">
-          Saytda ko‘rish ↗
+          Saytda köriş ↗
         </a>
       </div>
 

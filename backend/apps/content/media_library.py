@@ -23,7 +23,7 @@ from .models import HeroSlide, HeroSlideImage, News, NewsMedia, SiteMedia
 SOURCES = {
     "hero_image": (HeroSlide, "image", False, "Bosh sahifa slaydi · rasm"),
     "hero_video": (HeroSlide, "video", False, "Bosh sahifa slaydi · video"),
-    "hero_extra": (HeroSlideImage, "image", True, "Slayd qo‘shimcha rasmi"),
+    "hero_extra": (HeroSlideImage, "image", True, "Slayd qöşimça rasmi"),
     "site_image": (SiteMedia, "image", False, "Sayt media · rasm"),
     "site_video": (SiteMedia, "video", False, "Sayt media · video"),
     "news_cover": (News, "cover", False, "Yangilik muqovasi"),
@@ -114,7 +114,7 @@ class MediaLibraryItemView(APIView):
         model_field = obj._meta.get_field(field)
         is_video_field = field == "video"
         if is_video_field != up.name.lower().endswith(VIDEO_EXT) and field in ("image", "cover", "logo", "banner", "video"):
-            raise ValidationError({"file": "Fayl turi mos emas (rasm o‘rniga rasm, video o‘rniga video yuklang)."})
+            raise ValidationError({"file": "Fayl turi mos emas (rasm örniga rasm, video örniga video yuklang)."})
         up = optimize_upload(up, request.data.get("quality") or "high")
         try:
             for v in model_field.validators:

@@ -14,7 +14,7 @@ const GALLERY = ["fuji", "registan", "torii", "campus", "tokyo", "dome", "kyoto"
 const GROUPS: { title: string; hint: string; slots: Slot[] }[] = [
   {
     title: "Boş sahifa — katta bölimlar",
-    hint: "Boş sahifaning eng ko‘zga tashlanadigan joylari.",
+    hint: "Boş sahifaning eng közga taşlanadigan joylari.",
     slots: [
       { key: "video_band", label: "Katta video yoki rasm", where: "«Biz haqimizda» bandi (matn orqasida)", demo: "fuji", video: true },
       { key: "apply_bg", label: "Ariza bandi foni", where: "Sahifa pastidagi «Savollaringiz bormi?» bandi", demo: "lantern", video: true },

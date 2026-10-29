@@ -67,7 +67,7 @@ class UserAdminSerializer(serializers.ModelSerializer):
             elif key in dict(User.Role.choices) and key != User.Role.CUSTOM:
                 attrs["role"] = key
             else:
-                raise serializers.ValidationError({"role_key": "Noto‘g‘ri rol."})
+                raise serializers.ValidationError({"role_key": "Notöğri rol."})
         role = attrs.get("role", getattr(self.instance, "role", None))
         university = attrs.get("university", getattr(self.instance, "university", None))
         if role == User.Role.UNIVERSITY_REP and not university:
@@ -112,7 +112,7 @@ class RoleSerializer(serializers.ModelSerializer):
 
     def validate_permissions(self, value):
         if not isinstance(value, dict):
-            raise serializers.ValidationError("Ruxsatlar lug‘at bo‘lishi kerak.")
+            raise serializers.ValidationError("Ruxsatlar luğat bölişi kerak.")
         clean = {}
         for k, v in value.items():
             if k not in SECTION_KEYS:

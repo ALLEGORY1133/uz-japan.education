@@ -1,6 +1,6 @@
 # PROGRESS
 
-Oxirgi yangilanish: 2026-10-29
+Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 
 ## Tugagan
 - Saytda bosh sahifa, universitetlar, yangiliklar, "Biz haqimizda" (fotorealistik banner, 3 tilli), talaba kabineti.
@@ -31,10 +31,12 @@ Oxirgi yangilanish: 2026-10-29
 - Haqiqiy fotosuratlar: sandbox foto saytlariga (Unsplash/Pexels/Wikimedia) kira olmaydi — demo rasmlar chizilgan. Foydalanuvchi real foto yuklashi kerak (web/public/demo/README.md).
 - Yangiliklar karuseli bosh sahifaga qaytdi: «Biz haqimizda» video bandidan keyin (#exchange), so'ng talaba kabineti va universitetlar. Header: «Yangiliklar» → /news?category=news, «Tadbirlar» → ?category=event; faol havola kategoriya bo'yicha (ikkalasi bir vaqtda belgilanmaydi).
 - Admin yon menyu telefon rejimiga faqat ≤640px da o'tadi (oldin ≤900px: DevTools ochiq tor oynada ham yashirinardi); 641–900px oralig'ida 220px keng, doim ko'rinadi.
+- 2026-10-29 (yangi sessiya, sandbox): yordamchi (`backend/apps/assistant/engine.py`, 27 ta uz matn) va boshqa joylarda qolgan ESKI alifbo matnlari yangi alifboga o'tkazildi: web `global-error.tsx`, `[locale]/layout.tsx` (metadata), `i18n.ts` (`asst.hi`), admin `AdminAssistant.tsx`, settings/site-media/inquiries/universities sahifalari, backend `media_library.py`, `accounts/serializers.py`. Usul: faqat o'zbekcha literallar `core.alphabet.to_new_alphabet` orqali (butun fayl emas — universitet nomlari, masalan "Shiga", buzilmasligi uchun). Statik tekshiruv: 86 ta .py `ast` OK, web 45 + admin 36 fayl esbuild OK, i18n.ts da uz/en/ja 354 tadan, kalit yetishmovchiligi yo'q.
 
 ## Ochiq / tekshirilmagan
 - Yordamchi mantiqi soxta (stub) ma'lumot bilan sinalgan, haqiqiy Django/DB bilan emas.
-- Haqiqiy `next build` va Postgres bilan sinalmagan (faqat sintaksis va mock).
+- Haqiqiy `next build` va Postgres bilan sinalmagan (faqat sintaksis va mock). Sandboxda PyPI va npm siyosat bo'yicha yopiq (403) — Django testlari, `makemigrations` va `next build` faqat foydalanuvchi mashinasida (`docker compose`) ishlaydi.
+- Backend uz xabarlarida (views/serializers/tests) apostrofsiz eski-alifbo so'zlar (sh/ch) qolgan bo'lishi mumkin — faqat apostrofli qoldiqlar tozalandi; to'liq ko'zdan kechirish kerak.
 - Paket nomlari (@fontsource-*) tekshirilmagan — `npm install` 404 bersa nomni to'g'rilash kerak.
 - Alifbo o'tkazish avtomatik: so'zlarni ko'zdan kechirish kerak.
 - `makemigrations` — model nomlari o'zgargani uchun bir marta ishga tushirib commit qilish.
