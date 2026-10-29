@@ -217,7 +217,7 @@ export default function PagesPage() {
       {page && (
         <div className="pg-list">
           {page.sections.map((s) => (
-            <SectionEditor key={page.key + s.key + String(s.customized)} sec={s} pagePath={page.path} onSaved={update} />
+            <SectionEditor key={s.key} sec={s} pagePath={page.path} onSaved={update} />
           ))}
         </div>
       )}
