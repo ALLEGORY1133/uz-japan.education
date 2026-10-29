@@ -1,0 +1,58 @@
+/* "Tabiiy" qatlam (oxirida ulanadi): AI-uslubidagi bezaklarni olib tashlaydi.
+   - rasm ustiga borganda yaqinlashish (zoom) va Ken Burns yo'q; o'rniga yumshoq qoraytirish;
+   - yorug' dog'lar, gradient ikonkalar, suzuvchi/pulsatsiyalanuvchi bezaklar yo'q;
+   - statistika sarlavha/hero ustiga chiqmaydi, oddiy oqimda turadi;
+   - yumshoqroq burchaklar, tekis ranglar, tinch soyalar. */
+
+/* ---- rasm: yaqinlashish yo'q ---- */
+.cs-pic img, .cs-pic video, .card-cover, .gl-track img, .mv img, .mv video,
+.slide.active .slide-art, .slide.active .slide-media, .bs-img, .uni-card img, .hm-pic img {
+  animation: none !important;
+  transform: none !important;
+  scale: none !important;
+}
+.cs:hover .cs-pic img, .cs:hover .cs-pic video, .card-link:hover .card-cover, .card-link:not(.icon-card):hover .card-cover { transform: none !important; filter: none; }
+/* o'rniga: rasm ustidagi qoplama biroz quyuqlashadi */
+.cs-pic::after { transition: opacity .35s ease; }
+.cs:hover .cs-pic::after { opacity: .88; }
+.cs-pic::before { content: ""; position: absolute; inset: 0; z-index: 1; background: rgba(20, 24, 63, 0); transition: background .35s ease; pointer-events: none; }
+.cs:hover .cs-pic::before { background: rgba(20, 24, 63, .14); }
+.card-link .card-cover { transition: opacity .3s ease; }
+.card-link:hover .card-cover { opacity: .92; }
+.gl-track img:hover { filter: none; }
+
+/* ---- bezaklar: yorug' dog'lar, to'plar, porlash ---- */
+.hx::before, .hs-card em, .ab-blob, .ab-cta-glow, .hm-q-glow, .cs-pic.art i, .hm-pic.art i, .bs-sunglow,
+.page-hero::before, .hm-q-fuji, .qi::after { display: none !important; }
+.hs-card, .hs-card em, .qn .qi, .icon-card .qi, .asst-fab span { animation: none !important; }
+
+/* ---- statistika: header/hero ustiga chiqmaydi ---- */
+.hs { margin-top: 0; padding-top: 40px; z-index: auto; }
+.hs-grid { gap: 0; border: 1px solid var(--line); border-radius: 12px; background: #fff; overflow: hidden; }
+.hs-card { border: 0; border-radius: 0; border-right: 1px solid var(--line); box-shadow: none; background: transparent; padding: 22px 22px 20px; animation: none; }
+.hs-card:last-child { border-right: 0; }
+.hs-card:hover { box-shadow: none; border-color: var(--line); }
+.hs-ico { width: 34px; height: 34px; border-radius: 8px; background: var(--c); }
+.hs-card b { font-size: 32px; font-weight: 700; }
+@media (max-width: 620px) { .hs { padding-top: 24px; } .hs-card { border-bottom: 1px solid var(--line); } }
+
+/* ---- shakllar va ranglar ---- */
+.page-hero { background: var(--navy); }
+.btn { border-radius: 10px; box-shadow: none; }
+.btn-primary, .btn-red { background: var(--red); }
+.cs, .card-link, .uni-card, .hx-chips a, .cr-ctl > button { border-radius: 14px; }
+.cs { box-shadow: 0 10px 24px -18px rgba(20, 24, 63, .5); }
+.cs:hover, .card-link:hover, .uni-card:hover { box-shadow: 0 14px 28px -18px rgba(20, 24, 63, .55); }
+.cs-badge { border-radius: 10px; background: var(--c); box-shadow: none; backdrop-filter: none; }
+.cs-go { border-radius: 8px; background: var(--c); }
+.hx-chips a, .vb-chips a { border-radius: 8px; }
+.cr-ctl > button { border-radius: 50%; }
+.cr-ctl > button:hover { transform: none; }
+.hm-q, .ab-banner, .ab-cta { border-radius: 16px; }
+.gl-track img { border-radius: 12px; box-shadow: none; }
+.vb-in h2 { text-shadow: none; }
+.hs-card:hover, .cs:hover { transform: none; }
+
+/* ---- harakat: faqat kerakli (galereya lentasi, karusel) ---- */
+.vb-in > * { animation: none; }
+@media (prefers-reduced-motion: no-preference) { .gl-track { animation-duration: 70s; } }

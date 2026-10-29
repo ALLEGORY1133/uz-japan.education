@@ -9,7 +9,8 @@ import UniversityMark from "@/components/UniversityMark";
 import InquiryForm from "@/components/InquiryForm";
 import Marquee from "@/components/Marquee";
 import SmartLink from "@/components/SmartLink";
-import { getHome } from "@/lib/api";
+import { getBlocks, getHome } from "@/lib/api";
+import { bm, bt } from "@/lib/blocks";
 import { formatDate, getT, isLocale, pickPrefix } from "@/lib/i18n";
 import { mediaUrl } from "@/lib/media";
 import { DEMO, pickDemo } from "@/lib/demo";
@@ -20,15 +21,19 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = getT(locale);
-  const data = await getHome(locale);
+  const [data, blocks] = await Promise.all([getHome(locale), getBlocks(locale)]);
+  const txt = (k: string, f: "title" | "text", fb: string) => bt(blocks, k, f, locale, fb);
 
   const stat = (i: number) => ["#e5483b", "#0fa896", "#5b3fd0", "#f5a524", "#2b7bd8", "#a02c78"][i % 6];
   const cr = { prev: t("slider.prev"), next: t("slider.next") };
-  const studentsImg = mediaUrl(data.media.students_card?.image);
+  const studentsImg = bm(blocks, "home.students").image || mediaUrl(data.media.students_card?.image);
 
   const gallery = DEMO.gallery.map((d, i) => mediaUrl(data.media[`gallery_${i + 1}`]?.image) || d);
   // Katta video/rasm joylari: admin yuklagan bo'lsa shu, bo'lmasa demo
-  const bgOf = (key: string, demoVideo: string, demoPoster: string) => {
+  const bgOf = (key: string, blockKey: string, demoVideo: string, demoPoster: string) => {
+    const own = bm(blocks, blockKey);
+    if (own.video) return { video: own.video, image: null, poster: own.image || demoPoster };
+    if (own.image) return { video: null, image: own.image, poster: own.image };
     const m = data.media[key];
     const vid = m?.kind === "video" ? mediaUrl(m.video) : null;
     const img = m?.kind === "image" ? mediaUrl(m.image) : null;
@@ -36,8 +41,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     if (img) return { video: null, image: img, poster: img };
     return { video: demoVideo, image: null, poster: demoPoster };
   };
-  const band = bgOf("video_band", "/demo/sakura.mp4", "/demo/fuji.jpg");
-  const applyBg = bgOf("apply_bg", "/demo/lanterns.mp4", "/demo/lantern.jpg");
+  const band = bgOf("video_band", "home.intro", "/demo/sakura.mp4", "/demo/fuji.jpg");
+  const applyBg = bgOf("apply_bg", "home.apply", "/demo/lanterns.mp4", "/demo/lantern.jpg");
 
   const pic = (img: string | null, demo: string, icon: string, color: string) => (
     <span className="cs-pic" style={{ "--c": color } as CSSProperties}>
@@ -92,8 +97,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         <div className="vb-shade" aria-hidden="true" />
         <div className="wrap vb-in">
           <span className="eyebrow">{t("home.s1.eyebrow")}</span>
-          <h2 className="disp">{t("home.s1.title")}</h2>
-          <p>{t("home.s1.text")}</p>
+          <h2 className="disp">{txt("home.intro", "title", t("home.s1.title"))}</h2>
+          <p>{txt("home.intro", "text", t("home.s1.text"))}</p>
           <div className="vb-chips">
             <SmartLink href="#students" locale={locale}>{t("nav.scholarships")}</SmartLink>
             <SmartLink href="#cooperation" locale={locale}>{t("nav.cooperation")}</SmartLink>
@@ -106,12 +111,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <section className="wrap hx" id="exchange" style={{ "--c": "#5b3fd0" } as CSSProperties}>
         <div className="hx-head">
           <span className="eyebrow">{t("nav.news")}</span>
-          <h2 className="h2 disp">{t("home.c3.t")}</h2>
-          <p>{t("home.c3.d")}</p>
+          <h2 className="h2 disp">{txt("home.news", "title", t("home.c3.t"))}</h2>
+          <p>{txt("home.news", "text", t("home.c3.d"))}</p>
           <div className="hx-chips">
-            <SmartLink href="/news?category=news" locale={locale}>{t("nav.news")}</SmartLink>
-            <SmartLink href="/news?category=cooperation" locale={locale}>{t("nav.cooperation")}</SmartLink>
-            <SmartLink href="/news?category=event" locale={locale}>{t("nav.events")}</SmartLink>
+            <SmartLink href="/news" locale={locale}>{t("nav.news")}</SmartLink>
+            <SmartLink href="/cooperation" locale={locale}>{t("nav.cooperation")}</SmartLink>
+            <SmartLink href="/events" locale={locale}>{t("nav.events")}</SmartLink>
             <SmartLink href="/news" locale={locale}>{t("news.all")} →</SmartLink>
           </div>
         </div>
@@ -148,8 +153,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <section className="wrap hx" id="students" style={{ "--c": "#e5483b" } as CSSProperties}>
         <div className="hx-head">
           <span className="eyebrow">{t("nav.scholarships")}</span>
-          <h2 className="h2 disp">{t("home.c1.t")}</h2>
-          <p>{t("home.c1.d")}</p>
+          <h2 className="h2 disp">{txt("home.students", "title", t("home.c1.t"))}</h2>
+          <p>{txt("home.students", "text", t("home.c1.d"))}</p>
         </div>
         <Carousel label={t("home.c1.t")} {...cr} auto={3200}>
           <SmartLink href={`/${locale}/cabinet`} locale={locale} className="cs">
@@ -169,8 +174,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <section className="wrap hx" id="cooperation" style={{ "--c": "#0fa896" } as CSSProperties}>
         <div className="hx-head">
           <span className="eyebrow">{t("nav.cooperation")}</span>
-          <h2 className="h2 disp">{t("home.c2.t")}</h2>
-          <p>{t("home.c2.d")}</p>
+          <h2 className="h2 disp">{txt("home.cooperation", "title", t("home.c2.t"))}</h2>
+          <p>{txt("home.cooperation", "text", t("home.c2.d"))}</p>
           <div className="hx-chips">
             <SmartLink href={`/${locale}/universities?country=jp`} locale={locale}>{t("home.c2.jp")}</SmartLink>
             <SmartLink href={`/${locale}/universities?country=uz`} locale={locale}>{t("home.c2.uz")}</SmartLink>
@@ -222,8 +227,8 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <div className="hm-q-fuji jp" aria-hidden="true">鳥居</div>
           <div className="hm-q-copy">
             <span className="eyebrow" style={{ color: "#fff", opacity: 0.9 }}>{t("home.q.eyebrow")}</span>
-            <h2 className="disp">{t("home.q.title")}</h2>
-            <p>{t("home.q.text")}</p>
+            <h2 className="disp">{txt("home.apply", "title", t("home.q.title"))}</h2>
+            <p>{txt("home.apply", "text", t("home.q.text"))}</p>
           </div>
           <InquiryForm labels={pickPrefix(locale, "home.q.")} />
         </div>

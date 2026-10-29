@@ -215,3 +215,32 @@ class SiteSettings(models.Model):
 
     def __str__(self):
         return "Sayt sozlamalari"
+
+
+class PageBlock(models.Model):
+    """Sayt sahifalaridagi bo'limlarni (matn, rasm, video, havola) admin paneldan o'zgartirish.
+
+    Bo'limlar ro'yxati kodda (page_registry.py). Yozuv bo'lmasa yoki maydon bo'sh bo'lsa — sayt standart matn/rasmni ko'rsatadi.
+    """
+
+    key = models.CharField(max_length=60, unique=True)
+    title_uz = models.CharField(max_length=300, blank=True)
+    title_en = models.CharField(max_length=300, blank=True)
+    title_ja = models.CharField(max_length=300, blank=True)
+    text_uz = models.TextField(blank=True)
+    text_en = models.TextField(blank=True)
+    text_ja = models.TextField(blank=True)
+    link_label_uz = models.CharField(max_length=120, blank=True)
+    link_label_en = models.CharField(max_length=120, blank=True)
+    link_label_ja = models.CharField(max_length=120, blank=True)
+    link_url = models.CharField(max_length=500, blank=True)
+    image = models.ImageField(upload_to="pages/", blank=True, validators=[image_extensions, validate_image_size])
+    video = models.FileField(upload_to="pages/", blank=True, validators=[video_extensions, validate_video_size])
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Sahifa bo'limi"
+        verbose_name_plural = "Sahifa bo'limlari"
+
+    def __str__(self):
+        return self.key

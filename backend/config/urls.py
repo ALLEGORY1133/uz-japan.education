@@ -43,6 +43,7 @@ from apps.content.admin_api import (
     AdminSiteSettingsView,
     AdminStatViewSet,
 )
+from apps.content.page_api import AdminPageSectionView, AdminPagesView, PublicBlocksView
 from apps.content.public import HomeView, PublicNewsViewSet
 from apps.core.permissions import IsPlatformAdmin
 from apps.universities.admin_api import (
@@ -135,6 +136,7 @@ urlpatterns = [
     path("django-admin/", admin.site.urls),
     path("api/health/", health),
     path("api/public/home/", HomeView.as_view()),
+    path("api/public/blocks/", PublicBlocksView.as_view()),
     path("api/public/assistant/", PublicAssistantView.as_view()),
     path("api/public/applications/", ApplicationCreateView.as_view()),
     path("api/public/applications/status/", ApplicationStatusView.as_view()),
@@ -155,6 +157,8 @@ urlpatterns = [
     path("api/admin/dashboard/", DashboardView.as_view()),
     path("api/admin/assistant/", AdminAssistantView.as_view()),
     path("api/admin/site-settings/", AdminSiteSettingsView.as_view()),
+    path("api/admin/pages/", AdminPagesView.as_view()),
+    path("api/admin/pages/<str:key>/", AdminPageSectionView.as_view()),
     path("api/admin/kpi/", KPIDashboardView.as_view()),
     path("api/admin/kpi/export/", KPIExportView.as_view()),
     path("api/admin/media-library/", MediaLibraryView.as_view()),

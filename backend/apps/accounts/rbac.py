@@ -5,6 +5,7 @@ SECTIONS = [
     ("inquiries", "Murojaatlar"),
     ("kpi", "KPI samaradorligi"),
     ("hero", "Bosh sahifa slayderi"),
+    ("pages", "Sahifalar va bölimlar"),
     ("site_media", "Sayt rasm va videolari"),
     ("media", "Media kutubxonasi"),
     ("news", "Yangilik va tadbirlar"),
@@ -13,7 +14,7 @@ SECTIONS = [
     ("history", "Harakatlar tarixi"),
 ]
 SECTION_KEYS = [k for k, _ in SECTIONS]
-CONTENT_SECTIONS = ("hero", "site_media", "media", "news", "stats")
+CONTENT_SECTIONS = ("hero", "pages", "site_media", "media", "news", "stats")
 LEVELS = ("view", "edit")
 
 

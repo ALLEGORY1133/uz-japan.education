@@ -509,3 +509,19 @@ h1, h2, h3 { font-weight: 800; letter-spacing: -.02em; }
 .sl-chip { position: absolute; left: 10px; top: 10px; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; background: rgba(255,255,255,.92); color: #6b66a0; } .sl-chip.own { background: #e4f6ec; color: #13794a; }
 .sl-body { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px 14px; } .sl-body small { color: #8a86a6; }
 .sl-act { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; } .sl-act label { cursor: pointer; } .sl-act label.disabled { opacity: .6; pointer-events: none; }
+
+/* Sahifalar va bo'limlar */
+.pg-list { display: grid; gap: 16px; }
+.pg-sec { padding: 20px; }
+.pg-sec-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
+.pg-sec-head h3 { margin: 0 0 2px; font-size: 17px; }
+.pg-chip { flex: none; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; background: #efecf6; color: #6a6785; }
+.pg-chip.own { background: #e1f5ee; color: #0b6d58; }
+.pg-langs { margin-bottom: 12px; width: max-content; max-width: 100%; }
+.pg-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.pg-media { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 16px; }
+.pg-m { display: flex; flex-direction: column; gap: 6px; }
+.pg-thumb { aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; background: #14183f; display: grid; place-items: center; color: #aaa6c8; font-size: 13px; }
+.pg-thumb img, .pg-thumb video { width: 100%; height: 100%; object-fit: cover; }
+.pg-act { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+@media (max-width: 640px) { .pg-fields { grid-template-columns: 1fr; } }

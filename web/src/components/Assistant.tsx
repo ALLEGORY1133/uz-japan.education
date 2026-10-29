@@ -44,7 +44,7 @@ export default function Assistant({ locale, L }: Props) {
       {open && (
         <section className="asst-panel" role="dialog" aria-label={L.title}>
           <header className="asst-head">
-            <span className="asst-av">✦</span>
+            <span className="asst-av">?</span>
             <span><b>{L.title}</b><small>{L.sub}</small></span>
             <button type="button" className="asst-x" onClick={() => setOpen(false)} aria-label={L.close}>×</button>
           </header>
@@ -68,7 +68,7 @@ export default function Assistant({ locale, L }: Props) {
         </section>
       )}
       <button type="button" className="asst-fab" onClick={() => setOpen((o) => !o)} aria-label={L.open} aria-expanded={open}>
-        <span>{open ? "×" : "✦"}</span>{!open && <em>{L.open}</em>}
+        <span>{open ? "×" : "?"}</span>{!open && <em>{L.open}</em>}
       </button>
     </div>
   );

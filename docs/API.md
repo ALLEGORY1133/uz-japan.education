@@ -92,3 +92,10 @@ Vakil uchun `university` maydoni so'rovda yuborilsa ham server uni o'z universit
 
 ## Namuna foydalanuvchilar (faqat ishlab chiqish; `python manage.py seed`)
 `admin / admin12345` (platforma administratori), `kyoto_rep / rep12345` (Kyoto University vakili).
+
+## Sahifa bo'limlari (CMS)
+- `GET /api/public/blocks/` — admin o'zgartirgan bo'limlar: `{ "home.intro": {title:{uz,en,ja}, text:{…}, link_label:{…}, link_url, image, video}, … }`. Bo'sh maydon — sayt standart matnni ko'rsatadi.
+- `GET /api/admin/pages/` — sahifalar → bo'limlar (qaysi maydonlar tahrirlanishi + joriy qiymatlar). Ruxsat: `pages` bo'limi.
+- `PATCH /api/admin/pages/<key>/` — multipart yoki JSON: `title_uz|en|ja`, `text_*`, `link_label_*`, `link_url`, `image`, `video`, `clear_image=1`, `clear_video=1`.
+- `DELETE /api/admin/pages/<key>/` — standartga qaytarish.
+- Bo'limlar ro'yxati: `backend/apps/content/page_registry.py`.

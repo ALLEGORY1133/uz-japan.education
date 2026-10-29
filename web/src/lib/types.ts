@@ -128,3 +128,13 @@ export type HomeData = {
   media: Record<string, SiteMediaItem>;
   settings: SiteSettings;
 };
+
+export type Block = {
+  title: Record<Locale, string>;
+  text: Record<Locale, string>;
+  link_label: Record<Locale, string>;
+  link_url: string;
+  image: string | null;
+  video: string | null;
+};
+export type Blocks = Record<string, Block>;

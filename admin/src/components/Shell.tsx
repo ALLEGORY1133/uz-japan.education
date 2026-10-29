@@ -32,6 +32,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
       title: "Sayt kontenti",
       items: pick([
         ["hero", "/hero", "Boş sahifa slayderi", "hero"],
+        ["pages", "/pages", "Sahifalar va bölimlar", "news"],
         ["site_media", "/site-media", "Sayt rasm va videolari", "media"],
         ["media", "/media", "Media kutubxonasi", "media"],
         ["news", "/news", "Yangilik va tadbirlar", "news"],
@@ -59,6 +60,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
           title: "Sayt kontenti",
           items: [
             { href: "/hero", label: "Boş sahifa slayderi", icon: "hero" },
+            { href: "/pages", label: "Sahifalar va bölimlar", icon: "news" },
             { href: "/site-media", label: "Sayt rasm va videolari", icon: "media" },
             { href: "/media", label: "Media kutubxonasi", icon: "media" },
             { href: "/links", label: "Foydali havolalar", icon: "links" },

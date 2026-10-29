@@ -32,6 +32,12 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 - Yangiliklar karuseli bosh sahifaga qaytdi: «Biz haqimizda» video bandidan keyin (#exchange), so'ng talaba kabineti va universitetlar. Header: «Yangiliklar» → /news?category=news, «Tadbirlar» → ?category=event; faol havola kategoriya bo'yicha (ikkalasi bir vaqtda belgilanmaydi).
 - Admin yon menyu telefon rejimiga faqat ≤640px da o'tadi (oldin ≤900px: DevTools ochiq tor oynada ham yashirinardi); 641–900px oralig'ida 220px keng, doim ko'rinadi.
 - 2026-10-29 (yangi sessiya, sandbox): yordamchi (`backend/apps/assistant/engine.py`, 27 ta uz matn) va boshqa joylarda qolgan ESKI alifbo matnlari yangi alifboga o'tkazildi: web `global-error.tsx`, `[locale]/layout.tsx` (metadata), `i18n.ts` (`asst.hi`), admin `AdminAssistant.tsx`, settings/site-media/inquiries/universities sahifalari, backend `media_library.py`, `accounts/serializers.py`. Usul: faqat o'zbekcha literallar `core.alphabet.to_new_alphabet` orqali (butun fayl emas — universitet nomlari, masalan "Shiga", buzilmasligi uchun). Statik tekshiruv: 86 ta .py `ast` OK, web 45 + admin 36 fayl esbuild OK, i18n.ts da uz/en/ja 354 tadan, kalit yetishmovchiligi yo'q.
+- 2026-10-29 (maqsad: tabiiy dizayn + alohida sahifalar + sahifa CMS):
+  - Alohida sahifalar: `/news` (faqat yangilik), `/cooperation`, `/events` (`components/NewsListPage.tsx`); eski `/news?category=event|cooperation` shularga yo'naltiriladi; header va bosh sahifa havolalari yangilandi. i18n: `news.lead`, `coop.*`, `events.*` (3 tilda).
+  - Rasm hover-zoom va Ken Burns olib tashlandi; o'rniga qoplama yumshoq qoraytiriladi (`web/src/app/natural.css`, eng oxirida ulanadi). Yorug' dog'lar/aurora/glow/ikonka halqalari yashirildi, gradientlar tekis rangga, burchaklar kichraytirildi, TiltRoot layout'dan olib tashlandi.
+  - Statistika hero/header ustiga chiqmaydi (`.hs` margin-top: 0, oddiy oqim, bitta tekis panel).
+  - Sahifa CMS: model `content.PageBlock` (migratsiya `content/0006_pageblock`, QO'LDA yozilgan — `makemigrations --check` bilan tekshirish kerak), `content/page_registry.py` (bo'limlar ro'yxati), `content/page_api.py`; `GET /api/public/blocks/`, `GET /api/admin/pages/`, `PATCH|DELETE /api/admin/pages/<key>/`; RBAC bo'limi `pages` (kontent menejeri ham kiradi). Web: `lib/blocks.ts` (`bt` matn, `bm` rasm/video, `bl` havola) — bosh sahifa (5 bo'lim), Biz haqimizda (4), Universitetlar/Yangilik/Hamkorlik/Tadbirlar sarlavha+fon. Maydon bo'sh bo'lsa standart matn/demo chiqadi. Admin: «Sahifalar va bölimlar» (`admin/src/app/(panel)/pages/page.tsx`): til tablari, rasm/video yuklash-o'chirish, havola, standartga qaytarish.
+  - Tekshirilmagan: Django/`next build` ishga tushmagan (sandbox'da PyPI/npm yopiq); faqat sintaksis (esbuild/ast) va i18n pariteti (361 kalit) tekshirilgan. Yangi bo'limlar ro'yxatini kengaytirish: `page_registry.py` + tegishli web sahifada `bt/bm` ishlatish.
 
 ## Ochiq / tekshirilmagan
 - Yordamchi mantiqi soxta (stub) ma'lumot bilan sinalgan, haqiqiy Django/DB bilan emas.
@@ -43,4 +49,4 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 - Bosh sahifa slayderiga yangi manzara qo'yilmagan (ixtiyoriy).
 
 ## Keyingi qadam
-- `docker compose up --build -d`, so'ng admin Murojaatlar va kabinetni tekshirish; xato bo'lsa `docker compose logs backend --tail 80`.
+- `docker compose up --build -d` (migratsiya 0006 qo'llanadi), `makemigrations --check`, so'ng admin Murojaatlar va kabinetni tekshirish; xato bo'lsa `docker compose logs backend --tail 80`.

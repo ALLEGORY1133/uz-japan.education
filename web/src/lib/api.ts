@@ -2,7 +2,7 @@ import crypto from "crypto";
 import { promises as fs } from "fs";
 import os from "os";
 import path from "path";
-import type { HomeData, Locale, NewsItem, UniversityDetail, UniversityListItem } from "./types";
+import type { Blocks, HomeData, Locale, NewsItem, UniversityDetail, UniversityListItem } from "./types";
 
 const API_URL = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
@@ -140,3 +140,12 @@ export async function getNews(locale: Locale, category?: string) {
 
 export const getNewsItem = (locale: Locale, slug: string) =>
   get<NewsItem>(`/news/${encodeURIComponent(slug)}/`, locale);
+
+/** Admin paneldan o'zgartirilgan sahifa bo'limlari. Xato bo'lsa — bo'sh (sayt standart matnlarni ko'rsatadi). */
+export async function getBlocks(locale: Locale): Promise<Blocks> {
+  try {
+    return await get<Blocks>("/blocks/", locale);
+  } catch {
+    return {};
+  }
+}

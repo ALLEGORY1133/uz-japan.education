@@ -18,11 +18,11 @@ import "../home3.css";
 import "../cabinet.css";
 import "../assistant.css";
 import "../steady.css";
+import "../natural.css";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Assistant from "@/components/Assistant";
 import RevealRoot from "@/components/RevealRoot";
-import TiltRoot from "@/components/TiltRoot";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { getHome } from "@/lib/api";
@@ -76,7 +76,6 @@ export default async function LocaleLayout({
         {children}
         <Footer locale={locale} t={t} settings={settings} links={links} />
         <RevealRoot />
-        <TiltRoot />
         <Assistant locale={locale} L={{ title: t("asst.title"), sub: t("asst.sub"), ph: t("asst.ph"), send: t("asst.send"), open: t("asst.open"), close: t("asst.close"), err: t("asst.err"), hi: t("asst.hi"), s1: t("asst.s1"), s2: t("asst.s2"), s3: t("asst.s3"), s4: t("asst.s4") }} />
       </body>
     </html>

@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import UniversityMark from "@/components/UniversityMark";
-import { getUniversities } from "@/lib/api";
+import { getBlocks, getUniversities } from "@/lib/api";
+import { bm, bt, heroBg } from "@/lib/blocks";
 import { formatDate, getT, isLocale } from "@/lib/i18n";
 
 export const dynamic = "force-dynamic";
@@ -22,17 +23,17 @@ export default async function UniversitiesPage({
   if (!isLocale(locale)) notFound();
   const sp = await searchParams;
   const t = getT(locale);
-  const items = await getUniversities(locale, { country: sp.country, degree: sp.degree, search: sp.search });
+  const [items, blocks] = await Promise.all([getUniversities(locale, { country: sp.country, degree: sp.degree, search: sp.search }), getBlocks(locale)]);
 
   return (
     <main>
-      <section className="page-hero" style={{ paddingTop: 110 }}>
+      <section className="page-hero" style={{ paddingTop: 110, ...heroBg(bm(blocks, "universities.head").image) }}>
         <div className="wrap">
           <div className="crumbs">
             <Link href={`/${locale}`}>{t("common.home")}</Link> › {t("nav.universities")}
           </div>
-          <h1 className="disp">{t("list.title")}</h1>
-          <p style={{ margin: 0, color: "#d4cdee" }}>{t("list.sub")}</p>
+          <h1 className="disp">{bt(blocks, "universities.head", "title", locale, t("list.title"))}</h1>
+          <p style={{ margin: 0, color: "#d4cdee" }}>{bt(blocks, "universities.head", "text", locale, t("list.sub"))}</p>
         </div>
       </section>
 
