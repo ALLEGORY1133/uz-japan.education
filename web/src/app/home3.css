@@ -1,0 +1,72 @@
+/* Bosh sahifa v3: rasm/video markazida — galereya lentasi, video band, rasm ustidagi matnli kartalar */
+
+/* ---- galereya lentasi ---- */
+.gl { overflow: hidden; margin-top: 56px; padding: 6px 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.gl-track { display: flex; align-items: center; gap: 16px; width: max-content; animation: gl-run 46s linear infinite; }
+.gl:hover .gl-track { animation-play-state: paused; }
+.gl-track img { flex: none; width: 250px; height: 170px; object-fit: cover; border-radius: 22px; box-shadow: 0 18px 30px -20px rgba(20, 24, 63, .6); transition: filter .4s; }
+.gl-track img.tall { height: 220px; }
+.gl-track img:hover { filter: saturate(1.25) brightness(1.05); }
+@keyframes gl-run { to { transform: translateX(-50%); } }
+
+/* ---- video band ---- */
+.vb { position: relative; isolation: isolate; overflow: hidden; margin-top: 64px; min-height: clamp(380px, 52vw, 560px); display: flex; align-items: center; color: #fff; background: #1b1a45; }
+.vb-vid { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+.vb-shade { position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(20, 24, 63, .86) 0%, rgba(20, 24, 63, .55) 48%, rgba(20, 24, 63, .1) 100%); }
+.vb-in { padding-top: 56px; padding-bottom: 56px; }
+.vb-in > * { max-width: 620px; }
+.vb-in .eyebrow { color: #ffd0e0; }
+.vb-in h2 { margin: 10px 0 14px; font-size: clamp(30px, 4.2vw, 54px); line-height: 1.08; font-weight: 800; text-shadow: 0 6px 30px rgba(0, 0, 0, .35); }
+.vb-in p { margin: 0; font-size: 17px; line-height: 1.7; color: #ece9ff; }
+.vb-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.vb-chips a { padding: 11px 20px; border-radius: 999px; font-size: 14.5px; font-weight: 800; color: #fff; background: rgba(255, 255, 255, .16); border: 1.5px solid rgba(255, 255, 255, .45); backdrop-filter: blur(8px); transition: background .3s, color .3s; }
+.vb-chips a:hover { background: #fff; color: var(--navy); }
+.vb-in > * { animation: vb-up .9s var(--ease) both; }
+.vb-in > *:nth-child(2) { animation-delay: .1s; } .vb-in > *:nth-child(3) { animation-delay: .2s; } .vb-in > *:nth-child(4) { animation-delay: .3s; }
+@keyframes vb-up { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+
+/* ---- bo'limlar: fon bezagi ---- */
+.hx { position: relative; }
+.hx::before { content: ""; position: absolute; z-index: -1; right: -6%; top: 40px; width: 380px; height: 380px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--c) 22%, transparent), transparent 70%); animation: lv-aurora 12s ease-in-out infinite; pointer-events: none; }
+.hx-head .h2 { font-size: clamp(30px, 3.6vw, 46px); }
+
+/* ---- rasm ustida matn: karusel kartasi ---- */
+.cr-slide { flex-basis: calc((100% - 40px) / 3); }
+.cs { height: clamp(360px, 36vw, 440px); border: 0; background: #14183f; color: #fff; box-shadow: 0 24px 40px -28px rgba(20, 24, 63, .7); }
+.cs:hover { border: 0; box-shadow: 0 34px 50px -28px color-mix(in srgb, var(--c) 70%, #14183f); }
+.cs-pic, .cs-news .cs-pic, .cs-uni .cs-pic { position: absolute; inset: 0; height: auto; }
+.cs-pic::after { background: linear-gradient(180deg, rgba(20, 24, 63, 0) 25%, rgba(20, 24, 63, .55) 60%, rgba(14, 16, 44, .93) 100%); }
+.cs-pic img, .cs-pic video { animation: cs-kb 11s ease-in-out infinite alternate; }
+.cs:hover .cs-pic img, .cs:hover .cs-pic video { transform: scale(1.12); }
+.cs-badge { left: auto; right: 16px; top: 16px; bottom: auto; width: 44px; height: 44px; backdrop-filter: blur(6px); }
+.cs-mark { right: 16px; bottom: auto; top: 14px; }
+.cs-uni .cs-tag { top: 16px; left: 16px; }
+.cs-body { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; padding: 22px 22px 22px; gap: 6px; transform: translateY(0); }
+.cs-body > b { font-size: clamp(19px, 1.7vw, 24px); color: #fff; text-shadow: 0 2px 14px rgba(0, 0, 0, .45); }
+.cs-body small { color: rgba(255, 255, 255, .84); }
+.cs-body small b { color: #fff; }
+.cs-go { color: #fff; margin-top: 8px; padding: 8px 16px; width: max-content; border-radius: 999px; background: var(--c); font-size: 13.5px; opacity: .95; }
+.cs-sum { -webkit-line-clamp: 2; }
+.cs:hover .cs-go { transform: translateX(6px); }
+.cr-track { gap: 20px; padding-bottom: 22px; }
+.cr-dots button.on { width: 34px; }
+
+/* ---- onlayn ariza bandi: video fon ---- */
+.hm-q-vid { position: absolute; inset: 0; z-index: -3; width: 100%; height: 100%; object-fit: cover; }
+.hm-q { background: #14183f; }
+.hm-q::before { content: ""; position: absolute; inset: 0; z-index: -2; background: linear-gradient(120deg, rgba(168, 36, 36, .88), rgba(91, 63, 208, .74)); }
+
+@media (max-width: 960px) { .cr-slide { flex-basis: calc((100% - 20px) / 2); } }
+@media (max-width: 620px) {
+  .cr-slide { flex-basis: 86%; }
+  .cs { height: 380px; }
+  .gl-track img { width: 190px; height: 130px; border-radius: 16px; } .gl-track img.tall { height: 170px; }
+  .vb-shade { background: linear-gradient(180deg, rgba(20, 24, 63, .55), rgba(20, 24, 63, .88)); }
+}
+@media (prefers-reduced-motion: reduce) { .gl-track, .vb-in > *, .hx::before, .cs-pic img { animation: none !important; } }
+
+/* tuzatishlar */
+.vb-in { width: 100%; }
+main { overflow-x: clip; }
+.footer-cols > div:first-child { flex: 1 1 260px; }
+.footer-cols > nav, .footer-cols > div:last-child { flex: 0 1 190px; }

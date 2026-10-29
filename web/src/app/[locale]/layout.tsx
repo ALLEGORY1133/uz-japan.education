@@ -14,6 +14,7 @@ import "../lively.css";
 import "../about.css";
 import "../home.css";
 import "../home2.css";
+import "../home3.css";
 import "../cabinet.css";
 import "../assistant.css";
 import "../steady.css";

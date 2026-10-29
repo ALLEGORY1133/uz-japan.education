@@ -8,4 +8,3 @@
 .quick .qn:hover { transform: none !important; }
 .qn, .icon-card, .uni-card, .card-link, .event-card, .web-card, .af-card, .stat, .bento, .hm-card { transform: none !important; }
 .cs:hover, .hs-card:hover, .card-link:hover, .uni-card:hover, .qn:hover, .icon-card:hover { box-shadow: 0 26px 40px -26px rgba(20, 24, 63, .5); }
-.cs-pic img, .cs-pic video { animation: none; }

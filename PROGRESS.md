@@ -1,6 +1,6 @@
 # PROGRESS
 
-Oxirgi yangilanish: 2026-10-28
+Oxirgi yangilanish: 2026-10-29
 
 ## Tugagan
 - Saytda bosh sahifa, universitetlar, yangiliklar, "Biz haqimizda" (fotorealistik banner, 3 tilli), talaba kabineti.
@@ -23,6 +23,8 @@ Oxirgi yangilanish: 2026-10-28
 - CORS: localhost va 127.0.0.1 juftligi avtomatik ruxsat (127.0.0.1:3011 dan login osilib qolardi). Backend qayta ishga tushirilsin.
 - Gunicorn endi gthread (3 worker x 4 thread): sync worker brauzerning bo'sh preconnect ulanishlarida osilib qolardi (admin login/me/ javobsiz, curl esa ishlardi). Dockerfile CMD.
 - Qaltirash tuzatildi (web+admin `steady.css`, oxirida import): hover/tilt'da element o'zi siljimaydi (kursor chekkada turganda titrash sababi: element qochib-qaytishi va 3D tilt teskari aloqasi). Soya/rang/ichki animatsiya qoldi. Brauzerda tekshirilmagan.
+- Bosh sahifa v3 (home3.css, lib/demo.ts, public/demo/): rasm/video markazida. Hero → statistika kartalari → harakatdagi galereya lentasi → video band (sakura.mp4, matn ustida) → rasm ustida matnli karusel kartalar (talaba kabineti, universitetlar, yangiliklar; avto-aylanish 3.0–3.4 s) → onlayn ariza bandi (lanterns.mp4 fon). Demo tasvirlar (12 jpg + 2 mp4, ~1.5 MB) o'zim chizgan illyustratsiyalar (real foto emas — sandbox internetdan yuklay olmaydi); admin yuklagan rasm/banner/cover ustun turadi, yo'q joyda demo chiqadi (country/category bo'yicha). Skrinshot (SSR harness) bilan 1440 va 390 px tekshirilgan; haqiqiy next build qilinmagan.
+- Real foto/video qo'yish: admin panelda universitet banner, yangilik cover/video, sayt media.
 
 ## Ochiq / tekshirilmagan
 - Yordamchi mantiqi soxta (stub) ma'lumot bilan sinalgan, haqiqiy Django/DB bilan emas.

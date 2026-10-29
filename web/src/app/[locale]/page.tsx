@@ -12,6 +12,7 @@ import SmartLink from "@/components/SmartLink";
 import { getHome } from "@/lib/api";
 import { formatDate, getT, isLocale, pickPrefix } from "@/lib/i18n";
 import { mediaUrl } from "@/lib/media";
+import { DEMO, pickDemo } from "@/lib/demo";
 
 export const dynamic = "force-dynamic";
 
@@ -26,9 +27,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const studentsImg = mediaUrl(data.media.students_card?.image);
   const collabImg = mediaUrl(data.media.collab_card?.image);
 
-  const pic = (img: string | null, art: string, icon: string, color: string) => (
-    <span className={`cs-pic ${img ? "" : `art ${art}`}`} style={{ "--c": color } as CSSProperties}>
-      {img ? /* eslint-disable-next-line @next/next/no-img-element */ <img src={img} alt="" loading="lazy" /> : <i aria-hidden="true" />}
+  const pic = (img: string | null, demo: string, icon: string, color: string) => (
+    <span className="cs-pic" style={{ "--c": color } as CSSProperties}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={img || demo} alt="" loading="lazy" />
       <span className="cs-badge"><Icon name={icon} color="#fff" size={22} /></span>
     </span>
   );
@@ -57,13 +59,30 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </section>
       )}
 
-      {/* Kirish matni */}
-      <section className="wrap hm-about" id="directions">
-        <div className="hm-top">
-          <div className="hm-copy">
-            <span className="eyebrow">{t("home.s1.eyebrow")}</span>
-            <h2 className="h2 disp">{t("home.s1.title")}</h2>
-            <p>{t("home.s1.text")}</p>
+      {/* Galereya lentasi: doimiy harakatdagi rasmlar */}
+      <section className="gl" aria-hidden="true">
+        <div className="gl-track">
+          {[...DEMO.gallery, ...DEMO.gallery].map((src, i) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img key={i} src={src} alt="" loading="lazy" className={i % 3 === 1 ? "tall" : ""} />
+          ))}
+        </div>
+      </section>
+
+      {/* Video band: kirish matni */}
+      <section className="vb" id="directions">
+        <video className="vb-vid" autoPlay muted loop playsInline poster="/demo/fuji.jpg" preload="metadata">
+          <source src="/demo/sakura.mp4" type="video/mp4" />
+        </video>
+        <div className="vb-shade" aria-hidden="true" />
+        <div className="wrap vb-in">
+          <span className="eyebrow">{t("home.s1.eyebrow")}</span>
+          <h2 className="disp">{t("home.s1.title")}</h2>
+          <p>{t("home.s1.text")}</p>
+          <div className="vb-chips">
+            <SmartLink href="#students" locale={locale}>{t("nav.scholarships")}</SmartLink>
+            <SmartLink href="#cooperation" locale={locale}>{t("nav.cooperation")}</SmartLink>
+            <SmartLink href="#exchange" locale={locale}>{t("nav.news")}</SmartLink>
           </div>
         </div>
       </section>
@@ -75,14 +94,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <h2 className="h2 disp">{t("home.c1.t")}</h2>
           <p>{t("home.c1.d")}</p>
         </div>
-        <Carousel label={t("home.c1.t")} {...cr}>
+        <Carousel label={t("home.c1.t")} {...cr} auto={3200}>
           <SmartLink href={`/${locale}/cabinet`} locale={locale} className="cs">
-            {pic(studentsImg, "c1", "visa", "#e5483b")}
+            {pic(studentsImg, "/demo/desk.jpg", "visa", "#e5483b")}
             <span className="cs-body"><b>{t("home.c1.status")}</b><small>{t("cab.title")}</small><span className="cs-go">{t("home.open")} →</span></span>
           </SmartLink>
           {data.links.map((l, i) => (
             <SmartLink key={l.id} href={l.url} locale={locale} className="cs">
-              {pic(null, ["c1", "c2", "c3"][i % 3], l.icon, ["#e5483b", "#0fa896", "#5b3fd0"][i % 3])}
+              {pic(null, pickDemo(DEMO.links, i + 1), l.icon, ["#e5483b", "#0fa896", "#5b3fd0"][i % 3])}
               <span className="cs-body"><b>{l.title}</b>{l.description && <small>{l.description}</small>}<span className="cs-go">{t("home.open")} →</span></span>
             </SmartLink>
           ))}
@@ -102,13 +121,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </div>
         </div>
         {data.universities.length > 0 && (
-          <Carousel label={t("home.c2.t")} {...cr} auto={4800}>
-            {data.universities.map((u) => {
-              const banner = mediaUrl(u.banner);
+          <Carousel label={t("home.c2.t")} {...cr} auto={3000}>
+            {data.universities.map((u, ui) => {
+              const banner = mediaUrl(u.banner) || pickDemo(u.country === "jp" ? DEMO.jp : DEMO.uz, ui);
               return (
                 <SmartLink key={u.id} href={`/${locale}/universities/${u.slug}`} locale={locale} className="cs cs-uni">
-                  <span className={`cs-pic ${banner ? "" : "art c2"}`} style={{ background: banner ? undefined : `linear-gradient(135deg, ${u.brand_color}, #0fa896)` }}>
-                    {banner ? /* eslint-disable-next-line @next/next/no-img-element */ <img src={banner} alt="" loading="lazy" /> : <i aria-hidden="true" />}
+                  <span className="cs-pic">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={banner} alt="" loading="lazy" />
                     <span className="cs-mark"><UniversityMark u={u} /></span>
                     <span className={`tag ${u.admission_status} cs-tag`}>{t(`status.${u.admission_status}`)}</span>
                   </span>
@@ -145,19 +165,19 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </div>
         </div>
         {data.news.length > 0 && (
-          <Carousel label={t("home.c3.t")} {...cr} auto={6200}>
+          <Carousel label={t("home.c3.t")} {...cr} auto={3400}>
             {data.news.map((n, i) => {
-              const cover = mediaUrl(n.cover);
+              const cover = mediaUrl(n.cover) || pickDemo(DEMO[n.category as "news" | "cooperation" | "event"] || DEMO.news, i);
               const external = n.link_type === "external" && !!n.external_url;
               return (
                 <SmartLink key={n.id} href={n.href} locale={locale} className="cs cs-news">
-                  <span className={`cs-pic ${cover || n.video ? "" : `art c${(i % 3) + 1}`}`}>
+                  <span className="cs-pic">
                     {n.video ? (
                       <video src={mediaUrl(n.video) || undefined} poster={cover || undefined} muted loop autoPlay playsInline preload="metadata" />
-                    ) : cover ? (
+                    ) : (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={cover} alt="" loading="lazy" />
-                    ) : <i aria-hidden="true" />}
+                    )}
                     <span className={`tag ${n.category} cs-tag`}>{t(`news.cat.${n.category}`)}</span>
                   </span>
                   <span className="cs-body">
@@ -176,6 +196,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       {/* Onlayn ariza / savol formasi */}
       <section className="wrap hm-qw" id="online">
         <div className="hm-q">
+          <video className="hm-q-vid" autoPlay muted loop playsInline poster="/demo/lantern.jpg" preload="metadata" aria-hidden="true">
+            <source src="/demo/lanterns.mp4" type="video/mp4" />
+          </video>
           <i className="hm-q-glow" aria-hidden="true" />
           <div className="hm-q-fuji jp" aria-hidden="true">鳥居</div>
           <div className="hm-q-copy">
