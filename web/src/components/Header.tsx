@@ -16,6 +16,8 @@ export default function Header({ locale, labels, locales }: Props) {
   const pathname = usePathname() || `/${locale}`;
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [cat, setCat] = useState("");
+  useEffect(() => { setCat(new URLSearchParams(window.location.search).get("category") || ""); }, [pathname]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -33,7 +35,7 @@ export default function Header({ locale, labels, locales }: Props) {
     { href: `/${locale}#online`, label: labels.exchange },
     { href: `/${locale}#cooperation`, label: labels.cooperation },
     { href: `/${locale}/news?category=event`, label: labels.events },
-    { href: `/${locale}/news`, label: labels.news },
+    { href: `/${locale}/news?category=news`, label: labels.news },
   ];
 
   return (
@@ -47,7 +49,7 @@ export default function Header({ locale, labels, locales }: Props) {
         </Link>
         <nav className="nav" aria-label="Asosiy menyu">
           {items.map((it) => (
-            <Link key={it.href} href={it.href} aria-current={pathname === it.href.split("?")[0] ? "page" : undefined}>
+            <Link key={it.href} href={it.href} aria-current={pathname === it.href.split("?")[0] && (!it.href.includes("?category=") || it.href.endsWith(`category=${cat}`)) ? "page" : undefined}>
               {it.label}
             </Link>
           ))}

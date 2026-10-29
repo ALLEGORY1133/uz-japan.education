@@ -29,6 +29,8 @@ Oxirgi yangilanish: 2026-10-29
 - Yangiliklar bosh sahifadan olib tashlandi; /news sahifasi tepasida karusel (rasm/video, demo fallback). NewsCard ham demo fallback ishlatadi.
 - Footer ixcham: asosiy menyu ustuni olib tashlandi; faqat brend+tarmoqlar, foydali havolalar, aloqa, pastki qator.
 - Haqiqiy fotosuratlar: sandbox foto saytlariga (Unsplash/Pexels/Wikimedia) kira olmaydi — demo rasmlar chizilgan. Foydalanuvchi real foto yuklashi kerak (web/public/demo/README.md).
+- Yangiliklar karuseli bosh sahifaga qaytdi: «Biz haqimizda» video bandidan keyin (#exchange), so'ng talaba kabineti va universitetlar. Header: «Yangiliklar» → /news?category=news, «Tadbirlar» → ?category=event; faol havola kategoriya bo'yicha (ikkalasi bir vaqtda belgilanmaydi).
+- Admin yon menyu telefon rejimiga faqat ≤640px da o'tadi (oldin ≤900px: DevTools ochiq tor oynada ham yashirinardi); 641–900px oralig'ida 220px keng, doim ko'rinadi.
 
 ## Ochiq / tekshirilmagan
 - Yordamchi mantiqi soxta (stub) ma'lumot bilan sinalgan, haqiqiy Django/DB bilan emas.

@@ -97,9 +97,51 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <div className="vb-chips">
             <SmartLink href="#students" locale={locale}>{t("nav.scholarships")}</SmartLink>
             <SmartLink href="#cooperation" locale={locale}>{t("nav.cooperation")}</SmartLink>
-            <SmartLink href="/news" locale={locale}>{t("nav.news")}</SmartLink>
+            <SmartLink href="#exchange" locale={locale}>{t("nav.news")}</SmartLink>
           </div>
         </div>
+      </section>
+
+      {/* Yangiliklar, hamkorlik, tadbirlar */}
+      <section className="wrap hx" id="exchange" style={{ "--c": "#5b3fd0" } as CSSProperties}>
+        <div className="hx-head">
+          <span className="eyebrow">{t("nav.news")}</span>
+          <h2 className="h2 disp">{t("home.c3.t")}</h2>
+          <p>{t("home.c3.d")}</p>
+          <div className="hx-chips">
+            <SmartLink href="/news?category=news" locale={locale}>{t("nav.news")}</SmartLink>
+            <SmartLink href="/news?category=cooperation" locale={locale}>{t("nav.cooperation")}</SmartLink>
+            <SmartLink href="/news?category=event" locale={locale}>{t("nav.events")}</SmartLink>
+            <SmartLink href="/news" locale={locale}>{t("news.all")} →</SmartLink>
+          </div>
+        </div>
+        {data.news.length > 0 && (
+          <Carousel label={t("home.c3.t")} {...cr} auto={3400}>
+            {data.news.map((n, i) => {
+              const cover = mediaUrl(n.cover) || pickDemo(DEMO[n.category as "news" | "cooperation" | "event"] || DEMO.news, i);
+              const external = n.link_type === "external" && !!n.external_url;
+              return (
+                <SmartLink key={n.id} href={n.href} locale={locale} className="cs cs-news">
+                  <span className="cs-pic">
+                    {n.video ? (
+                      <video src={mediaUrl(n.video) || undefined} poster={cover} muted loop autoPlay playsInline preload="metadata" />
+                    ) : (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={cover} alt="" loading="lazy" />
+                    )}
+                    <span className={`tag ${n.category} cs-tag`}>{t(`news.cat.${n.category}`)}</span>
+                  </span>
+                  <span className="cs-body">
+                    <small>{formatDate(n.event_starts_at || n.published_at, locale)}</small>
+                    <b>{n.title}</b>
+                    {n.summary && <small className="cs-sum">{n.summary}</small>}
+                    <span className="cs-go">{external ? t("news.join") : t("news.read")} {external ? "↗" : "→"}</span>
+                  </span>
+                </SmartLink>
+              );
+            })}
+          </Carousel>
+        )}
       </section>
 
       {/* 1) Talaba kabineti */}
