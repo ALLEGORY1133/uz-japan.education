@@ -31,7 +31,7 @@ PAGES = [
         ],
     },
     {
-        "key": "updates", "label": "Sayt yangiliklari", "path": "/updates",
+        "key": "updates", "label": "Sayt yangiliklari", "path": "/news?tab=3",
         "sections": [
             {"key": "updates.head", "label": "Sahifa boshi", "hint": "Sarlavha, matn va fon rasmi.", "fields": ["title", "text", "image"]},
         ],
@@ -55,7 +55,7 @@ PAGES = [
         ],
     },
     {
-        "key": "events", "label": "Tadbirlar", "path": "/events",
+        "key": "events", "label": "Tadbirlar", "path": "/news?tab=2",
         "sections": [
             {"key": "events.head", "label": "Sahifa boshi", "hint": "Sarlavha, matn va fon rasmi.", "fields": ["title", "text", "image"]},
         ],

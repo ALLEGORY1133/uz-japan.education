@@ -1,9 +1,14 @@
+from django.conf import settings
+from django.db.models import Count, Q
 from django.utils import timezone
 from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from apps.core.alphabet import to_new_alphabet
 from apps.universities.models import University, UsefulLink
 from apps.universities.serializers import PublicLinkSerializer, UniversityListSerializer
 
@@ -58,13 +63,44 @@ class HomeView(APIView):
         return Response(data)
 
 
+class NewsPagination(PageNumberPagination):
+    page_size = 100  # eski so'rovlar uchun; sayt ?page_size=12 bilan sahifalaydi
+    page_size_query_param = "page_size"
+    max_page_size = 100
+
+
+def search_news(qs, q):
+    """Sarlavha/mazmun/matn bo'yicha barcha tillarda qidirish (?q=). Eski alifboda yozilsa ham topadi."""
+    q = (q or "").strip()[:100]
+    if not q:
+        return qs
+    cond = Q()
+    for w in {q, to_new_alphabet(q)}:
+        for f in ("title", "summary", "body"):
+            for lang in settings.MODELTRANSLATION_LANGUAGES:
+                cond |= Q(**{f"{f}_{lang}__icontains": w})
+    return qs.filter(cond)
+
+
 class PublicNewsViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [AllowAny]
     lookup_field = "slug"
     filterset_fields = ["category"]
+    pagination_class = NewsPagination
 
     def get_queryset(self):
-        return News.objects.filter(is_published=True).prefetch_related("media")
+        qs = News.objects.filter(is_published=True).prefetch_related("media")
+        if self.action == "list":
+            qs = search_news(qs, self.request.query_params.get("q"))
+        return qs
+
+    @action(detail=False)
+    def counts(self, request):
+        """Yangiliklar sahifasi tablari uchun: har bir turkumda nechta yozuv (qidiruv hisobga olinadi)."""
+        qs = search_news(News.objects.filter(is_published=True), request.query_params.get("q"))
+        out = {c: 0 for c in News.Category.values}
+        out.update({r["category"]: r["n"] for r in qs.values("category").annotate(n=Count("id")).order_by()})
+        return Response(out)
 
     def get_serializer_class(self):
         return PublicNewsDetailSerializer if self.action == "retrieve" else PublicNewsListSerializer

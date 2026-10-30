@@ -56,13 +56,14 @@ async function dropDisk(key: string) {
   } catch {}
 }
 
-async function get<T>(apiPath: string, locale: Locale): Promise<T> {
+/** store=false — keshga yozilmaydi (qidiruv so'rovlari: har xil matn diskni to'ldirib yubormasin). */
+async function get<T>(apiPath: string, locale: Locale, store = true): Promise<T> {
   const sep = apiPath.includes("?") ? "&" : "?";
   const key = `${locale}|${apiPath}`;
   const now = Date.now();
 
-  let entry = mem.get(key) || null;
-  if (!entry) {
+  let entry = store ? mem.get(key) || null : null;
+  if (!entry && store) {
     entry = await readDisk(key);
     if (entry) mem.set(key, entry);
   }
@@ -99,9 +100,11 @@ async function get<T>(apiPath: string, locale: Locale): Promise<T> {
     }
     const data = await res.json();
     downUntil = 0;
-    const e = { at: Date.now(), data };
-    mem.set(key, e);
-    writeDisk(key, e);
+    if (store) {
+      const e = { at: Date.now(), data };
+      mem.set(key, e);
+      writeDisk(key, e);
+    }
     return data as T;
   } catch (err: any) {
     if (typeof err?.status === "number" && err.status < 500) throw err;
@@ -136,6 +139,33 @@ export async function getNews(locale: Locale, category?: string) {
     locale,
   );
   return data.results;
+}
+
+export type NewsPage = { count: number; results: NewsItem[] };
+
+/** Yangiliklar sahifasi: turkum + qidiruv + sahifalash. Mavjud bo'lmagan sahifa (404) — bo'sh ro'yxat. */
+export async function getNewsPage(
+  locale: Locale,
+  p: { category: string; q?: string; page?: number; size?: number },
+): Promise<NewsPage> {
+  const qs = new URLSearchParams({ category: p.category, page_size: String(p.size || 12) });
+  if (p.q) qs.set("q", p.q);
+  if (p.page && p.page > 1) qs.set("page", String(p.page));
+  try {
+    return await get<NewsPage>(`/news/?${qs}`, locale, !p.q);
+  } catch (err: any) {
+    if (err?.status === 404) return { count: 0, results: [] };
+    throw err;
+  }
+}
+
+/** Tablar yonidagi sonlar: {news, event, platform, cooperation}. */
+export async function getNewsCounts(locale: Locale, q = ""): Promise<Record<string, number>> {
+  try {
+    return await get<Record<string, number>>(`/news/counts/${q ? `?q=${encodeURIComponent(q)}` : ""}`, locale, !q);
+  } catch {
+    return {};
+  }
 }
 
 export const getNewsItem = (locale: Locale, slug: string) =>

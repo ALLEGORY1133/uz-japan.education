@@ -1,0 +1,33 @@
+/* ============ /news: qidiruv, tablar, sahifalash ============ */
+.nh { padding-top: 32px; }
+.nh-search { display: flex; align-items: center; gap: 10px; max-width: 760px; margin: 0 auto; padding: 6px 6px 6px 18px; border-radius: 16px; background: #fff; border: 1px solid var(--line); box-shadow: 0 12px 30px -22px rgba(20, 24, 63, .35); color: var(--muted); }
+.nh-search:focus-within { border-color: var(--red); }
+.nh-search input[type="search"] { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: 15px; color: var(--ink); padding: 10px 0; }
+.nh-search button { flex: none; border: 0; border-radius: 12px; padding: 11px 20px; background: var(--red); color: #fff; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; transition: background .2s; }
+.nh-search button:hover { background: var(--red-dark); }
+
+.nh-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 22px 0 26px; }
+.nh-tab { display: inline-flex; align-items: center; gap: 10px; padding: 10px 18px; border-radius: 999px; background: #fff; border: 1px solid var(--line); color: var(--ink); font-size: 14.5px; font-weight: 700; transition: background .2s, color .2s, border-color .2s; }
+.nh-tab b { min-width: 26px; padding: 2px 8px; border-radius: 999px; background: var(--bg); color: var(--muted); font-size: 12px; text-align: center; }
+.nh-tab:hover { border-color: var(--red); }
+.nh-tab[aria-current="page"] { background: var(--red); border-color: var(--red); color: #fff; }
+.nh-tab[aria-current="page"] b { background: rgba(255, 255, 255, .22); color: #fff; }
+
+.nh-found { margin: -8px 0 18px; text-align: center; color: var(--muted); font-size: 14px; }
+
+.nh-pager { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px; margin: 34px 0 8px; }
+.nh-pager a, .nh-pager span { min-width: 40px; height: 40px; padding: 0 12px; display: inline-grid; place-items: center; border-radius: 10px; font-size: 14px; font-weight: 700; }
+.nh-pager a { background: #fff; border: 1px solid var(--line); color: var(--ink); }
+.nh-pager a:hover { border-color: var(--red); color: var(--red-dark); }
+.nh-pager a[aria-current="page"] { background: var(--red); border-color: var(--red); color: #fff; }
+.nh-pager .off { color: var(--muted); opacity: .5; }
+.nh-pager .gap { min-width: 20px; padding: 0; color: var(--muted); }
+
+.tag.platform { background: #fff4dc; color: #9a5b00; }
+
+@media (max-width: 560px) {
+  .nh-search { padding-left: 14px; }
+  .nh-search button { padding: 11px 14px; }
+  .nh-tabs { justify-content: flex-start; flex-wrap: nowrap; overflow-x: auto; margin-left: -16px; margin-right: -16px; padding: 0 16px 4px; scrollbar-width: none; }
+  .nh-tab { flex: none; }
+}

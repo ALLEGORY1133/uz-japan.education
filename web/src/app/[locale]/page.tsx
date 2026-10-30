@@ -137,7 +137,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <aside className="vb-ev" aria-label={upTitle}>
               <div className="vb-ev-head">
                 <h3>{upTitle}</h3>
-                <SmartLink href="/updates" locale={locale}>{t("home.up.all")} →</SmartLink>
+                <SmartLink href="/news?tab=3" locale={locale}>{t("home.up.all")} →</SmartLink>
               </div>
               <Carousel label={upTitle} {...cr} auto={4200} className="cr-dark ev-cr">
                 {updates.map((n, i) => {
@@ -177,7 +177,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <div className="hx-chips">
             <SmartLink href="/news" locale={locale}>{t("nav.news")}</SmartLink>
             <SmartLink href="/cooperation" locale={locale}>{t("nav.cooperation")}</SmartLink>
-            <SmartLink href="/events" locale={locale}>{t("nav.events")}</SmartLink>
+            <SmartLink href="/news?tab=2" locale={locale}>{t("nav.events")}</SmartLink>
             <SmartLink href="/news" locale={locale}>{t("news.all")} →</SmartLink>
           </div>
         </div>

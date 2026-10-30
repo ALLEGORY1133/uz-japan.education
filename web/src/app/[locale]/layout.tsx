@@ -20,6 +20,7 @@ import "../assistant.css";
 import "../steady.css";
 import "../natural.css";
 import "../original.css";
+import "../newshub.css";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Assistant from "@/components/Assistant";

@@ -1,16 +1,11 @@
-import { notFound } from "next/navigation";
-import NewsListPage, { listMeta } from "@/components/NewsListPage";
+import { notFound, redirect } from "next/navigation";
 import { isLocale } from "@/lib/i18n";
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale } = await params;
-  return isLocale(locale) ? listMeta("platform", locale) : { title: "updates" };
-}
-
+/** E'lonlar (sayt yangiliklari) endi /news sahifasidagi 3-tab (eski havolalar ishlayversin; maqola sahifasi o'z joyida). */
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  return <NewsListPage locale={locale} kind="platform" />;
+  redirect(`/${locale}/news?tab=3`);
 }

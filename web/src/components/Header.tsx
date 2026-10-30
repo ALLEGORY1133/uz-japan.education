@@ -32,9 +32,7 @@ export default function Header({ locale, labels, locales }: Props) {
     { href: `/${locale}#students`, label: labels.scholarships },
     { href: `/${locale}#online`, label: labels.exchange },
     { href: `/${locale}/cooperation`, label: labels.cooperation },
-    { href: `/${locale}/events`, label: labels.events },
-    { href: `/${locale}/news`, label: labels.news },
-    { href: `/${locale}/updates`, label: labels.updates },
+    { href: `/${locale}/news`, label: labels.news }, // ichida tablar: yangiliklar, tadbirlar, e'lonlar
   ];
 
   return (

@@ -54,7 +54,7 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ loc
   const t = getT(locale);
   const n = await load(locale, slug);
   const cover = mediaUrl(n.cover);
-  const back = ({ platform: { path: "updates", nav: "nav.updates" }, event: { path: "events", nav: "nav.events" }, cooperation: { path: "cooperation", nav: "nav.cooperation" } } as Record<string, { path: string; nav: string }>)[n.category] || { path: "news", nav: "nav.news" };
+  const back = ({ platform: { path: "news?tab=3", nav: "nav.updates" }, event: { path: "news?tab=2", nav: "nav.events" }, cooperation: { path: "cooperation", nav: "nav.cooperation" } } as Record<string, { path: string; nav: string }>)[n.category] || { path: "news", nav: "nav.news" };
 
   return (
     <main>
