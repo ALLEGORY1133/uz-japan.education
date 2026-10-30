@@ -1,5 +1,6 @@
 services:
   db:
+    restart: unless-stopped
     image: postgres:16-alpine
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-uzjapan}
@@ -14,6 +15,7 @@ services:
       retries: 10
 
   backend:
+    restart: unless-stopped
     build: ./backend
     environment:
       DATABASE_URL: postgres://${POSTGRES_USER:-uzjapan}:${POSTGRES_PASSWORD:-uzjapan}@db:5432/${POSTGRES_DB:-uzjapan}
@@ -62,6 +64,7 @@ services:
       start_period: 180s
 
   web:
+    restart: unless-stopped
     build:
       context: ./web
       args:
@@ -80,6 +83,7 @@ services:
       - "${WEB_PORT:-3000}:3000"
 
   admin:
+    restart: unless-stopped
     build:
       context: ./admin
       args:
