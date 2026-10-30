@@ -60,7 +60,8 @@
 
 /* tugmalar: yumshoq nafas olish (asosiy CTA) */
 .btn-primary { box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--red) 80%, transparent); }
-.hero .btn-primary { animation: lv-breathe 3.2s ease-in-out infinite; }
+/* box-shadow pulsatsiyasi har kadrda qayta chizilardi — statik soya */
+.hero .btn-primary { box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--red) 80%, transparent); }
 .btn-primary:hover, .btn-white:hover, .btn-dark:hover { box-shadow: 0 16px 28px -12px rgba(21, 19, 43, .45); }
 
 @keyframes lv-drift { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(-14px, 12px) scale(1.18); } }

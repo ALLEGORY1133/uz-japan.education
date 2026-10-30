@@ -128,6 +128,19 @@ export default function HeroSlider({ slides, locale, labels }: Props) {
   const [paused, setPaused] = useState(false);
   const [tick, setTick] = useState(0); // progress animatsiyasini qayta boshlash uchun
   const touchX = useRef<number | null>(null);
+  const root = useRef<HTMLElement>(null);
+  const [off, setOff] = useState(false); // hero ekrandan chiqqan — animatsiya va avto-aylanish to'xtaydi
+
+  useEffect(() => {
+    const el = root.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => {
+      setOff(!e.isIntersecting);
+      if (e.isIntersecting) setTick((v) => v + 1); // qaytganda progress va taymer birga qaytadan boshlanadi
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const go = useCallback(
     (i: number) => {
@@ -138,17 +151,17 @@ export default function HeroSlider({ slides, locale, labels }: Props) {
   );
 
   useEffect(() => {
-    if (paused || n < 2) return;
+    if (paused || off || n < 2) return;
     const id = window.setTimeout(() => go(index + 1), DURATION);
     return () => window.clearTimeout(id);
-  }, [index, tick, paused, n, go]);
+  }, [index, tick, paused, off, n, go]);
 
   if (n === 0) return null;
 
   const pad = (v: number) => String(v).padStart(2, "0");
 
   return (
-    <section className="hero" aria-roledescription="carousel">
+    <section ref={root} className={`hero${off ? " hero-off" : ""}`} aria-roledescription="carousel">
       <div
         className="hero-stage"
         onTouchStart={(e) => {

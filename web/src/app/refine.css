@@ -337,17 +337,20 @@ a, button { -webkit-tap-highlight-color: transparent; }
 
 /* ============ Hero: yangi standart fon (aurora) ============ */
 .aurora{position:absolute;inset:0;overflow:hidden;animation:none!important;transform:none!important}
-.aurora .blob{position:absolute;width:62vmax;height:62vmax;border-radius:50%;filter:blur(90px);opacity:.5;animation:blobf 20s ease-in-out infinite alternate;will-change:transform}
+/* blur(90px) o'rniga gradient: ulkan qatlamni har kadrda xiralashtirish GPU'ni qotirardi */
+.aurora .blob{position:absolute;width:62vmax;height:62vmax;border-radius:50%;background:radial-gradient(closest-side,var(--bc) 55%,transparent);opacity:.5;animation:blobf 20s ease-in-out infinite alternate;will-change:transform}
 .aurora .b1{right:-16vmax;top:-22vmax}
 .aurora .b2{left:-20vmax;bottom:-30vmax;animation-delay:-7s}
 .aurora .b3{left:28%;top:18%;width:38vmax;height:38vmax;opacity:.34;animation-delay:-12s}
-.a-sunset .b1{background:#ff7a59}.a-sunset .b2{background:#7b3fa0}.a-sunset .b3{background:#ffc06b}
-.a-teal .b1{background:#17c3b2}.a-teal .b2{background:#0a5f86}.a-teal .b3{background:#f3d486}
-.a-violet .b1{background:#7a6bff}.a-violet .b2{background:#0fa896}.a-violet .b3{background:#ff7d6a}
+.a-sunset .b1{--bc:#ff7a59}.a-sunset .b2{--bc:#7b3fa0}.a-sunset .b3{--bc:#ffc06b}
+.a-teal .b1{--bc:#17c3b2}.a-teal .b2{--bc:#0a5f86}.a-teal .b3{--bc:#f3d486}
+.a-violet .b1{--bc:#7a6bff}.a-violet .b2{--bc:#0fa896}.a-violet .b3{--bc:#ff7d6a}
 @keyframes blobf{to{transform:translate3d(-6vmax,5vmax,0) scale(1.14)}}
 .aurora .gridfx{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.26) 1px,transparent 1.3px);background-size:30px 30px;-webkit-mask-image:radial-gradient(75% 85% at 78% 45%,#000,transparent 75%);mask-image:radial-gradient(75% 85% at 78% 45%,#000,transparent 75%)}
 .aurora .ring-wrap{position:absolute;top:50%;right:max(-6vw,calc((100vw - var(--wrap)) / 2 - 150px));width:min(37vw,540px);aspect-ratio:1;transform:translateY(-54%);color:#fff;z-index:1;opacity:.92}
-.aurora .ring{display:block;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 26px rgba(255,255,255,.22))}
+.aurora .ring{position:relative;display:block;width:100%;height:100%}
+.aurora .ring-l{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.aurora .ring-l.spin-a,.aurora .ring-l.spin-b,.aurora .ring-l.sun-core{will-change:transform}
 .aurora .spin-a,.aurora .spin-b{transform-box:view-box;transform-origin:center;animation:spin 70s linear infinite}
 .aurora .spin-b{animation-duration:110s;animation-direction:reverse}
 .aurora .sun-core{animation:breathe 7s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
@@ -355,6 +358,8 @@ a, button { -webkit-tap-highlight-color: transparent; }
 .aurora .glyph{position:absolute;right:max(1%,calc((100vw - var(--wrap)) / 2 - 20px));bottom:6%;font-size:clamp(170px,24vw,380px);line-height:.9;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.14);z-index:0;user-select:none}
 @media (max-width:900px){.aurora .ring-wrap{width:92vw;right:-34vw;opacity:.32}.aurora .glyph{opacity:.5;right:-4%}}
 @media (prefers-reduced-motion:reduce){.aurora .blob,.aurora .spin-a,.aurora .spin-b,.aurora .sun-core{animation:none}}
+/* Ko'rinmaydigan slaydlar va ekrandan chiqqan hero animatsiyasi to'xtaydi (CPU/GPU tejash) */
+.hero .slide:not(.active) *,.hero.hero-off *{animation-play-state:paused!important}
 
 /* ============ Hero: yuklangan rasm/video sifati ============ */
 .slide-media{opacity:0;transition:opacity .9s ease;object-fit:cover;object-position:center;backface-visibility:hidden}

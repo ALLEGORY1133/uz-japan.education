@@ -102,9 +102,9 @@ button { font-family: inherit; }
 .hero-progress small { display: block; font-size: 12px; font-weight: 700; letter-spacing: .08em; margin-bottom: 8px; opacity: .6; }
 .hero-progress button[aria-current="true"] small { opacity: 1; }
 .hero-progress .bar { height: 4px; border-radius: 4px; background: rgba(255, 255, 255, .28); overflow: hidden; }
-.hero-progress .bar i { display: block; height: 100%; width: 0; background: #fff; }
+.hero-progress .bar i { display: block; height: 100%; width: 100%; background: #fff; transform: scaleX(0); transform-origin: left; }
 .hero-progress button[aria-current="true"] .bar i { animation: fill var(--dur, 6500ms) linear forwards; animation-play-state: var(--play, running); }
-@keyframes fill { from { width: 0 } to { width: 100% } }
+@keyframes fill { from { transform: scaleX(0) } to { transform: scaleX(1) } }
 .circle-btn { width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, .6); background: rgba(255, 255, 255, .1); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
 .circle-btn.solid { background: #fff; border-color: #fff; }
 .hero-btns { display: flex; gap: 10px; }

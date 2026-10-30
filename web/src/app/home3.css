@@ -137,7 +137,8 @@ main { overflow-x: clip; }
 .ev-card:hover .ev-pic img, .ev-card:hover .ev-pic video { transform: scale(1.07); }
 .ev-date { position: absolute; left: 12px; top: 12px; display: grid; place-items: center; min-width: 52px; padding: 6px 8px; border-radius: 12px; background: #fff; color: var(--navy); line-height: 1.05; box-shadow: 0 10px 20px -10px rgba(0, 0, 0, .5); }
 .ev-date b { font-size: 20px; font-weight: 800; } .ev-date em { font-style: normal; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #e5483b; }
-.ev-left { position: absolute; right: 12px; top: 12px; padding: 5px 11px; border-radius: 999px; font-size: 12px; font-weight: 800; background: #e5483b; color: #fff; animation: ev-pulse 2.4s ease-in-out infinite; }
+.ev-left { position: absolute; right: 12px; top: 12px; padding: 5px 11px; border-radius: 999px; font-size: 12px; font-weight: 800; background: #e5483b; color: #fff; isolation: isolate; }
+.ev-left::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: rgba(229, 72, 59, .55); animation: ev-pulse 2.4s ease-in-out infinite; will-change: transform, opacity; }
 .ev-body { display: flex; flex-direction: column; gap: 5px; padding: 14px 16px 16px; }
 .ev-body b { font-size: 16.5px; line-height: 1.3; }
 .ev-body small { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #d9d5f2; }
@@ -145,6 +146,7 @@ main { overflow-x: clip; }
 .ev-go { margin-top: 4px; font-size: 13.5px; font-weight: 800; color: #9af0e4; }
 @keyframes vb-ev-in { from { opacity: 0; transform: translateX(40px) scale(.97); } to { opacity: 1; transform: none; } }
 @keyframes ev-pop { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-@keyframes ev-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(229, 72, 59, .55); } 50% { box-shadow: 0 0 0 8px rgba(229, 72, 59, 0); } }
+/* faqat transform/opacity — GPU'da, qayta chizishsiz */
+@keyframes ev-pulse { 0% { transform: scale(1); opacity: 1; } 70%, 100% { transform: scale(1.35, 1.7); opacity: 0; } }
 @media (max-width: 960px) { .vb-in.vb-2 { grid-template-columns: 1fr; } .vb-has-ev .vb-shade { background: linear-gradient(180deg, rgba(20, 24, 63, .7), rgba(20, 24, 63, .92)); } }
-@media (prefers-reduced-motion: reduce) { .vb-copy > *, .vb-info li, .vb-ev, .ev-card, .ev-left { animation: none !important; } }
+@media (prefers-reduced-motion: reduce) { .vb-copy > *, .vb-info li, .vb-ev, .ev-card, .ev-left, .ev-left::before { animation: none !important; } }
