@@ -49,31 +49,42 @@ function OperatorsCard() {
 
   if (!ops) return null;
   return (
-    <div className="card" style={{ marginTop: 18 }}>
-      <h2 style={{ margin: "0 0 4px", fontSize: 18 }}>Aloqa operatorlari</h2>
-      <p className="muted" style={{ margin: "0 0 14px" }}>Xodimni bazadan tanlang (ism va lavozim avtomatik töladi) yoki qöl bilan yozing. Footerda ikonkalar bilan körinadi. Har biriga telefon yoki Telegram kiriting (ko‘pi bilan 8 ta).</p>
+    <div className="card op-card">
+      <div className="op-head">
+        <div>
+          <h2>Aloqa operatorlari</h2>
+          <p className="muted">Faqat <b>admin panel footerida</b> körinadi (sayt footerida emas). Xodimni bazadan tanlang yoki qöl bilan yozing. Har biriga telefon yoki Telegram kiriting (köpi bilan 8 ta).</p>
+        </div>
+      </div>
       {msg && <div className={`notice ${msg.ok ? "ok" : "err"}`}>{msg.text}</div>}
       <datalist id="op-roles">{cand.roles.map((r) => <option key={r} value={r} />)}</datalist>
-      {ops.map((o, i) => (
-        <div key={i} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr)) auto", gap: 8, marginBottom: 8, alignItems: "center" }}>
-          <select
-            aria-label="Bazadagi xodimni tanlaş"
-            value=""
-            onChange={(e) => {
-              const u = cand.users.find((x) => String(x.id) === e.target.value);
-              if (u) setOps((s) => s!.map((o, j) => (j === i ? { ...o, name: u.name, role: u.role } : o)));
-            }}
-          >
-            <option value="">Xodimni tanlaş…</option>
-            {cand.users.map((u) => <option key={u.id} value={u.id}>{u.name} — {u.role}</option>)}
-          </select>
-          <input placeholder="Ismi" value={o.name} onChange={(e) => set(i, "name", e.target.value)} aria-label="Operator ismi" />
-          <input placeholder="Lavozimi (ixtiyoriy)" list="op-roles" value={o.role} onChange={(e) => set(i, "role", e.target.value)} aria-label="Lavozimi" />
-          <input placeholder="+998 90 123 45 67" value={o.phone} onChange={(e) => set(i, "phone", e.target.value)} aria-label="Telefon" />
-          <input placeholder="@telegram" value={o.telegram} onChange={(e) => set(i, "telegram", e.target.value)} aria-label="Telegram" />
-          <button type="button" className="btn ghost" onClick={() => setOps(ops.filter((_, j) => j !== i))} aria-label="Operatorni öçiriş">✕</button>
-        </div>
-      ))}
+      <div className="op-list">
+        {ops.map((o, i) => (
+          <div key={i} className="op-row">
+            <div className="op-row-head">
+              <span className="op-n">{i + 1}</span>
+              <select
+                aria-label="Bazadagi xodimni tanlaş"
+                value=""
+                onChange={(e) => {
+                  const u = cand.users.find((x) => String(x.id) === e.target.value);
+                  if (u) setOps((s) => s!.map((o, j) => (j === i ? { ...o, name: u.name, role: u.role } : o)));
+                }}
+              >
+                <option value="">Bazadan xodim tanlaş…</option>
+                {cand.users.map((u) => <option key={u.id} value={u.id}>{u.name} — {u.role}</option>)}
+              </select>
+              <button type="button" className="btn ghost sm" onClick={() => setOps(ops.filter((_, j) => j !== i))} aria-label="Operatorni öçiriş">Öçiriş</button>
+            </div>
+            <div className="op-fields">
+              <label className="field"><span className="label">Ismi</span><input placeholder="Ism familiya" value={o.name} onChange={(e) => set(i, "name", e.target.value)} /></label>
+              <label className="field"><span className="label">Lavozimi</span><input placeholder="Ixtiyoriy" list="op-roles" value={o.role} onChange={(e) => set(i, "role", e.target.value)} /></label>
+              <label className="field"><span className="label">Telefon</span><input placeholder="+998 90 123 45 67" value={o.phone} onChange={(e) => set(i, "phone", e.target.value)} /></label>
+              <label className="field"><span className="label">Telegram</span><input placeholder="@username" value={o.telegram} onChange={(e) => set(i, "telegram", e.target.value)} /></label>
+            </div>
+          </div>
+        ))}
+      </div>
       <div className="form-foot">
         {ops.length < 8 && <button type="button" className="btn ghost" onClick={() => setOps([...ops, { ...EMPTY_OP }])}>+ Operator qöşiş</button>}
         <button type="button" className="btn primary" disabled={busy} onClick={save}>{busy ? "Saqlanmoqda…" : "Saqlaş"}</button>
@@ -111,7 +122,7 @@ export default function SettingsPage() {
   return (
     <>
       <div className="page-head">
-        <div><h1>Sozlamalar</h1><p>Sayt footer’idagi aloqa ma’lumotlari va ijtimoiy tarmoq havolalari. «Foydali havolalar» alohida bölimda.</p></div>
+        <div><h1>Sozlamalar</h1><p>Sayt footer’idagi aloqa ma’lumotlari (email, telefon, manzil) va ijtimoiy tarmoq havolalari. «Foydali havolalar» alohida bölimda.</p></div>
       </div>
       {!values ? <p className="muted">Yuklanmoqda…</p> : (
         <form className="card" onSubmit={submit}>

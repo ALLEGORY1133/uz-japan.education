@@ -111,3 +111,13 @@ class SiteContentTests(TestCase):
         self.assertEqual(got["h-event"], "/events/h-event")
         self.assertEqual(got["h-cooperation"], "/cooperation/h-cooperation")
         self.assertEqual(got["h-news"], "/news/h-news")
+
+    def test_operators_not_in_public_settings(self):
+        from apps.content.models import SiteSettings
+
+        s = SiteSettings.load()
+        s.operators = [{"name": "A", "role": "", "phone": "+998901112233", "telegram": ""}]
+        s.save()
+        pub = self.api.get("/api/public/home/").json()["settings"]
+        self.assertNotIn("operators", pub)
+        self.assertEqual(self.api.get("/api/admin/operators/").json()[0]["name"], "A")

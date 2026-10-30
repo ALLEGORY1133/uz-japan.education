@@ -65,3 +65,19 @@ export const TelegramIcon = ({ size = 16 }: { size?: number }) => (
 export const HeadsetIcon = ({ size = 18 }: { size?: number }) => (
   <Svg24 size={size}><path d="M4 14v-2a8 8 0 0 1 16 0v2" /><path d="M4 14h3v5H5a1 1 0 0 1-1-1zM20 14h-3v5h2a1 1 0 0 0 1-1z" /><path d="M17 19c0 1.5-2 2-5 2" /></Svg24>
 );
+
+export const MailIcon = ({ size = 18 }: { size?: number }) => (
+  <Svg24 size={size}><rect x="3" y="5" width="18" height="14" rx="3" /><path d="M3.5 7.5l8.5 6 8.5-6" /></Svg24>
+);
+export const PinIcon = ({ size = 18 }: { size?: number }) => (
+  <Svg24 size={size}><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z" /><circle cx="12" cy="10" r="2.4" /></Svg24>
+);
+export const InstagramIcon = ({ size = 20 }: { size?: number }) => (
+  <Svg24 size={size}><rect x="3.5" y="3.5" width="17" height="17" rx="5" /><circle cx="12" cy="12" r="3.9" /><circle cx="17.1" cy="6.9" r=".6" fill="currentColor" /></Svg24>
+);
+export const YouTubeIcon = ({ size = 20 }: { size?: number }) => (
+  <Svg24 size={size}><rect x="2.5" y="5.5" width="19" height="13" rx="4" /><path d="M10 9.4v5.2l4.4-2.6z" fill="currentColor" /></Svg24>
+);
+export const LinkedInIcon = ({ size = 20 }: { size?: number }) => (
+  <Svg24 size={size}><rect x="3.5" y="3.5" width="17" height="17" rx="3.5" /><path d="M8 10.5V16M8 7.8v.1M12 16v-5.5M12 13a2.6 2.6 0 0 1 5.2 0V16" /></Svg24>
+);

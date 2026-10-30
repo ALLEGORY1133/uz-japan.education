@@ -85,7 +85,6 @@ class PublicSiteSettingsSerializer(BaseModelSerializer):
         fields = [
             "contact_email", "contact_phone", "address",
             "telegram_url", "youtube_url", "linkedin_url", "instagram_url",
-            "operators",
         ]
 
 

@@ -24,23 +24,29 @@ const HeadsetIcon = ({ size = 18 }: { size?: number }) => (
 export const tgHref = (v: string) => (/^https?:\/\//i.test(v) ? v : `https://t.me/${v.replace(/^@/, "")}`);
 export const tgText = (v: string) => (/^https?:\/\//i.test(v) ? v.replace(/^https?:\/\/(t\.me|telegram\.me)\//i, "@") : `@${v.replace(/^@/, "")}`);
 
-/** Admin footeridagi aloqa operatorlari. */
+const initials = (n: string) => n.trim().split(/\s+/).slice(0, 2).map((w) => w[0]?.toUpperCase() || "").join("") || "•";
+
+/** Faqat admin panel footerida: aloqa operatorlari (sayt footerida ko'rsatilmaydi). */
 export default function Operators({ items }: { items: Operator[] }) {
   const list = items.filter((o) => o.phone || o.telegram);
   if (!list.length) return null;
   return (
     <section className="af-ops" aria-label="Aloqa operatorlari">
-      <b className="af-ops-title">Aloqa operatorlari</b>
+      <div className="af-ops-head">
+        <span className="af-ops-ic"><HeadsetIcon size={16} /></span>
+        <b className="af-ops-title">Aloqa operatorlari</b>
+        <small>Savol bölsa — bevosita bog’laniş</small>
+      </div>
       <ul>
         {list.map((o, i) => (
           <li key={i} className="af-op">
-            <span className="af-op-ic"><HeadsetIcon size={18} /></span>
+            <span className="af-op-av" aria-hidden="true">{initials(o.name || o.role)}</span>
             <span className="af-op-body">
-              {o.name && <b>{o.name}</b>}
+              <b>{o.name || "Operator"}</b>
               {o.role && <small>{o.role}</small>}
               <span className="af-op-links">
-                {o.phone && <a href={`tel:${o.phone.replace(/[^\d+]/g, "")}`}><PhoneIcon />{o.phone}</a>}
-                {o.telegram && <a href={tgHref(o.telegram)} target="_blank" rel="noopener noreferrer"><TelegramIcon />{tgText(o.telegram)}</a>}
+                {o.phone && <a href={`tel:${o.phone.replace(/[^\d+]/g, "")}`}><PhoneIcon size={14} />{o.phone}</a>}
+                {o.telegram && <a className="tg" href={tgHref(o.telegram)} target="_blank" rel="noopener noreferrer"><TelegramIcon size={14} />{tgText(o.telegram)}</a>}
               </span>
             </span>
           </li>

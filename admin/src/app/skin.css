@@ -536,3 +536,33 @@ h1, h2, h3 { font-weight: 800; letter-spacing: -.02em; }
 .pg-thumb img, .pg-thumb video { width: 100%; height: 100%; object-fit: cover; }
 .pg-act { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 @media (max-width: 640px) { .pg-fields { grid-template-columns: 1fr; } }
+
+/* Admin footer: aloqa operatorlari (yangi dizayn) */
+.af-ops { margin-bottom: 14px; padding: 14px; border-radius: 16px; background: #fff; border: 1px solid #e7e4f0; box-shadow: 0 10px 24px -22px rgba(20, 24, 63, .5); }
+.af-ops-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.af-ops-ic { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: #efecff; color: #4b3ae3; }
+.af-ops-title { margin: 0; font-size: 14px; letter-spacing: 0; text-transform: none; color: #1b1840; }
+.af-ops-head small { color: #8a86a6; font-size: 12px; }
+.af-ops ul { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px; }
+.af-op { align-items: center; gap: 12px; padding: 11px 12px; border-radius: 14px; background: #faf9ff; border: 1px solid #ece9f7; }
+.af-op-av { flex: none; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-size: 14px; font-weight: 800; color: #fff; background: linear-gradient(140deg, #4b3ae3, #7a5cf0); }
+.af-op:nth-child(3n+2) .af-op-av { background: linear-gradient(140deg, #0fa896, #2bc3b0); }
+.af-op:nth-child(3n) .af-op-av { background: linear-gradient(140deg, #e5483b, #f07a4a); }
+.af-op-body b { font-size: 13.5px; }
+.af-op-links { gap: 6px; margin-top: 5px; }
+.af-op-links a { padding: 3px 9px; border-radius: 999px; background: #efecff; color: #4b3ae3; font-size: 12px; }
+.af-op-links a.tg { background: #e3f3fb; color: #1e7fb3; }
+.af-op-links a:hover { filter: brightness(.95); }
+
+/* Sozlamalar: operator tahrirlash kartasi */
+.op-card { margin-top: 18px; }
+.op-head h2 { margin: 0 0 4px; font-size: 18px; }
+.op-head p { margin: 0 0 14px; }
+.op-list { display: grid; gap: 12px; }
+.op-row { padding: 14px; border-radius: 14px; border: 1px solid #e7e4f0; background: #faf9ff; }
+.op-row-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.op-row-head select { flex: 1; min-width: 0; }
+.op-n { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 800; color: #fff; background: #4b3ae3; }
+.op-fields { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 900px) { .op-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .op-fields { grid-template-columns: 1fr; } }

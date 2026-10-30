@@ -1,10 +1,7 @@
-import { HeadsetIcon, Logo, PhoneIcon, TelegramIcon } from "./Icons";
+import { InstagramIcon, LinkedInIcon, Logo, MailIcon, PhoneIcon, PinIcon, TelegramIcon, YouTubeIcon } from "./Icons";
 import type { TFn } from "@/lib/i18n";
 import SmartLink from "./SmartLink";
 import type { LinkItem, Locale, SiteSettings } from "@/lib/types";
-
-const tgHref = (v: string) => (/^https?:\/\//i.test(v) ? v : `https://t.me/${v.replace(/^@/, "")}`);
-const tgText = (v: string) => (/^https?:\/\//i.test(v) ? v.replace(/^https?:\/\/(t\.me|telegram\.me)\//i, "@") : `@${v.replace(/^@/, "")}`);
 
 const USEFUL: { title: string; url: string }[] = [
   { title: "Study in Japan (JASSO)", url: "https://www.studyinjapan.go.jp" },
@@ -16,13 +13,11 @@ const USEFUL: { title: string; url: string }[] = [
 export default function Footer({ locale, t, settings, links = [] }: { locale: Locale; t: TFn; settings?: SiteSettings; links?: LinkItem[] }) {
   const s = settings;
   const socials = [
-    { url: s?.telegram_url, label: "Telegram", text: "Tg" },
-    { url: s?.youtube_url, label: "YouTube", text: "YT" },
-    { url: s?.linkedin_url, label: "LinkedIn", text: "in" },
-    { url: s?.instagram_url, label: "Instagram", text: "Ig" },
+    { url: s?.telegram_url, label: "Telegram", key: "tg", icon: <TelegramIcon size={21} /> },
+    { url: s?.instagram_url, label: "Instagram", key: "ig", icon: <InstagramIcon size={21} /> },
+    { url: s?.youtube_url, label: "YouTube", key: "yt", icon: <YouTubeIcon size={22} /> },
+    { url: s?.linkedin_url, label: "LinkedIn", key: "in", icon: <LinkedInIcon size={21} /> },
   ].filter((x) => x.url);
-
-  const operators = (s?.operators || []).filter((o) => o.phone || o.telegram);
 
   return (
     <footer className="footer footer-sm" id="contact">
@@ -38,8 +33,8 @@ export default function Footer({ locale, t, settings, links = [] }: { locale: Lo
             {socials.length > 0 && (
               <div className="socials">
                 {socials.map((x) => (
-                  <a key={x.label} href={x.url} target="_blank" rel="noopener noreferrer" aria-label={x.label}>
-                    {x.text}
+                  <a key={x.key} data-s={x.key} href={x.url} target="_blank" rel="noopener noreferrer" aria-label={x.label} title={x.label}>
+                    {x.icon}
                   </a>
                 ))}
               </div>
@@ -58,35 +53,19 @@ export default function Footer({ locale, t, settings, links = [] }: { locale: Lo
           </nav>
           <div className="fs-contact">
             <h4>{t("footer.contact")}</h4>
-            {s?.contact_email && <a href={`mailto:${s.contact_email}`}>{s.contact_email}</a>}
-            {s?.contact_phone && <a href={`tel:${s.contact_phone.replace(/\s/g, "")}`}>{s.contact_phone}</a>}
-            {s?.address && <span>{s.address}</span>}
+            <ul>
+              {s?.contact_email && (
+                <li><span className="fs-ci"><MailIcon size={17} /></span><a href={`mailto:${s.contact_email}`}>{s.contact_email}</a></li>
+              )}
+              {s?.contact_phone && (
+                <li><span className="fs-ci"><PhoneIcon size={17} /></span><a href={`tel:${s.contact_phone.replace(/[^\d+]/g, "")}`}>{s.contact_phone}</a></li>
+              )}
+              {s?.address && (
+                <li><span className="fs-ci"><PinIcon size={17} /></span><span>{s.address}</span></li>
+              )}
+            </ul>
           </div>
         </div>
-        {operators.length > 0 && (
-          <section className="fs-ops" aria-label={t("footer.operators")}>
-            <h4>{t("footer.operators")}</h4>
-            <ul>
-              {operators.map((o, i) => (
-                <li key={i} className="fs-op">
-                  <span className="fs-op-ic"><HeadsetIcon size={20} /></span>
-                  <div className="fs-op-body">
-                    {o.name && <b>{o.name}</b>}
-                    {o.role && <small>{o.role}</small>}
-                    <div className="fs-op-links">
-                      {o.phone && (
-                        <a href={`tel:${o.phone.replace(/[^\d+]/g, "")}`}><PhoneIcon />{o.phone}</a>
-                      )}
-                      {o.telegram && (
-                        <a href={tgHref(o.telegram)} target="_blank" rel="noopener noreferrer"><TelegramIcon />{tgText(o.telegram)}</a>
-                      )}
-                    </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
         <div className="footer-bottom">
           <div>© {new Date().getFullYear()} UzJapan Education. {t("footer.rights")}</div>
           <div style={{ color: "#fff", fontWeight: 600 }}>{t("footer.tagline")}</div>

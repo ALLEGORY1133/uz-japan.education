@@ -119,7 +119,6 @@ export type SiteSettings = {
   youtube_url: string;
   linkedin_url: string;
   instagram_url: string;
-  operators?: Operator[];
 };
 
 export type Operator = { name: string; role: string; phone: string; telegram: string };
