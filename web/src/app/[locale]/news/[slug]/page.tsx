@@ -54,13 +54,14 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ loc
   const t = getT(locale);
   const n = await load(locale, slug);
   const cover = mediaUrl(n.cover);
+  const back = ({ platform: { path: "updates", nav: "nav.updates" }, event: { path: "events", nav: "nav.events" }, cooperation: { path: "cooperation", nav: "nav.cooperation" } } as Record<string, { path: string; nav: string }>)[n.category] || { path: "news", nav: "nav.news" };
 
   return (
     <main>
       <section className="page-hero" style={{ paddingTop: 110, paddingBottom: 40 }}>
         <div className="wrap">
           <div className="crumbs">
-            <Link href={`/${locale}`}>{t("common.home")}</Link> › <Link href={`/${locale}/news`}>{t("nav.news")}</Link>
+            <Link href={`/${locale}`}>{t("common.home")}</Link> › <Link href={`/${locale}/${back.path}`}>{t(back.nav)}</Link>
           </div>
           <div className="chips" style={{ marginTop: 10 }}>
             <span className={`tag ${n.category}`}>{t(`news.cat.${n.category}`)}</span>
@@ -74,10 +75,12 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ loc
 
       <div className="wrap">
         <article className="article">
-          {cover && (
+          {n.video ? (
+            <video className="cover" src={mediaUrl(n.video) || undefined} poster={cover || undefined} controls playsInline preload="metadata" />
+          ) : cover ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img className="cover" src={cover} alt="" />
-          )}
+          ) : null}
           {n.event_location && <p style={{ fontWeight: 700 }}>{n.event_location}</p>}
           {n.summary && <p style={{ fontSize: 18, fontWeight: 600 }}>{n.summary}</p>}
           {n.body && <Body text={n.body} />}
@@ -96,7 +99,7 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ loc
             </p>
           )}
           <p>
-            <Link href={`/${locale}/news`} style={{ color: "var(--red)", fontWeight: 700 }}>← {t("news.back")}</Link>
+            <Link href={`/${locale}/${back.path}`} style={{ color: "var(--red)", fontWeight: 700 }}>← {t(back.nav)}</Link>
           </p>
         </article>
       </div>

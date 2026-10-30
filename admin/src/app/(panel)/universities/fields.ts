@@ -88,6 +88,8 @@ export const LINK_FIELDS: FieldDef[] = [
     { value: "scholarship", label: "Stipendiya" }, { value: "language", label: "Til" }, { value: "visa", label: "Viza va hujjatlar" },
     { value: "housing", label: "Yaşaş joyi" }, { value: "other", label: "Boşqa" },
   ] },
+  { name: "image", label: "Havola rasmi", type: "image", help: "Kartada körinadi. Bölmasa — standart rasm." },
+  { name: "video", label: "Havola videosi (ixtiyoriy)", type: "file", accept: "video/*", help: "Video yuklansa, rasm ornida video aylanadi." },
   { name: "is_external", label: "Taşqi havola (yangi oynada oçiladi)", type: "bool" },
   { name: "is_visible", label: "Saytda körsatilsin", type: "bool" },
 ];

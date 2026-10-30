@@ -42,7 +42,10 @@ class PublicNewsListSerializer(BaseModelSerializer):
         ]
 
     def get_video(self, obj):
-        """Bosh sahifa karuseli uchun: yangilikdagi birinchi yuklangan video fayl (bo'lsa)."""
+        """Yangilikning o'z videosi; bo'lmasa galereyadagi birinchi yuklangan video fayl."""
+        req = self.context.get("request")
+        if obj.video:
+            return req.build_absolute_uri(obj.video.url) if req else obj.video.url
         for m in obj.media.all():
             if m.kind == "video" and m.file:
                 req = self.context.get("request")
@@ -81,6 +84,7 @@ class PublicSiteSettingsSerializer(BaseModelSerializer):
         fields = [
             "contact_email", "contact_phone", "address",
             "telegram_url", "youtube_url", "linkedin_url", "instagram_url",
+            "operators",
         ]
 
 
@@ -146,6 +150,23 @@ class AdminSiteSettingsSerializer(AdminModelSerializer):
     class Meta:
         model = SiteSettings
         fields = "__all__"
+
+    def validate_operators(self, value):
+        if not isinstance(value, list):
+            raise serializers.ValidationError("Operatorlar ro'yxati noto'g'ri.")
+        if len(value) > 8:
+            raise serializers.ValidationError("Ko'pi bilan 8 ta operator qo'shish mumkin.")
+        clean = []
+        for o in value:
+            if not isinstance(o, dict):
+                continue
+            item = {k: str(o.get(k) or "").strip()[:80] for k in ("name", "role", "phone", "telegram")}
+            if not (item["name"] or item["phone"] or item["telegram"]):
+                continue  # bo'sh qator
+            if not (item["phone"] or item["telegram"]):
+                raise serializers.ValidationError("Har bir operator uchun telefon yoki Telegram kiriting.")
+            clean.append(item)
+        return clean
 
 
 class AdminNewsMediaSerializer(AdminModelSerializer):

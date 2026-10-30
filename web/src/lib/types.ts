@@ -51,6 +51,8 @@ export type LinkItem = {
   url: string;
   is_external: boolean;
   icon: "scholarship" | "language" | "visa" | "housing" | "other";
+  image?: string | null;
+  video?: string | null;
 };
 
 export type UniversityDetail = UniversityListItem & {
@@ -84,7 +86,7 @@ export type NewsItem = {
   slug: string;
   title: string;
   summary: string;
-  category: "news" | "cooperation" | "event";
+  category: "news" | "cooperation" | "event" | "platform";
   cover: string | null;
   link_type: "internal" | "external";
   external_url: string;
@@ -117,13 +119,18 @@ export type SiteSettings = {
   youtube_url: string;
   linkedin_url: string;
   instagram_url: string;
+  operators?: Operator[];
 };
+
+export type Operator = { name: string; role: string; phone: string; telegram: string };
 
 export type HomeData = {
   hero: HeroSlide[];
   stats: Stat[];
   universities: UniversityListItem[];
   news: NewsItem[];
+  events?: NewsItem[];
+  updates?: NewsItem[];
   links: LinkItem[];
   media: Record<string, SiteMediaItem>;
   settings: SiteSettings;

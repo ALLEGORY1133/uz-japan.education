@@ -1,0 +1,32 @@
+/* "Asl o'lcham" qatlami (eng oxirida ulanadi).
+   Kontent rasmlari (yangilik muqovasi, kartalar, karusel, galereya, lenta, havola kartasi)
+   endi qirqilmaydi va cho'zilmaydi: o'z nisbatida to'liq ko'rinadi.
+   Fon rasmlari/videolari (hero, video band, ariza foni, bannerlar) matn ostida
+   bo'lgani uchun to'ldirib (cover) turishda davom etadi. */
+
+/* ---- yangilik sahifasi muqovasi ---- */
+.article .cover { aspect-ratio: auto; height: auto; max-height: none; object-fit: contain; background: transparent; }
+
+/* ---- yangilik/tadbir kartalari ---- */
+img.card-cover { height: auto; object-fit: contain; background: transparent; }
+
+/* ---- karusel kartalari (bosh sahifa): rasm o'z balandligida ---- */
+.cs-pic:has(> img), .cs-news .cs-pic:has(> img), .cs-uni .cs-pic:has(> img),
+.ev-pic:has(> img) { height: auto; line-height: 0; }
+.cs-pic > img, .ev-pic > img { position: static; inset: auto; width: 100%; height: auto; object-fit: contain; display: block; }
+/* video (poster bilan) — qat'iy balandlikda, lekin qirqilmaydi */
+.cs-pic > video, .ev-pic > video { object-fit: contain; }
+
+/* ---- foydali havola kartasi ---- */
+.lc-media:has(> img) { aspect-ratio: auto; background: transparent; }
+.lc-media > img { height: auto; object-fit: contain; }
+.lc-media > video { object-fit: contain; }
+
+/* ---- galereya lentasi: balandlik qat'iy, kenglik rasmga qarab ---- */
+.gl-track img { width: auto; max-width: none; object-fit: contain; }
+
+/* ---- galereya (yangilik/universitet): har bir rasm o'z nisbatida ---- */
+.gallery { align-items: start; }
+.gallery .g:has(> img) { aspect-ratio: auto; background: transparent; }
+.gallery .g > img { height: auto; object-fit: contain; }
+.gallery .g > video { object-fit: contain; background: #14183f; }

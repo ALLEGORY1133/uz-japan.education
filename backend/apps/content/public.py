@@ -1,3 +1,4 @@
+from django.utils import timezone
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -33,7 +34,17 @@ class HomeView(APIView):
                 University.objects.filter(is_published=True), many=True, context=ctx
             ).data,
             "news": PublicNewsListSerializer(
-                News.objects.filter(is_published=True).prefetch_related("media")[:8], many=True, context=ctx
+                News.objects.filter(is_published=True).exclude(category="platform").prefetch_related("media")[:8], many=True, context=ctx
+            ).data,
+            "updates": PublicNewsListSerializer(
+                News.objects.filter(is_published=True, category="platform").prefetch_related("media")[:6], many=True, context=ctx
+            ).data,
+            "events": PublicNewsListSerializer(
+                News.objects.filter(is_published=True, category="event", event_starts_at__gte=timezone.now())
+                .prefetch_related("media")
+                .order_by("event_starts_at")[:8],
+                many=True,
+                context=ctx,
             ).data,
             "links": PublicLinkSerializer(
                 UsefulLink.objects.filter(university__isnull=True, is_visible=True), many=True, context=ctx

@@ -34,6 +34,7 @@ export default function Header({ locale, labels, locales }: Props) {
     { href: `/${locale}/cooperation`, label: labels.cooperation },
     { href: `/${locale}/events`, label: labels.events },
     { href: `/${locale}/news`, label: labels.news },
+    { href: `/${locale}/updates`, label: labels.updates },
   ];
 
   return (

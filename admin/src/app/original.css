@@ -1,0 +1,5 @@
+/* Admin: yuklangan rasm oldindan ko'rishda qirqilmaydi — to'liq, o'z nisbatida ko'rinadi. */
+.file-thumb, .thumb img, .mthumb img, .ml-prev img, .ml-prev video, .sl-pic img, .sl-pic video, .pg-thumb img, .pg-thumb video { object-fit: contain; }
+.mcard:hover .mthumb img { transform: none; }
+.mthumb, .ml-prev, .sl-pic, .pg-thumb, .thumb { background-color: #14183f; }
+.file-thumb { background: #14183f; }

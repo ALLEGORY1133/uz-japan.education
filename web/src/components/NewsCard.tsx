@@ -5,7 +5,7 @@ import { DEMO, pickDemo } from "@/lib/demo";
 import type { Locale, NewsItem } from "@/lib/types";
 
 export default function NewsCard({ n, locale, t, index = 0 }: { n: NewsItem; locale: Locale; t: TFn; index?: number }) {
-  const cover = mediaUrl(n.cover) || pickDemo(DEMO[n.category as "news" | "cooperation" | "event"] || DEMO.news, index);
+  const cover = mediaUrl(n.cover) || pickDemo(DEMO[n.category as "news" | "cooperation" | "event" | "platform"] || DEMO.news, index);
   const external = n.link_type === "external" && !!n.external_url;
   const date = formatDate(n.event_starts_at || n.published_at, locale);
 
@@ -16,7 +16,12 @@ export default function NewsCard({ n, locale, t, index = 0 }: { n: NewsItem; loc
 
   return (
     <SmartLink href={n.href} locale={locale} className="card-link">
-      {cover ? (
+      {n.video ? (
+        <span className="card-vid">
+          <video className="card-cover" src={mediaUrl(n.video) || undefined} poster={cover || undefined} muted loop autoPlay playsInline preload="metadata" aria-hidden="true" />
+          <span className="card-play" aria-hidden="true">▶</span>
+        </span>
+      ) : cover ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img className="card-cover" src={cover} alt="" loading="lazy" />
       ) : (

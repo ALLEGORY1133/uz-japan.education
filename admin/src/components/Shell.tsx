@@ -2,6 +2,7 @@
 
 import AdminAssistant from "./AdminAssistant";
 import UploadTray from "./UploadTray";
+import Operators, { type Operator } from "./Operators";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -23,6 +24,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   const [q, setQ] = useState("");
   const [bellOpen, setBellOpen] = useState(false);
   const [newCount, setNewCount] = useState<number | null>(null);
+  const [operators, setOperators] = useState<Operator[]>([]);
 
   const perms = user?.permissions || {};
   const pick = (defs: [string, string, string, string][]) => defs.filter(([k]) => perms[k]).map(([, href, label, icon]) => ({ href, label, icon }));
@@ -35,7 +37,10 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         ["pages", "/pages", "Sahifalar va bölimlar", "news"],
         ["site_media", "/site-media", "Sayt rasm va videolari", "media"],
         ["media", "/media", "Media kutubxonasi", "media"],
-        ["news", "/news", "Yangilik va tadbirlar", "news"],
+        ["news", "/news", "Barça yangilik va tadbirlar", "news"],
+        ["news", "/cooperation", "Hamkorlik yangiliklari", "news"],
+        ["news", "/events", "Tadbirlar", "news"],
+        ["news", "/updates", "Sayt yangiliklari", "news"],
         ["stats", "/stats", "Statistika", "stats"],
         ["settings", "/settings", "Sozlamalar", "settings"],
       ]),
@@ -64,7 +69,10 @@ export default function Shell({ children }: { children: React.ReactNode }) {
             { href: "/site-media", label: "Sayt rasm va videolari", icon: "media" },
             { href: "/media", label: "Media kutubxonasi", icon: "media" },
             { href: "/links", label: "Foydali havolalar", icon: "links" },
-            { href: "/news", label: "Yangilik va tadbirlar", icon: "news" },
+            { href: "/news", label: "Barça yangilik va tadbirlar", icon: "news" },
+            { href: "/cooperation", label: "Hamkorlik yangiliklari", icon: "news" },
+            { href: "/events", label: "Tadbirlar", icon: "news" },
+            { href: "/updates", label: "Sayt yangiliklari", icon: "news" },
             { href: "/stats", label: "Statistika", icon: "stats" },
             { href: "/settings", label: "Sozlamalar", icon: "settings" },
           ],
@@ -113,6 +121,10 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!isManager) api<{ applications: { new: number } }>("/dashboard/").then((d) => setNewCount(d.applications.new)).catch(() => {});
   }, [pathname]);
+
+  useEffect(() => {
+    api<Operator[]>("/operators/").then((d) => setOperators(Array.isArray(d) ? d : [])).catch(() => {});
+  }, []);
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
   const initial = (user?.username || "?").slice(0, 1).toUpperCase();
@@ -183,6 +195,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         </header>
         {children}
         <footer className="admin-foot">
+          <Operators items={operators} />
           <span>© {new Date().getFullYear()} UzJapan Education · Admin panel</span>
           <span className="af-links">
             <a href={WEB} target="_blank" rel="noopener noreferrer">Oçiq sayt ↗</a>

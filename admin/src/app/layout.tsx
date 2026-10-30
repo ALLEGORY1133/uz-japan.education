@@ -8,6 +8,7 @@ import "./polish.css";
 import "./skin.css";
 import "./assistant.css";
 import "./steady.css";
+import "./original.css";
 import type { Metadata } from "next";
 import { AuthProvider } from "@/lib/auth";
 

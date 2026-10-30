@@ -11,7 +11,7 @@ import Marquee from "@/components/Marquee";
 import SmartLink from "@/components/SmartLink";
 import { getBlocks, getHome } from "@/lib/api";
 import { bm, bt } from "@/lib/blocks";
-import { formatDate, getT, isLocale, pickPrefix } from "@/lib/i18n";
+import { formatDate, formatDayMonth, getT, isLocale, pickPrefix } from "@/lib/i18n";
 import { mediaUrl } from "@/lib/media";
 import { DEMO, pickDemo } from "@/lib/demo";
 
@@ -27,6 +27,20 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const stat = (i: number) => ["#e5483b", "#0fa896", "#5b3fd0", "#f5a524", "#2b7bd8", "#a02c78"][i % 6];
   const cr = { prev: t("slider.prev"), next: t("slider.next") };
   const studentsImg = bm(blocks, "home.students").image || mediaUrl(data.media.students_card?.image);
+  const studentsVideo = bm(blocks, "home.students").video;
+
+  // Yaqinda bo'ladigan tadbirlar (video band yonidagi karusel)
+  const updates = data.updates || [];
+  const upTitle = txt("home.updates", "title", t("home.up.title"));
+  const events = data.events || [];
+  const daysLeft = (iso: string | null) => (iso ? Math.ceil((new Date(iso).getTime() - Date.now()) / 86400000) : null);
+  const leftLabel = (n: number | null) =>
+    n === null ? "" : n <= 0 ? t("home.ev.today") : n === 1 ? t("home.ev.tomorrow") : t("home.ev.in").replace("{n}", String(n));
+  const infoItems = [
+    { icon: "university", k: "1" },
+    { icon: "visa", k: "2" },
+    { icon: "news", k: "3" },
+  ];
 
   const gallery = DEMO.gallery.map((d, i) => mediaUrl(data.media[`gallery_${i + 1}`]?.image) || d);
   // Katta video/rasm joylari: admin yuklagan bo'lsa shu, bo'lmasa demo
@@ -44,10 +58,14 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const band = bgOf("video_band", "home.intro", "/demo/sakura.mp4", "/demo/fuji.jpg");
   const applyBg = bgOf("apply_bg", "home.apply", "/demo/lanterns.mp4", "/demo/lantern.jpg");
 
-  const pic = (img: string | null, demo: string, icon: string, color: string) => (
+  const pic = (img: string | null, demo: string, icon: string, color: string, video?: string | null) => (
     <span className="cs-pic" style={{ "--c": color } as CSSProperties}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={img || demo} alt="" loading="lazy" />
+      {video ? (
+        <video src={video} poster={img || demo} muted loop autoPlay playsInline preload="metadata" aria-hidden="true" />
+      ) : (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={img || demo} alt="" loading="lazy" />
+      )}
       <span className="cs-badge"><Icon name={icon} color="#fff" size={22} /></span>
     </span>
   );
@@ -87,7 +105,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       </section>
 
       {/* Video band: kirish matni */}
-      <section className="vb" id="directions">
+      <section className={`vb${updates.length ? " vb-has-ev" : ""}`} id="directions">
         {band.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img className="vb-vid" src={band.image} alt="" />
@@ -95,15 +113,57 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <video className="vb-vid" autoPlay muted loop playsInline poster={band.poster} preload="metadata" src={band.video || undefined} />
         )}
         <div className="vb-shade" aria-hidden="true" />
-        <div className="wrap vb-in">
-          <span className="eyebrow">{t("home.s1.eyebrow")}</span>
-          <h2 className="disp">{txt("home.intro", "title", t("home.s1.title"))}</h2>
-          <p>{txt("home.intro", "text", t("home.s1.text"))}</p>
-          <div className="vb-chips">
-            <SmartLink href="#students" locale={locale}>{t("nav.scholarships")}</SmartLink>
-            <SmartLink href="#cooperation" locale={locale}>{t("nav.cooperation")}</SmartLink>
-            <SmartLink href="#exchange" locale={locale}>{t("nav.news")}</SmartLink>
+        <div className={`wrap vb-in${updates.length ? " vb-2" : ""}`}>
+          <div className="vb-copy">
+            <span className="eyebrow">{t("home.s1.eyebrow")}</span>
+            <h2 className="disp">{txt("home.intro", "title", t("home.s1.title"))}</h2>
+            <p>{txt("home.intro", "text", t("home.s1.text"))}</p>
+            <ul className="vb-info">
+              {infoItems.map((it) => (
+                <li key={it.k} style={{ "--i": Number(it.k) } as CSSProperties}>
+                  <span className="vb-info-ic"><Icon name={it.icon} color="#fff" size={20} /></span>
+                  <span><b>{t(`home.info.${it.k}.t`)}</b><small>{t(`home.info.${it.k}.d`)}</small></span>
+                </li>
+              ))}
+            </ul>
+            <div className="vb-chips">
+              <SmartLink href="#students" locale={locale}>{t("nav.scholarships")}</SmartLink>
+              <SmartLink href="#cooperation" locale={locale}>{t("nav.cooperation")}</SmartLink>
+              <SmartLink href="#exchange" locale={locale}>{t("nav.news")}</SmartLink>
+            </div>
           </div>
+          {updates.length > 0 && (
+            <aside className="vb-ev" aria-label={upTitle}>
+              <div className="vb-ev-head">
+                <h3>{upTitle}</h3>
+                <SmartLink href="/updates" locale={locale}>{t("home.up.all")} →</SmartLink>
+              </div>
+              <Carousel label={upTitle} {...cr} auto={4200} className="cr-dark ev-cr">
+                {updates.map((n, i) => {
+                  const cover = mediaUrl(n.cover) || pickDemo(DEMO.platform, i);
+                  const external = n.link_type === "external" && !!n.external_url;
+                  return (
+                    <SmartLink key={n.id} href={n.href} locale={locale} className="ev-card" style={{ "--i": i } as CSSProperties}>
+                      <span className="ev-pic">
+                        {n.video ? (
+                          <video src={mediaUrl(n.video) || undefined} poster={cover} muted loop autoPlay playsInline preload="metadata" aria-hidden="true" />
+                        ) : (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={cover} alt="" loading="lazy" />
+                        )}
+                        <span className="ev-date up-date"><em>{formatDate(n.published_at, locale)}</em></span>
+                      </span>
+                      <span className="ev-body">
+                        <b>{n.title}</b>
+                        {n.summary && <small className="ev-sum">{n.summary}</small>}
+                        <span className="ev-go">{external ? "↗" : t("news.read")} {external ? "" : "→"}</span>
+                      </span>
+                    </SmartLink>
+                  );
+                })}
+              </Carousel>
+            </aside>
+          )}
         </div>
       </section>
 
@@ -158,12 +218,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </div>
         <Carousel label={t("home.c1.t")} {...cr} auto={3200}>
           <SmartLink href={`/${locale}/cabinet`} locale={locale} className="cs">
-            {pic(studentsImg, "/demo/desk.jpg", "visa", "#e5483b")}
+            {pic(studentsImg, "/demo/desk.jpg", "visa", "#e5483b", studentsVideo)}
             <span className="cs-body"><b>{t("home.c1.status")}</b><small>{t("cab.title")}</small><span className="cs-go">{t("home.open")} →</span></span>
           </SmartLink>
           {data.links.map((l, i) => (
             <SmartLink key={l.id} href={l.url} locale={locale} className="cs">
-              {pic(null, pickDemo(DEMO.links, i + 1), l.icon, ["#e5483b", "#0fa896", "#5b3fd0"][i % 3])}
+              {pic(mediaUrl(l.image), pickDemo(DEMO.links, i + 1), l.icon, ["#e5483b", "#0fa896", "#5b3fd0"][i % 3], mediaUrl(l.video))}
               <span className="cs-body"><b>{l.title}</b>{l.description && <small>{l.description}</small>}<span className="cs-go">{t("home.open")} →</span></span>
             </SmartLink>
           ))}

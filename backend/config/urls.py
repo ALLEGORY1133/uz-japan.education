@@ -40,6 +40,8 @@ from apps.content.admin_api import (
     AdminNewsMediaViewSet,
     AdminNewsViewSet,
     AdminSiteMediaViewSet,
+    AdminOperatorCandidatesView,
+    AdminOperatorsView,
     AdminSiteSettingsView,
     AdminStatViewSet,
 )
@@ -157,6 +159,8 @@ urlpatterns = [
     path("api/admin/dashboard/", DashboardView.as_view()),
     path("api/admin/assistant/", AdminAssistantView.as_view()),
     path("api/admin/site-settings/", AdminSiteSettingsView.as_view()),
+    path("api/admin/operators/", AdminOperatorsView.as_view()),
+    path("api/admin/operators/candidates/", AdminOperatorCandidatesView.as_view()),
     path("api/admin/pages/", AdminPagesView.as_view()),
     path("api/admin/pages/<str:key>/", AdminPageSectionView.as_view()),
     path("api/admin/kpi/", KPIDashboardView.as_view()),

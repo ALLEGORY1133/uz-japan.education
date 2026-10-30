@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 type Props = { name: string; size?: number; color?: string };
 
 const paths: Record<string, string> = {
@@ -47,3 +48,20 @@ export function PlayIcon({ size = 18, color = "#0b6d78" }: { size?: number; colo
     </svg>
   );
 }
+
+function Svg24({ size, children }: { size: number; children: ReactNode }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+      {children}
+    </svg>
+  );
+}
+export const PhoneIcon = ({ size = 16 }: { size?: number }) => (
+  <Svg24 size={size}><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" /></Svg24>
+);
+export const TelegramIcon = ({ size = 16 }: { size?: number }) => (
+  <Svg24 size={size}><path d="M21.5 3.5L2.5 10.8l6.2 2.3 2.3 6.4 3.2-4.2 5.3 3.9z" /><path d="M8.7 13.1l12.8-9.6" /></Svg24>
+);
+export const HeadsetIcon = ({ size = 18 }: { size?: number }) => (
+  <Svg24 size={size}><path d="M4 14v-2a8 8 0 0 1 16 0v2" /><path d="M4 14h3v5H5a1 1 0 0 1-1-1zM20 14h-3v5h2a1 1 0 0 0 1-1z" /><path d="M17 19c0 1.5-2 2-5 2" /></Svg24>
+);

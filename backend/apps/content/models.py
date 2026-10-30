@@ -115,6 +115,7 @@ class News(models.Model):
         NEWS = "news", "Yangilik"
         COOPERATION = "cooperation", "Hamkorlik"
         EVENT = "event", "Tadbir"
+        PLATFORM = "platform", "Sayt yangiliklari"
 
     class LinkType(models.TextChoices):
         INTERNAL = "internal", "Içki sahifa"
@@ -126,6 +127,7 @@ class News(models.Model):
     body = models.TextField(blank=True)  # tarjima
     category = models.CharField(max_length=12, choices=Category.choices, default=Category.NEWS)
     cover = models.ImageField(upload_to="news/", blank=True, validators=[image_extensions, validate_image_size])
+    video = models.FileField(upload_to="news/video/", blank=True, validators=[video_extensions, validate_video_size], help_text="Muqova rasmi o'rnida (yoki uning ustida) ko'rsatiladigan video")
     link_type = models.CharField(max_length=10, choices=LinkType.choices, default=LinkType.INTERNAL)
     external_url = models.URLField(blank=True, help_text="Taşqi manba yoki tadbirga ulaniş havolasi")
     source_name = models.CharField(max_length=120, blank=True)
@@ -199,6 +201,8 @@ class SiteSettings(models.Model):
     youtube_url = models.URLField(blank=True)
     linkedin_url = models.URLField(blank=True)
     instagram_url = models.URLField(blank=True)
+    # Aloqa operatorlari: [{"name", "role", "phone", "telegram"}] — web va admin footerida chiqadi
+    operators = models.JSONField(default=list, blank=True)
 
     class Meta:
         verbose_name = "Sayt sozlamalari"

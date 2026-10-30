@@ -5,6 +5,7 @@ export const DEMO = {
   news: ["/demo/campus.jpg", "/demo/train.jpg", "/demo/desk.jpg"],
   cooperation: ["/demo/bridge.jpg", "/demo/fuji.jpg", "/demo/registan.jpg"],
   event: ["/demo/lantern.jpg", "/demo/grad.jpg", "/demo/torii.jpg"],
+  platform: ["/demo/desk.jpg", "/demo/campus.jpg", "/demo/tokyo.jpg"],
   links: ["/demo/desk.jpg", "/demo/grad.jpg", "/demo/train.jpg", "/demo/campus.jpg", "/demo/kyoto.jpg", "/demo/bridge.jpg"],
   gallery: ["fuji", "registan", "torii", "campus", "tokyo", "dome", "kyoto", "grad", "bridge", "lantern", "train", "desk"].map((n) => `/demo/${n}.jpg`),
 };

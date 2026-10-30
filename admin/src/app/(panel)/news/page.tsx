@@ -12,9 +12,10 @@ const FIELDS: FieldDef[] = [
   { name: "summary", label: "Qisqa mazmun", tr: true },
   { name: "body", label: "Töliq matn", tr: true, type: "textarea" },
   { name: "category", label: "Turkum", type: "select", options: [
-    { value: "news", label: "Yangilik" }, { value: "cooperation", label: "Hamkorlik" }, { value: "event", label: "Tadbir" },
+    { value: "news", label: "Yangilik" }, { value: "cooperation", label: "Hamkorlik" }, { value: "event", label: "Tadbir" }, { value: "platform", label: "Sayt yangiliklari" },
   ] },
   { name: "cover", label: "Muqova rasmi", type: "image" },
+  { name: "video", label: "Video (MP4 / WebM) — kartada va sahifada körinadi", type: "file", accept: "video/mp4,video/webm", help: "Rasm o‘rniga video chiqadi. Muqova rasmi video «afişasi» bölib qoladi." },
   { name: "link_type", label: "Havola turi", type: "select", options: [
     { value: "internal", label: "Içki sahifa (matn saytda oçiladi)" }, { value: "external", label: "Taşqi manba" },
   ] },

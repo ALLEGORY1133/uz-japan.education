@@ -1,6 +1,6 @@
 import Icon from "./Icons";
 import SmartLink from "./SmartLink";
-import { isExternal } from "@/lib/media";
+import { isExternal, mediaUrl } from "@/lib/media";
 import type { TFn } from "@/lib/i18n";
 import type { LinkItem, Locale } from "@/lib/types";
 
@@ -17,9 +17,20 @@ export default function LinkCard({ l, locale, t }: { l: LinkItem; locale: Locale
   const tn = tone[l.icon] || tone.other;
   return (
     <SmartLink href={l.url} locale={locale} className="card-link icon-card" style={{ ["--c" as string]: tn.color }}>
-      <span className={`qi ${tn.cls}`}>
-        <Icon name={l.icon} color={tn.color} />
-      </span>
+      {l.image || l.video ? (
+        <span className="lc-media">
+          {l.video ? (
+            <video src={mediaUrl(l.video)!} poster={mediaUrl(l.image) || undefined} muted loop autoPlay playsInline preload="metadata" aria-hidden="true" />
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={mediaUrl(l.image)!} alt="" loading="lazy" />
+          )}
+        </span>
+      ) : (
+        <span className={`qi ${tn.cls}`}>
+          <Icon name={l.icon} color={tn.color} />
+        </span>
+      )}
       <h3 style={{ margin: 0, fontSize: 18, fontWeight: 800, lineHeight: 1.25 }}>{l.title}</h3>
       {l.description && <p style={{ margin: 0, fontSize: 13.5, color: "var(--muted)", lineHeight: 1.5 }}>{l.description}</p>}
       <div className="card-foot">

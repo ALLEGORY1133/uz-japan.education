@@ -1,7 +1,10 @@
-import { Logo } from "./Icons";
+import { HeadsetIcon, Logo, PhoneIcon, TelegramIcon } from "./Icons";
 import type { TFn } from "@/lib/i18n";
 import SmartLink from "./SmartLink";
 import type { LinkItem, Locale, SiteSettings } from "@/lib/types";
+
+const tgHref = (v: string) => (/^https?:\/\//i.test(v) ? v : `https://t.me/${v.replace(/^@/, "")}`);
+const tgText = (v: string) => (/^https?:\/\//i.test(v) ? v.replace(/^https?:\/\/(t\.me|telegram\.me)\//i, "@") : `@${v.replace(/^@/, "")}`);
 
 const USEFUL: { title: string; url: string }[] = [
   { title: "Study in Japan (JASSO)", url: "https://www.studyinjapan.go.jp" },
@@ -18,6 +21,8 @@ export default function Footer({ locale, t, settings, links = [] }: { locale: Lo
     { url: s?.linkedin_url, label: "LinkedIn", text: "in" },
     { url: s?.instagram_url, label: "Instagram", text: "Ig" },
   ].filter((x) => x.url);
+
+  const operators = (s?.operators || []).filter((o) => o.phone || o.telegram);
 
   return (
     <footer className="footer footer-sm" id="contact">
@@ -58,6 +63,30 @@ export default function Footer({ locale, t, settings, links = [] }: { locale: Lo
             {s?.address && <span>{s.address}</span>}
           </div>
         </div>
+        {operators.length > 0 && (
+          <section className="fs-ops" aria-label={t("footer.operators")}>
+            <h4>{t("footer.operators")}</h4>
+            <ul>
+              {operators.map((o, i) => (
+                <li key={i} className="fs-op">
+                  <span className="fs-op-ic"><HeadsetIcon size={20} /></span>
+                  <div className="fs-op-body">
+                    {o.name && <b>{o.name}</b>}
+                    {o.role && <small>{o.role}</small>}
+                    <div className="fs-op-links">
+                      {o.phone && (
+                        <a href={`tel:${o.phone.replace(/[^\d+]/g, "")}`}><PhoneIcon />{o.phone}</a>
+                      )}
+                      {o.telegram && (
+                        <a href={tgHref(o.telegram)} target="_blank" rel="noopener noreferrer"><TelegramIcon />{tgText(o.telegram)}</a>
+                      )}
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
         <div className="footer-bottom">
           <div>© {new Date().getFullYear()} UzJapan Education. {t("footer.rights")}</div>
           <div style={{ color: "#fff", fontWeight: 600 }}>{t("footer.tagline")}</div>

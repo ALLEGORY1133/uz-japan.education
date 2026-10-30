@@ -5,11 +5,12 @@ import { bm, bt, heroBg } from "@/lib/blocks";
 import { getT } from "@/lib/i18n";
 import type { Locale } from "@/lib/types";
 
-export type ListKind = "news" | "cooperation" | "event";
+export type ListKind = "news" | "cooperation" | "event" | "platform";
 
 const CFG: Record<ListKind, { block: string; nav: string; title: string; lead: string; eyebrow: string }> = {
   news: { block: "news.head", nav: "nav.news", title: "news.title", lead: "news.lead", eyebrow: "news.eyebrow" },
   cooperation: { block: "cooperation.head", nav: "nav.cooperation", title: "coop.title", lead: "coop.lead", eyebrow: "coop.eyebrow" },
+  platform: { block: "updates.head", nav: "nav.updates", title: "updates.title", lead: "updates.lead", eyebrow: "updates.eyebrow" },
   event: { block: "events.head", nav: "nav.events", title: "events.title", lead: "events.lead", eyebrow: "events.eyebrow" },
 };
 

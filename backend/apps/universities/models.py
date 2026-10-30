@@ -6,6 +6,8 @@ from apps.core.validators import (
     media_extensions,
     validate_image_size,
     validate_media_size,
+    validate_video_size,
+    video_extensions,
 )
 
 
@@ -193,6 +195,9 @@ class UsefulLink(models.Model):
     icon = models.CharField(max_length=12, choices=Icon.choices, default=Icon.OTHER)
     sort_order = models.PositiveIntegerField(default=0)
     is_visible = models.BooleanField(default=True)
+    # Har bir havolaning o'z rasmi/videosi (bosh sahifa kartasi va havola kartalarida)
+    image = models.ImageField(upload_to="links/", blank=True, validators=[image_extensions, validate_image_size])
+    video = models.FileField(upload_to="links/", blank=True, validators=[video_extensions, validate_video_size])
 
     class Meta:
         ordering = ["sort_order", "id"]

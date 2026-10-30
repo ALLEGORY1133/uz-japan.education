@@ -28,7 +28,7 @@ class PublicMediaSerializer(BaseModelSerializer):
 class PublicLinkSerializer(BaseModelSerializer):
     class Meta:
         model = UsefulLink
-        fields = ["id", "title", "description", "url", "is_external", "icon"]
+        fields = ["id", "title", "description", "url", "is_external", "icon", "image", "video"]
 
 
 class UniversityListSerializer(BaseModelSerializer):

@@ -8,8 +8,9 @@ PAGES = [
         "key": "home", "label": "Bosh sahifa", "path": "",
         "sections": [
             {"key": "home.intro", "label": "Katta video bandi", "hint": "Statistikadan keyingi katta rasm/video va uning ustidagi matn.", "fields": ["title", "text", "image", "video"]},
+            {"key": "home.updates", "label": "Sayt yangiliklari bloki (video band yonida)", "hint": "Blok sarlavhasi.", "fields": ["title"]},
             {"key": "home.news", "label": "Yangiliklar bo'limi", "hint": "Karusel tepasidagi sarlavha va matn.", "fields": ["title", "text"]},
-            {"key": "home.students", "label": "Talaba kabineti bo'limi", "hint": "Sarlavha, matn va birinchi karta rasmi.", "fields": ["title", "text", "image"]},
+            {"key": "home.students", "label": "Talaba kabineti bo'limi", "hint": "Sarlavha, matn va birinchi karta (kabinetga kirish) rasmi/videosi.", "fields": ["title", "text", "image", "video"]},
             {"key": "home.cooperation", "label": "Universitetlar va hamkorlik bo'limi", "hint": "Karusel tepasidagi sarlavha va matn.", "fields": ["title", "text"]},
             {"key": "home.apply", "label": "Savol-ariza bandi", "hint": "Sahifa pastidagi forma bandi: matn va fon rasm/video.", "fields": ["title", "text", "image", "video"]},
         ],
@@ -30,6 +31,12 @@ PAGES = [
         ],
     },
     {
+        "key": "updates", "label": "Sayt yangiliklari", "path": "/updates",
+        "sections": [
+            {"key": "updates.head", "label": "Sahifa boshi", "hint": "Sarlavha, matn va fon rasmi.", "fields": ["title", "text", "image"]},
+        ],
+    },
+    {
         "key": "news", "label": "Yangiliklar", "path": "/news",
         "sections": [
             {"key": "news.head", "label": "Sahifa boshi", "hint": "Sarlavha, matn va fon rasmi.", "fields": ["title", "text", "image"]},
@@ -39,6 +46,12 @@ PAGES = [
         "key": "cooperation", "label": "Hamkorlik", "path": "/cooperation",
         "sections": [
             {"key": "cooperation.head", "label": "Sahifa boshi", "hint": "Sarlavha, matn va fon rasmi.", "fields": ["title", "text", "image"]},
+        ],
+    },
+    {
+        "key": "cabinet", "label": "Talaba kabineti", "path": "/cabinet",
+        "sections": [
+            {"key": "cabinet.hero", "label": "Sahifa boshi", "hint": "Sarlavha, matn va fon rasmi/videosi.", "fields": ["title", "text", "image", "video"]},
         ],
     },
     {

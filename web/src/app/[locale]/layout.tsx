@@ -19,6 +19,7 @@ import "../cabinet.css";
 import "../assistant.css";
 import "../steady.css";
 import "../natural.css";
+import "../original.css";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Assistant from "@/components/Assistant";
@@ -64,6 +65,7 @@ export default async function LocaleLayout({
     exchange: t("nav.exchange"),
     cooperation: t("nav.cooperation"),
     events: t("nav.events"),
+    updates: t("nav.updates"),
     news: t("nav.news"),
     contact: t("nav.contact"),
     menu: t("nav.menu"),
