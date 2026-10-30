@@ -4,15 +4,19 @@ import { mediaUrl } from "@/lib/media";
 import { DEMO, pickDemo } from "@/lib/demo";
 import type { Locale, NewsItem } from "@/lib/types";
 
+/** Karta tugmasi matni: tashqi tadbir → «Tadbirga ulanish», tashqi manba → «Manba: …», qolgani → «Batafsil». */
+export function newsCta(n: NewsItem, t: TFn): string {
+  const external = n.link_type === "external" && !!n.external_url;
+  if (external && n.category === "event") return t("news.join");
+  if (external && n.source_name) return `${t("news.source")}: ${n.source_name}`;
+  return t("news.read");
+}
+
 export default function NewsCard({ n, locale, t, index = 0 }: { n: NewsItem; locale: Locale; t: TFn; index?: number }) {
   const cover = mediaUrl(n.cover) || pickDemo(DEMO[n.category as "news" | "cooperation" | "event" | "platform"] || DEMO.news, index);
   const external = n.link_type === "external" && !!n.external_url;
   const date = formatDate(n.event_starts_at || n.published_at, locale);
-
-  let foot: string;
-  if (external && n.category === "event") foot = t("news.join");
-  else if (external && n.source_name) foot = `${t("news.source")}: ${n.source_name}`;
-  else foot = t("news.read");
+  const foot = newsCta(n, t);
 
   return (
     <SmartLink href={n.href} locale={locale} className="card-link">

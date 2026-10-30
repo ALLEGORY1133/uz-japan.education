@@ -8,6 +8,7 @@ import CountUp from "@/components/CountUp";
 import UniversityMark from "@/components/UniversityMark";
 import InquiryForm from "@/components/InquiryForm";
 import Marquee from "@/components/Marquee";
+import { newsCta } from "@/components/NewsCard";
 import SmartLink from "@/components/SmartLink";
 import { getBlocks, getHome } from "@/lib/api";
 import { bm, bt } from "@/lib/blocks";
@@ -200,7 +201,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                     <small>{formatDate(n.event_starts_at || n.published_at, locale)}</small>
                     <b>{n.title}</b>
                     {n.summary && <small className="cs-sum">{n.summary}</small>}
-                    <span className="cs-go">{external ? t("news.join") : t("news.read")} {external ? "↗" : "→"}</span>
+                    <span className="cs-go">{newsCta(n, t)} {external ? "↗" : "→"}</span>
                   </span>
                 </SmartLink>
               );
