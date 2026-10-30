@@ -55,6 +55,9 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 - 2026-10-30: bosh sahifa yangiliklar karuselida tugma matni toifaga qarab (`NewsCard.tsx` → `newsCta`: tashqi tadbir «Tadbirga ulanish», tashqi manba «Manba: …», qolgani «Batafsil öqiş»); avval har qanday tashqi havola «Tadbirga ulanish» edi. Docker'da tekshirildi.
 - 2026-10-30: Docker kompyuter qayta yoqilgandan keyin yana yiqildi — bu safar `%LOCALAPPDATA%\docker-secrets-engine\engine.sock`. Har noto'g'ri yopilishda socketlar qulflanadi (Windows 10.0.26300 xatosi bo'lsa kerak). Doimiy yechim: Docker'ni FAQAT `.\scripts\start-docker.ps1` orqali ishga tushirish (socket papkalarini chetga surib ochadi). Eslatma: `.claude/launch.json` dagi `cmd /c` serverlar `preview_stop` dan keyin ham qoladi (3010/8010 band bo'ladi) — kerak bo'lsa node/python jarayonini qo'lda to'xtatish.
 
+- 2026-10-30: yuqoridagi uch yozuv (hero, `newsCta`, Docker skripti) Windows mashinasidan GitHub `main` ga ko'chirildi. Lokal sozlamalar git'da emas: `%USERPROFILE%\.wslconfig` (6 GB RAM, 4 yadro), `.env` da `CLAMAV_HOST=`/`CLAMAV_REQUIRED=0`, `docker-compose.override.yml` (clamav `profiles`) — SERVERDA ClamAV yoqiq bo'lsin.
+- Yarim qilingan ish (commit qilinmagan, lokal `git stash`da: «news-hub WIP»): /news da Yangiliklar/Tadbirlar/E'lonlar tablari (`?tab=1|2|3&q=&page=`), qidiruv, sahifalash, `announcement` toifasi, navbarda «Yangiliklar» ochiladigan menyusi. GitHub'dagi `/updates`, `/events/[slug]` o'zgarishlariga moslab davom ettirish kerak (migratsiya raqami `0010_...` bo'lishi kerak).
+
 ## Ochiq / tekshirilmagan
 - Yordamchi mantiqi soxta (stub) ma'lumot bilan sinalgan, haqiqiy Django/DB bilan emas.
 - Haqiqiy `next build` va Postgres bilan sinalmagan (faqat sintaksis va mock). Sandboxda PyPI va npm siyosat bo'yicha yopiq (403) — Django testlari, `makemigrations` va `next build` faqat foydalanuvchi mashinasida (`docker compose`) ishlaydi.
