@@ -47,6 +47,7 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
   - Migratsiya `content/0009_news_video_platform` (QO'LDA yozilgan; `video` maydoni, `category` choices, 3 ta boshlang'ich «Sayt yangiligi» yozuvi RunPython bilan — admin o'chirishi/tahrirlashi mumkin). Admin: `/updates` sahifasi, menyuda «Hamkorlik yangiliklari», «Tadbirlar», «Sayt yangiliklari» alohida; `/news` formasiga turkum «Sayt yangiliklari» va video qo'shildi. i18n: `nav.updates`, `news.cat.platform`, `updates.*`, `home.up.*` (380 kalit, 3 tilda teng).
   - Testlar: `backend/tests/test_site_content.py` (sahifa CMS: matn/rasm/o'chirish/standartga qaytarish/ruxsat, alifbo, `platform` turkumi va bosh sahifa `updates`, seed, yangilik videosi). Ishga tushirish: `docker compose exec backend python manage.py test tests`. YOZILGAN, lekin sandbox'da ishga tushirilmagan.
   - Tekshirilgan: esbuild/ast sintaksis, i18n pariteti, haqiqiy React SSR + Chromium (bosh sahifa bloki, /updates, videoli karta). Tekshirilmagan: Django/migratsiya/`next build` (sandbox'da yopiq).
+  - Tuzatish: e'lon kartasi bosilganda `/news/<slug>` ga ketardi. Endi `href` turkumga mos: `/updates/<slug>`, `/events/<slug>`, `/cooperation/<slug>`, `/news/<slug>` (`PublicNewsListSerializer.get_href`); har bir bo'limda `[slug]` sahifasi bor (umumiy maqola komponenti qayta ishlatiladi). Eski `/news/<slug>` havolalari ham ishlaydi, yo'l (breadcrumb) turkumga qarab chiqadi. Test qo'shildi.
 
 ## Ochiq / tekshirilmagan
 - Yordamchi mantiqi soxta (stub) ma'lumot bilan sinalgan, haqiqiy Django/DB bilan emas.

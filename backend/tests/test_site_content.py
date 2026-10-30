@@ -100,3 +100,14 @@ class SiteContentTests(TestCase):
         slug = r.json()["slug"]
         pub = self.api.get(f"/api/public/news/{slug}/").json()
         self.assertTrue(pub["video"] and pub["video"].endswith(".mp4"))
+
+    def test_public_href_matches_category_section(self):
+        for cat, section in (("platform", "updates"), ("event", "events"), ("cooperation", "cooperation"), ("news", "news")):
+            News.objects.create(title=cat, title_uz=cat, category=cat, slug=f"h-{cat}")
+        rows = self.api.get("/api/public/news/").json()
+        rows = rows["results"] if isinstance(rows, dict) else rows
+        got = {r["slug"]: r["href"] for r in rows if r["slug"].startswith("h-")}
+        self.assertEqual(got["h-platform"], "/updates/h-platform")
+        self.assertEqual(got["h-event"], "/events/h-event")
+        self.assertEqual(got["h-cooperation"], "/cooperation/h-cooperation")
+        self.assertEqual(got["h-news"], "/news/h-news")

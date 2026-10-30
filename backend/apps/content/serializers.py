@@ -53,10 +53,11 @@ class PublicNewsListSerializer(BaseModelSerializer):
         return None
 
     def get_href(self, obj):
-        """Frontend uchun tayyor manzil: tashqi bo'lsa URL, ichki bo'lsa /news/<slug>."""
+        """Frontend uchun tayyor manzil: tashqi bo'lsa URL, ichki bo'lsa turkumga mos: /updates|/events|/cooperation|/news /<slug>."""
         if obj.link_type == News.LinkType.EXTERNAL and obj.external_url:
             return obj.external_url
-        return f"/news/{obj.slug}"
+        section = {"platform": "updates", "event": "events", "cooperation": "cooperation"}.get(obj.category, "news")
+        return f"/{section}/{obj.slug}"
 
 
 class PublicNewsMediaSerializer(BaseModelSerializer):
