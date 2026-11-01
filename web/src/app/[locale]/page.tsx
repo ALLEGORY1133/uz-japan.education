@@ -43,7 +43,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     { icon: "news", k: "3" },
   ];
 
-  const gallery = DEMO.gallery.map((d, i) => mediaUrl(data.media[`gallery_${i + 1}`]?.image) || d);
+  const gallery = [
+    ...DEMO.gallery.map((d, i) => mediaUrl(data.media[`gallery_${i + 1}`]?.image) || d),
+    ...(data.gallery_extra || []).map((g) => mediaUrl(g.image)).filter(Boolean) as string[],
+  ];
   // Katta video/rasm joylari: admin yuklagan bo'lsa shu, bo'lmasa demo
   const bgOf = (key: string, blockKey: string, demoVideo: string, demoPoster: string) => {
     const own = bm(blocks, blockKey);

@@ -12,11 +12,12 @@ from apps.core.alphabet import to_new_alphabet
 from apps.universities.models import University, UsefulLink
 from apps.universities.serializers import PublicLinkSerializer, UniversityListSerializer
 
-from .models import HeroSlide, News, SiteMedia, SiteSettings, Stat
+from .models import GalleryImage, HeroSlide, News, SiteMedia, SiteSettings, Stat
 from .serializers import (
     PublicHeroSlideSerializer,
     PublicNewsDetailSerializer,
     PublicNewsListSerializer,
+    PublicGalleryImageSerializer,
     PublicSiteMediaSerializer,
     PublicSiteSettingsSerializer,
     PublicStatSerializer,
@@ -58,6 +59,7 @@ class HomeView(APIView):
                 m["key"]: m
                 for m in PublicSiteMediaSerializer(SiteMedia.objects.all(), many=True, context=ctx).data
             },
+            "gallery_extra": PublicGalleryImageSerializer(GalleryImage.objects.all(), many=True, context=ctx).data,
             "settings": PublicSiteSettingsSerializer(SiteSettings.load(), context=ctx).data,
         }
         return Response(data)

@@ -7,6 +7,7 @@ import { api, listOf, mediaUrl } from "@/lib/api";
 const WEB = process.env.NEXT_PUBLIC_WEB_URL || "http://localhost:3000";
 
 type Slot = { key: string; label: string; where: string; demo: string; video?: boolean };
+type Extra = { id: number; image: string | null };
 type Rec = { id: number; key: string; kind: "image" | "video"; image: string | null; video: string | null; video_url: string };
 
 const GALLERY = ["fuji", "registan", "torii", "campus", "tokyo", "dome", "kyoto", "grad", "bridge", "lantern", "train", "desk"];
@@ -30,6 +31,7 @@ const GROUPS: { title: string; hint: string; slots: Slot[] }[] = [
 
 export default function SiteMediaPage() {
   const [recs, setRecs] = useState<Record<string, Rec>>({});
+  const [extras, setExtras] = useState<Extra[]>([]);
   const [busy, setBusy] = useState<string | null>(null);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
 
@@ -39,6 +41,7 @@ export default function SiteMediaPage() {
       const m: Record<string, Rec> = {};
       listOf<Rec>(d).forEach((r) => (m[r.key] = r));
       setRecs(m);
+      setExtras(listOf<Extra>(await api("/gallery-images/")));
     } catch (e) {
       setMsg({ ok: false, text: errorSummary(e) });
     }
@@ -59,6 +62,40 @@ export default function SiteMediaPage() {
       else await api("/site-media/", { method: "POST", form: fd });
       await load();
       setMsg({ ok: true, text: `«${slot.label}» almaştirildi. Saytda darhol körinadi.` });
+    } catch (e) {
+      setMsg({ ok: false, text: errorSummary(e) });
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  async function addExtra(files: FileList) {
+    setBusy("extra");
+    setMsg(null);
+    try {
+      let n = extras.length;
+      for (const f of Array.from(files)) {
+        const fd = new FormData();
+        fd.append("image", f);
+        fd.append("sort_order", String(++n));
+        await api("/gallery-images/", { method: "POST", form: fd });
+      }
+      await load();
+      setMsg({ ok: true, text: `${files.length} ta rasm galereyaga qöşildi.` });
+    } catch (e) {
+      setMsg({ ok: false, text: errorSummary(e) });
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  async function removeExtra(x: Extra) {
+    if (!confirm("Bu rasm galereyadan öçirilsinmi?")) return;
+    setBusy("extra");
+    try {
+      await api(`/gallery-images/${x.id}/`, { method: "DELETE" });
+      await load();
+      setMsg({ ok: true, text: "Rasm öçirildi." });
     } catch (e) {
       setMsg({ ok: false, text: errorSummary(e) });
     } finally {
@@ -132,6 +169,38 @@ export default function SiteMediaPage() {
           </div>
         </section>
       ))}
+      <section className="sl-group">
+        <h2>Galereya: qöşimça rasmlar</h2>
+        <p className="muted">Yuqoridagi 12 ta rasmdan keyin lentaga qöşiladigan ixtiyoriy sondagi rasmlar. Bir necha rasmni birdaniga tanlash mumkin.</p>
+        <div className="sl-grid">
+          {extras.map((x) => (
+            <div key={x.id} className="sl-card">
+              <div className="sl-pic">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={mediaUrl(x.image) || ""} alt="" />
+                <span className="sl-chip own">Qöşimça rasm</span>
+              </div>
+              <div className="sl-body">
+                <div className="sl-act">
+                  <button type="button" className="btn ghost sm" disabled={busy === "extra"} onClick={() => removeExtra(x)}>Öçiriş</button>
+                </div>
+              </div>
+            </div>
+          ))}
+          <div className="sl-card">
+            <div className="sl-body">
+              <b>Yangi rasm qöşiş</b>
+              <small>JPG, PNG, WebP</small>
+              <div className="sl-act">
+                <label className={`btn primary sm ${busy === "extra" ? "disabled" : ""}`}>
+                  {busy === "extra" ? "Yuklanmoqda…" : "Rasm qöşiş"}
+                  <input type="file" hidden multiple disabled={busy === "extra"} accept="image/*" onChange={(e) => { const f = e.target.files; if (f && f.length) addExtra(f); e.target.value = ""; }} />
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

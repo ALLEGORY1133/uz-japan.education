@@ -132,6 +132,7 @@ export type HomeData = {
   updates?: NewsItem[];
   links: LinkItem[];
   media: Record<string, SiteMediaItem>;
+  gallery_extra?: { id: number; image: string | null }[];
   settings: SiteSettings;
 };
 

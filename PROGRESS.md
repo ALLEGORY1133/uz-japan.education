@@ -81,3 +81,8 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 
 ## Tepaga tugma chapga (2026-11-02)
 - Tugadi: `.to-top` natural.css’da chap pastga ko‘chirildi (left:22px).
+
+## Galereya: hover dizayni + qo‘shimcha rasmlar (2026-11-02)
+- Tugadi: kursor tushgan rasm kattalashadi (scale 1.12), qolganlari xira/blur (natural.css, sensorli ekranda o‘chiq). Yangi model `GalleryImage` + migratsiya `0010_galleryimage` (qo‘lda yozilgan), admin API `/api/admin/gallery-images/` (RBAC: site_media), public `home.gallery_extra`, admin «Sayt rasm va videolari» sahifasida «Galereya: qöşimça rasmlar» (ko‘p rasm yuklash/o‘chirish), web lentasi 12 ta + qo‘shimcha rasmlar.
+- Fayllar: backend/apps/content/{models,serializers,admin_api,public}.py, migrations/0010, config/urls.py, web/src/app/[locale]/page.tsx, lib/types.ts, app/natural.css, admin/.../site-media/page.tsx.
+- Tekshirilmadi: `makemigrations --check`, Django testlar, `next build`, brauzer.

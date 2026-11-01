@@ -5,8 +5,9 @@ from rest_framework.views import APIView
 from apps.core.permissions import IsPlatformAdmin, SectionPermission
 from apps.core.viewsets import AdminOnlyViewSet
 
-from .models import HeroSlide, HeroSlideImage, News, NewsMedia, SiteMedia, SiteSettings, Stat
+from .models import GalleryImage, HeroSlide, HeroSlideImage, News, NewsMedia, SiteMedia, SiteSettings, Stat
 from .serializers import (
+    AdminGalleryImageSerializer,
     AdminHeroSlideImageSerializer,
     AdminHeroSlideSerializer,
     AdminNewsMediaSerializer,
@@ -34,6 +35,12 @@ class AdminSiteMediaViewSet(AdminOnlyViewSet):
     section = "site_media"
     queryset = SiteMedia.objects.all()
     serializer_class = AdminSiteMediaSerializer
+
+
+class AdminGalleryImageViewSet(AdminOnlyViewSet):
+    section = "site_media"
+    queryset = GalleryImage.objects.all()
+    serializer_class = AdminGalleryImageSerializer
 
 
 class AdminNewsViewSet(AdminOnlyViewSet):

@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from apps.core.serializers import AdminModelSerializer, BaseModelSerializer
 
-from .models import HeroSlide, HeroSlideImage, MediaKind, News, NewsMedia, SiteMedia, SiteSettings, Stat
+from .models import GalleryImage, HeroSlide, HeroSlideImage, MediaKind, News, NewsMedia, SiteMedia, SiteSettings, Stat
 
 # ---------------------------------------------------------------- ochiq
 
@@ -27,6 +27,12 @@ class PublicSiteMediaSerializer(BaseModelSerializer):
     class Meta:
         model = SiteMedia
         fields = ["key", "kind", "image", "video", "video_url", "caption"]
+
+
+class PublicGalleryImageSerializer(BaseModelSerializer):
+    class Meta:
+        model = GalleryImage
+        fields = ["id", "image"]
 
 
 class PublicNewsListSerializer(BaseModelSerializer):
@@ -124,6 +130,12 @@ class AdminSiteMediaSerializer(AdminModelSerializer):
     def validate(self, attrs):
         _check_media(attrs, self.instance, "kind")
         return attrs
+
+
+class AdminGalleryImageSerializer(AdminModelSerializer):
+    class Meta:
+        model = GalleryImage
+        fields = "__all__"
 
 
 class AdminNewsSerializer(AdminModelSerializer):

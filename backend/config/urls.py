@@ -35,6 +35,7 @@ from apps.applications.views import (
 from apps.applications.cabinet import CabinetInquiryView, CabinetLoginView, CabinetMeView, CabinetVerifyView
 from apps.content.media_library import MediaLibraryItemView, MediaLibraryView
 from apps.content.admin_api import (
+    AdminGalleryImageViewSet,
     AdminHeroSlideImageViewSet,
     AdminHeroSlideViewSet,
     AdminNewsMediaViewSet,
@@ -127,6 +128,7 @@ admin_router.register("applications", AdminApplicationViewSet, basename="admin-a
 admin_router.register("hero-slides", AdminHeroSlideViewSet, basename="admin-hero")
 admin_router.register("hero-slide-images", AdminHeroSlideImageViewSet, basename="admin-hero-image")
 admin_router.register("site-media", AdminSiteMediaViewSet, basename="admin-site-media")
+admin_router.register("gallery-images", AdminGalleryImageViewSet, basename="admin-gallery-images")
 admin_router.register("news", AdminNewsViewSet, basename="admin-news")
 admin_router.register("news-media", AdminNewsMediaViewSet, basename="admin-news-media")
 admin_router.register("stats", AdminStatViewSet, basename="admin-stat")
