@@ -5,7 +5,7 @@
    - yumshoqroq burchaklar, tekis ranglar, tinch soyalar. */
 
 /* ---- rasm: yaqinlashish yo'q ---- */
-.cs-pic img, .cs-pic video, .card-cover, .gl-track img, .mv img, .mv video,
+.cs-pic img, .cs-pic video, .card-cover, .mv img, .mv video,
 .slide.active .slide-art, .slide.active .slide-media, .bs-img, .uni-card img, .hm-pic img {
   animation: none !important;
   transform: none !important;
