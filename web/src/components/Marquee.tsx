@@ -33,11 +33,9 @@ export default function Marquee({ items, locale }: { items: UniversityListItem[]
   // Kam universitet bo'lsa, qator to'lishi uchun ko'paytiramiz
   let base = items;
   while (base.length < 8) base = [...base, ...items];
-  const reversed = [...base].reverse();
   return (
     <>
       <Row items={base} locale={locale} dir="left" />
-      <Row items={reversed} locale={locale} dir="right" />
     </>
   );
 }
