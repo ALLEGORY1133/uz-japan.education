@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.db import DatabaseError, transaction
 from django.db.models import Count, Q
 from django.utils import timezone
 from rest_framework import viewsets
@@ -22,6 +23,15 @@ from .serializers import (
     PublicSiteSettingsSerializer,
     PublicStatSerializer,
 )
+
+
+def _gallery_extra(ctx):
+    """Migratsiya hali qo'llanmagan bo'lsa ham bosh sahifa ishlashda davom etsin."""
+    try:
+        with transaction.atomic():
+            return PublicGalleryImageSerializer(list(GalleryImage.objects.all()), many=True, context=ctx).data
+    except DatabaseError:
+        return []
 
 
 class HomeView(APIView):
@@ -59,7 +69,7 @@ class HomeView(APIView):
                 m["key"]: m
                 for m in PublicSiteMediaSerializer(SiteMedia.objects.all(), many=True, context=ctx).data
             },
-            "gallery_extra": PublicGalleryImageSerializer(GalleryImage.objects.all(), many=True, context=ctx).data,
+            "gallery_extra": _gallery_extra(ctx),
             "settings": PublicSiteSettingsSerializer(SiteSettings.load(), context=ctx).data,
         }
         return Response(data)

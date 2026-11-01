@@ -86,3 +86,4 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 - Tugadi: kursor tushgan rasm kattalashadi (scale 1.12), qolganlari xira/blur (natural.css, sensorli ekranda o‘chiq). Yangi model `GalleryImage` + migratsiya `0010_galleryimage` (qo‘lda yozilgan), admin API `/api/admin/gallery-images/` (RBAC: site_media), public `home.gallery_extra`, admin «Sayt rasm va videolari» sahifasida «Galereya: qöşimça rasmlar» (ko‘p rasm yuklash/o‘chirish), web lentasi 12 ta + qo‘shimcha rasmlar.
 - Fayllar: backend/apps/content/{models,serializers,admin_api,public}.py, migrations/0010, config/urls.py, web/src/app/[locale]/page.tsx, lib/types.ts, app/natural.css, admin/.../site-media/page.tsx.
 - Tekshirilmadi: `makemigrations --check`, Django testlar, `next build`, brauzer.
+- Qo‘shimcha: `public.py` da `gallery_extra` DB xatosida bo‘sh ro‘yxat qaytaradi (migratsiya 0010 qo‘llanmagan bo‘lsa ham bosh sahifa ishlaydi).
