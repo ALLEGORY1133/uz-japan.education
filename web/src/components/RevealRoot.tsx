@@ -68,21 +68,11 @@ export default function RevealRoot() {
 
     const root = document.documentElement;
 
-    // Sahifa bo'ylab o'qish ko'rsatkichi
-    let bar = document.getElementById("rv-progress");
-    if (!bar) {
-      bar = document.createElement("div");
-      bar.id = "rv-progress";
-      bar.setAttribute("aria-hidden", "true");
-      document.body.appendChild(bar);
-    }
     let raf = 0;
     const onScroll = () => {
       if (raf) return;
       raf = requestAnimationFrame(() => {
         raf = 0;
-        const h = document.documentElement.scrollHeight - window.innerHeight;
-        bar!.style.transform = `scaleX(${h > 0 ? Math.min(1, window.scrollY / h) : 0})`;
         document.querySelectorAll<HTMLElement>(".bento-glyph").forEach((g) => {
           const r = g.getBoundingClientRect();
           const k = (r.top + r.height / 2 - window.innerHeight / 2) / window.innerHeight;

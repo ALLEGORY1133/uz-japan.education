@@ -377,7 +377,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
 /* ============ Scroll reveal (RevealRoot) ============ */
 html.rv-on{--ez:cubic-bezier(.22,.8,.2,1)}
 html.rv-on [data-fx]{animation:none}
-#rv-progress{position:fixed;left:0;top:0;height:3px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,#dd3f30,#f4a95c);z-index:100;pointer-events:none}
+#rv-progress{display:none}
 
 @keyframes fx-rise{from{opacity:0;transform:translate3d(0,34px,0)}}
 @keyframes fx-fade{from{opacity:0;filter:blur(6px)}}

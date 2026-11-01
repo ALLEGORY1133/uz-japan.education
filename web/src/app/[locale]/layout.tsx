@@ -26,6 +26,7 @@ import { notFound } from "next/navigation";
 import Assistant from "@/components/Assistant";
 import RevealRoot from "@/components/RevealRoot";
 import Footer from "@/components/Footer";
+import ToTop from "@/components/ToTop";
 import Header from "@/components/Header";
 import { getHome } from "@/lib/api";
 import { getT, isLocale, localeNames, locales } from "@/lib/i18n";
@@ -78,6 +79,7 @@ export default async function LocaleLayout({
         <Header locale={locale} labels={labels} locales={locales.map((c) => ({ code: c, name: localeNames[c] }))} />
         {children}
         <Footer locale={locale} t={t} settings={settings} links={links} />
+        <ToTop label={t("footer.top")} />
         <RevealRoot />
         <Assistant locale={locale} L={{ title: t("asst.title"), sub: t("asst.sub"), ph: t("asst.ph"), send: t("asst.send"), open: t("asst.open"), close: t("asst.close"), err: t("asst.err"), hi: t("asst.hi"), s1: t("asst.s1"), s2: t("asst.s2"), s3: t("asst.s3"), s4: t("asst.s4") }} />
       </body>

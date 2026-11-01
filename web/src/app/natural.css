@@ -82,3 +82,13 @@
 .fs-contact li a:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
 .fs-ci { flex: none; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: rgba(154, 240, 228, .13); color: #9af0e4; }
 @media (max-width: 860px) { .fs-row { grid-template-columns: 1fr; } }
+
+/* Footer pastki qator — bitta qator */
+.footer-bottom { flex-wrap: nowrap; justify-content: space-between; white-space: nowrap; }
+.footer-bottom > div { overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 640px) { .footer-bottom { flex-wrap: wrap; white-space: normal; } }
+
+/* Tepaga qaytish tugmasi */
+.to-top { position: fixed; right: 22px; bottom: 22px; z-index: 90; width: 46px; height: 46px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center; color: #fff; background: #2a2656; box-shadow: 0 6px 18px rgba(20, 18, 50, .28); opacity: 0; transform: translateY(12px); pointer-events: none; transition: opacity .25s, transform .25s, background .2s; }
+.to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+.to-top:hover { background: #3d3880; }
