@@ -78,3 +78,6 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 ## Universitetlar marquee — 1 qator (2026-11-02)
 - Tugadi: `Marquee.tsx` da ikkinchi (teskari) qator olib tashlandi, faqat bitta qator aylanadi.
 - Tekshirilmadi: real `next build`, brauzerda ko‘rinish.
+
+## Tepaga tugma chapga (2026-11-02)
+- Tugadi: `.to-top` natural.css’da chap pastga ko‘chirildi (left:22px).

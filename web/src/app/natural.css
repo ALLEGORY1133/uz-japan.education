@@ -89,6 +89,6 @@
 @media (max-width: 640px) { .footer-bottom { flex-wrap: wrap; white-space: normal; } }
 
 /* Tepaga qaytish tugmasi */
-.to-top { position: fixed; right: 22px; bottom: 22px; z-index: 90; width: 46px; height: 46px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center; color: #fff; background: #2a2656; box-shadow: 0 6px 18px rgba(20, 18, 50, .28); opacity: 0; transform: translateY(12px); pointer-events: none; transition: opacity .25s, transform .25s, background .2s; }
+.to-top { position: fixed; left: 22px; bottom: 22px; z-index: 90; width: 46px; height: 46px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center; color: #fff; background: #2a2656; box-shadow: 0 6px 18px rgba(20, 18, 50, .28); opacity: 0; transform: translateY(12px); pointer-events: none; transition: opacity .25s, transform .25s, background .2s; }
 .to-top.show { opacity: 1; transform: none; pointer-events: auto; }
 .to-top:hover { background: #3d3880; }
