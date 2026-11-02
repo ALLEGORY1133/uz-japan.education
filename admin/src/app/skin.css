@@ -677,3 +677,6 @@ h1, h2, h3 { font-weight: 800; letter-spacing: -.02em; }
 .af-op { flex: 0 1 auto; width: fit-content; max-width: 100%; padding-right: 16px; }
 .af-op-body { flex: 1 1 auto; min-width: 0; }
 .af-op-links a { max-width: 100%; overflow-wrap: anywhere; word-break: break-word; }
+/* Email/telefon bir qatorda qoladi, quti uzunligiga moslashadi (juda tor ekranda kesiladi) */
+.af-op-links a { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; overflow-wrap: normal; word-break: normal; }
+.af-op { width: max-content; }

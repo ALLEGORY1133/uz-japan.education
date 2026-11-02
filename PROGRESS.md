@@ -131,3 +131,4 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 
 ## Admin footer texnik yordam kartasi (2026-11-02)
 - Tugadi: email kartadan chiqib ketayotgan edi — karta endi mazmuniga qarab kengayadi (flex, width: fit-content, max-width 100%), uzun email o‘raladi. Fayl: admin/src/app/skin.css.
+- Tuzatish: footer kartasidagi email/telefon endi qatorga o‘tmaydi (nowrap), karta `width: max-content` bilan uzunligiga moslashadi.
