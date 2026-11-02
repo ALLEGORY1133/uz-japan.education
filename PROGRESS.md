@@ -150,3 +150,6 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 ## PR #2 merge (2026-11-02)
 - `footer-totop` (PR #2: admin sozlamalari/Texnik yordam, ko'p email/telefon, galereya rasmlari, admin menyusi sayt tuzilishi bo'yicha) `main` ga qo'shildi; konflikt faqat `natural.css` izohida. web/admin `next build` OK, migratsiyalar `content.0010_galleryimage`, `0011_sitesettings_extra_contacts` qo'llandi, Docker'da localhost yangilandi.
 - Backend testlari: 10/10 OK. Ikki test tuzatildi (kod emas, test xatosi): platform demo yozuvlari migratsiyada qo'shilgani uchun aniq ro'yxat o'rniga tegishlilik tekshiriladi; multipart POST'da `is_published` yuborilmasa DRF uni `False` qiladi — testda `True` beriladi.
+
+## Footer xaritasi (2026-11-02)
+- Footerga 4-ustun: Google Maps (API kalitsiz `output=embed`), «Xaritada oçiş» havolasi. Standart nuqta: ÖzMU qoşidagi Fizika-matematika maktabi (41.289318, 69.196078). Admin «Sozlamalar» → «Xarita uçun manzil» (`SiteSettings.map_query`, tarjima/alifbo o'girilmaydi; koordinata yoki lotinça manzil) bilan almaştiriladi. Migratsiya `content.0012_sitesettings_map_query`. 1600px da 4 ustun, ≤1100px da 2 ustun, ≤860px da 1 ustun. Brauzerda tekşirildi.

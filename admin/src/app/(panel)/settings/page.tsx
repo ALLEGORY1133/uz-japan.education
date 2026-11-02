@@ -5,7 +5,10 @@ import { blankValues, buildFormData, errorSummary, FieldDef, FormFields, initVal
 import { api } from "@/lib/api";
 import type { Operator } from "@/components/Operators";
 
-const ADDRESS: FieldDef[] = [{ name: "address", label: "Manzil", tr: true }];
+const ADDRESS: FieldDef[] = [
+  { name: "address", label: "Manzil", tr: true },
+  { name: "map_query", label: "Xarita uçun manzil", help: "Saytning pastidagi xarita. Koordinata (masalan: 41.289318, 69.196078) yoki lotinça manzil. Böş qolsa — Fizika-matematika maktabi (ÖzMU)." },
+];
 const SOCIAL: { name: string; label: string; ph: string; color: string; icon: ReactNode }[] = [
   { name: "telegram_url", label: "Telegram", ph: "https://t.me/…", color: "#229ed9", icon: <path d="M21.5 3.5L2.5 10.8l6.2 2.3 2.3 6.4 3.2-4.2 5.3 3.9zM8.7 13.1l12.8-9.6" /> },
   { name: "instagram_url", label: "Instagram", ph: "https://instagram.com/…", color: "#e1306c", icon: <><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.3" cy="6.7" r=".6" /></> },

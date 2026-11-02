@@ -10,6 +10,10 @@ const USEFUL: { title: string; url: string }[] = [
   { title: "JICA", url: "https://www.jica.go.jp" },
 ];
 
+// Admin «Xarita uçun manzil» böş bölsa: ÖzMU qoşidagi Fizika-matematika maktabi
+const DEFAULT_MAP = "41.289318,69.196078";
+const MAP_LANG: Record<Locale, string> = { uz: "uz", en: "en", ja: "ja" };
+
 export default function Footer({ locale, t, settings, links = [] }: { locale: Locale; t: TFn; settings?: SiteSettings; links?: LinkItem[] }) {
   const s = settings;
   const socials = [
@@ -18,6 +22,7 @@ export default function Footer({ locale, t, settings, links = [] }: { locale: Lo
     { url: s?.youtube_url, label: "YouTube", key: "yt", icon: <YouTubeIcon size={22} /> },
     { url: s?.linkedin_url, label: "LinkedIn", key: "in", icon: <LinkedInIcon size={21} /> },
   ].filter((x) => x.url);
+  const mapQ = (s?.map_query || "").trim() || DEFAULT_MAP;
 
   return (
     <footer className="footer footer-sm" id="contact">
@@ -64,6 +69,18 @@ export default function Footer({ locale, t, settings, links = [] }: { locale: Lo
                 <li><span className="fs-ci"><PinIcon size={17} /></span><span>{s.address}</span></li>
               )}
             </ul>
+          </div>
+          <div className="fs-map">
+            <h4>{t("footer.map")}</h4>
+            <iframe
+              title={t("footer.map")}
+              src={`https://maps.google.com/maps?q=${encodeURIComponent(mapQ)}&z=16&hl=${MAP_LANG[locale]}&output=embed`}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+            <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQ)}`} target="_blank" rel="noopener noreferrer">
+              {t("footer.map.open")} ↗
+            </a>
           </div>
         </div>
         <div className="footer-bottom">

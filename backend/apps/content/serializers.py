@@ -91,7 +91,7 @@ class PublicSiteSettingsSerializer(BaseModelSerializer):
     class Meta:
         model = SiteSettings
         fields = [
-            "contact_email", "contact_phone", "extra_emails", "extra_phones", "address",
+            "contact_email", "contact_phone", "extra_emails", "extra_phones", "address", "map_query",
             "telegram_url", "youtube_url", "linkedin_url", "instagram_url",
         ]
 

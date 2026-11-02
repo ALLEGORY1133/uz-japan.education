@@ -117,6 +117,7 @@ export type SiteSettings = {
   extra_emails?: string[];
   extra_phones?: string[];
   address: string;
+  map_query?: string;
   telegram_url: string;
   youtube_url: string;
   linkedin_url: string;

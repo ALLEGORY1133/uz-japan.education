@@ -213,6 +213,8 @@ class SiteSettings(models.Model):
     contact_email = models.EmailField(blank=True)
     contact_phone = models.CharField(max_length=40, blank=True)
     address = models.CharField(max_length=250, blank=True)  # tarjima
+    # Footer xaritasi uchun: manzil (lotin/ingliz) yoki "41.31, 69.27" koordinata; tarjima/alifbo o'girilmaydi
+    map_query = models.CharField(max_length=250, blank=True)
     extra_emails = models.JSONField(default=list, blank=True)  # qo'shimcha emaillar: ["a@b.uz", ...]
     extra_phones = models.JSONField(default=list, blank=True)  # qo'shimcha telefonlar
     telegram_url = models.URLField(blank=True)
