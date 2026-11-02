@@ -166,3 +166,7 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 - 3-qadam (admin) tugadi: menyuda «Biz haqimizda» ▸ Yutuqlarimiz / Tarix / Tahlillar (`/about/[kind]`, ResourceManager: sarlavha, qisqa/batafsil matn uz-ja-en, yil, rasm, video, ko‘rsatish/yashirish, tartib) + Matnlar (`/pages/about`) + Talaba kabineti sahifasi (hub kartasi). Test qo‘shildi (`test_about_items_admin_and_public`, ishga tushirilmagan). Fayllar: admin/src/{app/(panel)/about/[kind]/page.tsx, lib/sitemap.ts}, backend/tests/test_site_content.py.
 - Eslatma: seed (demo) yutuqlar qo‘shilmadi — yolg‘on da’vo bo‘lmasligi uchun. Admin yutuq qo‘shmaguncha bosh sahifadagi o‘ng blok va About’dagi bölimlar yashirin turadi.
 - Tekshirilmadi: migrate/makemigrations --check (0013), manage.py test, next build, brauzer.
+
+## Build tuzatish (2026-11-02)
+- Foydalanuvchining haqiqiy `docker compose up --build` (next build) natijasi: admin Shell.tsx:68 da TS xatosi (type predicate). Tuzatildi: menyu elementlari oddiy sikl bilan `Item[]` ga yig‘iladi. Migratsiyalar 0012, 0013 haqiqiy bazada OK.
+- Eslatma: web `next build` xato topishdan oldin bekor qilingan (CANCELED) — web’ning tur tekshiruvi hali o‘tmagan.

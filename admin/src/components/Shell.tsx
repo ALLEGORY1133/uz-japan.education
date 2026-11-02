@@ -52,20 +52,23 @@ export default function Shell({ children }: { children: React.ReactNode }) {
     },
   ];
   const allowed = ([k]: Def) => (k === "" ? true : k === "admin" ? isAdmin : isAdmin || !!perms[k]);
+  const siteItems: Item[] = [];
+  for (const p of SITE) {
+    const ok = p.leaves.filter((l) => allowed([l.perm, "", "", ""]));
+    if (!ok.length) continue;
+    if (p.direct) {
+      siteItems.push({ href: p.direct, label: p.label, icon: p.icon });
+      continue;
+    }
+    const children: Item[] = ok.filter((l) => !l.hubOnly).map((l) => ({ href: l.href, label: l.label, icon: l.icon }));
+    if (children.length) siteItems.push({ href: `/site/${p.key}`, label: p.label, icon: p.icon, children });
+  }
   const groups: Group[] =
     isManager || isAdmin
       ? MASTER.map((g) => ({
           title: g.title,
           items: g.title === "Sayt sahifalari"
-            ? SITE.map((p) => {
-                const ok = p.leaves.filter((l) => allowed([l.perm, "", "", ""]));
-                if (!ok.length) return null;
-                if (p.direct) return { href: p.direct, label: p.label, icon: p.icon };
-                return {
-                  href: `/site/${p.key}`, label: p.label, icon: p.icon,
-                  children: ok.filter((l) => !l.hubOnly).map((l) => ({ href: l.href, label: l.label, icon: l.icon })),
-                };
-              }).filter((p): p is Item => !!p && (!p.children || p.children.length > 0))
+            ? siteItems
             : g.defs.filter(allowed).map(([, href, label, icon]) => ({ href, label, icon })),
         })).filter((g) => g.items.length > 0)
       : [
