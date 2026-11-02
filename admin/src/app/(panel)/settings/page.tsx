@@ -52,7 +52,7 @@ function OperatorsCard() {
     <div className="card op-card">
       <div className="op-head">
         <div>
-          <h2>Aloqa operatorlari</h2>
+          <h2>Texnik yordam</h2>
           <p className="muted">Faqat <b>admin panel footerida</b> körinadi (sayt footerida emas). Xodimni bazadan tanlang yoki qöl bilan yozing. Har biriga telefon yoki Telegram kiriting (köpi bilan 8 ta).</p>
         </div>
       </div>
@@ -98,6 +98,7 @@ export default function SettingsPage() {
   const [errors, setErrors] = useState<any>(null);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
   const [busy, setBusy] = useState(false);
+  const [tab, setTab] = useState<"contact" | "support">("contact");
 
   useEffect(() => {
     api("/site-settings/").then((d) => setValues(initValues(FIELDS, d))).catch((e) => setMsg({ ok: false, text: errorSummary(e) }));
@@ -122,9 +123,13 @@ export default function SettingsPage() {
   return (
     <>
       <div className="page-head">
-        <div><h1>Sozlamalar</h1><p>Sayt footer’idagi aloqa ma’lumotlari (email, telefon, manzil) va ijtimoiy tarmoq havolalari. «Foydali havolalar» alohida bölimda.</p></div>
+        <div><h1>Sozlamalar</h1><p>{tab === "contact" ? "Sayt footer’idagi aloqa ma’lumotlari (email, telefon, manzil) va ijtimoiy tarmoq havolalari." : "Admin panel footerida körinadigan texnik yordam operatorlari."}</p></div>
       </div>
-      {!values ? <p className="muted">Yuklanmoqda…</p> : (
+      <div className="tabs" role="tablist" style={{ display: "flex", gap: 8, margin: "0 0 16px" }}>
+        <button type="button" role="tab" aria-selected={tab === "contact"} className={`btn ${tab === "contact" ? "primary" : "ghost"}`} onClick={() => setTab("contact")}>Aloqa</button>
+        <button type="button" role="tab" aria-selected={tab === "support"} className={`btn ${tab === "support" ? "primary" : "ghost"}`} onClick={() => setTab("support")}>Texnik yordam</button>
+      </div>
+      {tab === "support" ? <OperatorsCard /> : !values ? <p className="muted">Yuklanmoqda…</p> : (
         <form className="card" onSubmit={submit}>
           {msg && <div className={`notice ${msg.ok ? "ok" : "err"}`}>{msg.text}</div>}
           <FormFields fields={FIELDS} values={values} errors={errors} onChange={(k, v) => setValues((s) => ({ ...s!, [k]: v }))} />
@@ -134,7 +139,6 @@ export default function SettingsPage() {
           </div>
         </form>
       )}
-      <OperatorsCard />
     </>
   );
 }

@@ -88,3 +88,7 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 - Tekshirilmadi: `makemigrations --check`, Django testlar, `next build`, brauzer.
 - Qo‘shimcha: `public.py` da `gallery_extra` DB xatosida bo‘sh ro‘yxat qaytaradi (migratsiya 0010 qo‘llanmagan bo‘lsa ham bosh sahifa ishlaydi).
 - Tuzatish: natural.css dagi "rasm: yaqinlashish yo‘q" qoidasi `.gl-track img` ni `transform:none !important` bilan o‘chirib qo‘ygan edi — galereya rasmi ro‘yxatdan olindi, hover kattalashishi ishlaydi (animatsiya/zoom boshqa rasmlarda o‘chiq qoladi).
+
+## Sozlamalar: 2 ta bo‘lim (2026-11-02)
+- Tugadi: admin «Sozlamalar» sahifasi endi 2 tab: «Aloqa» (email/telefon/manzil/ijtimoiy tarmoqlar) va «Texnik yordam» (admin footeridagi operatorlar; oldingi «Aloqa operatorlari»). Fayl: admin/src/app/(panel)/settings/page.tsx.
+- Tekshirilmadi: real `next build`, brauzer.
