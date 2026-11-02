@@ -137,3 +137,11 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 - Tugadi: yon menyu sayt sahifalari bo‘yicha guruhlandi (yig‘iladigan sarlavhalar, faol bölim doim ochiq): Boşqaruv · Arizalar (arizalar, murojaatlar, KPI) · Boş sahifa (slayder, matn va rasm bölimlari, rasm/video/galereya, statistika) · Yangiliklar (barça yozuvlar, hamkorlik, tadbirlar, sayt yangiliklari) · Universitetlar · Umumiy (media kutubxonasi, havolalar, sozlamalar) · Tizim (foydalanuvçilar, rollar, tarix). Admin va menejer uchun bitta MASTER ro‘yxat (ruxsatga qarab filtrlanadi).
 - Fayllar: admin/src/components/Shell.tsx, app/skin.css.
 - Tekshirilmadi: next build, brauzer.
+
+## Admin menyu — veb-sayt tuzilmasiga moslandi (2026-11-02, oldingi guruhlash o‘rniga)
+- Tugadi: menyu endi saytdagi sahifalar bo‘yicha: «Sayt sahifalari» ostida Boş sahifa / Yangiliklar / Universitetlar / Biz haqimizda; har birini bossangiz markaziy sahifa (`/site/[key]`, kartalar) ochiladi, menyuda ichki bölimlar chiqadi.
+  - Boş sahifa: Slayder, Statistika, Galereya (`/gallery`, yangi), Matn va rasm bölimlari (`/pages/home`), Katta rasm va videolar (`/site-media`), Foydali havolalar.
+  - Yangiliklar: Barça yozuvlar, Hamkorlik, Tadbirlar, Sayt yangiliklari, Sahifa matni (`/pages/news`).
+  - Universitetlar: röyxat, Sahifa matni. Biz haqimizda: `/pages/about`, `/pages/cabinet`.
+- Yangi/o‘zgargan: lib/sitemap.ts (yagona ro‘yxat), components/{PagesEditor,SiteMediaManager}.tsx, app/(panel)/{site/[key],gallery,pages/[key]}, Shell.tsx, skin.css. Qidiruv (Ctrl+K) ichki bandlarni ham topadi. Umumiy: Media kutubxonasi, Sozlamalar; Tizim: foydalanuvchilar, rollar, tarix.
+- Tekshirilmadi: next build, brauzer.

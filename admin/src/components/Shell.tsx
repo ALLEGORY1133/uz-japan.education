@@ -10,10 +10,11 @@ import { useEffect, useMemo, useState } from "react";
 import { api } from "@/lib/api";
 import Icon from "@/components/Icon";
 import { useAuth } from "@/lib/auth";
+import { SITE } from "@/lib/sitemap";
 
 const WEB = process.env.NEXT_PUBLIC_WEB_URL || "http://localhost:3000";
 
-type Item = { href: string; label: string; icon: string };
+type Item = { href: string; label: string; icon: string; children?: Item[] };
 type Group = { title?: string; items: Item[] };
 
 export default function Shell({ children }: { children: React.ReactNode }) {
@@ -24,6 +25,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [q, setQ] = useState("");
   const [bellOpen, setBellOpen] = useState(false);
+  const [openSub, setOpenSub] = useState<Record<string, boolean>>({});
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
   const [newCount, setNewCount] = useState<number | null>(null);
 
@@ -36,30 +38,11 @@ export default function Shell({ children }: { children: React.ReactNode }) {
       title: "Arizalar",
       defs: [["applications", "/applications", "Arizalar", "inbox"], ["inquiries", "/inquiries", "Murojaatlar", "inbox"], ["kpi", "/kpi", "KPI samaradorligi", "stats"]],
     },
-    {
-      title: "Boş sahifa",
-      defs: [
-        ["hero", "/hero", "Slayder", "hero"],
-        ["pages", "/pages", "Matn va rasm bölimlari", "news"],
-        ["site_media", "/site-media", "Rasm, video va galereya", "media"],
-        ["stats", "/stats", "Statistika", "stats"],
-      ],
-    },
-    {
-      title: "Yangiliklar",
-      defs: [
-        ["news", "/news", "Barça yozuvlar", "news"],
-        ["news", "/cooperation", "Hamkorlik", "news"],
-        ["news", "/events", "Tadbirlar", "news"],
-        ["news", "/updates", "Sayt yangiliklari", "news"],
-      ],
-    },
-    { title: "Universitetlar", defs: [["admin", "/universities", "Universitetlar", "university"]] },
+    { title: "Sayt sahifalari", defs: [] },
     {
       title: "Umumiy",
       defs: [
         ["media", "/media", "Media kutubxonasi", "media"],
-        ["admin", "/links", "Foydali havolalar", "links"],
         ["settings", "/settings", "Sozlamalar: aloqa, yordam", "settings"],
       ],
     },
@@ -71,7 +54,15 @@ export default function Shell({ children }: { children: React.ReactNode }) {
   const allowed = ([k]: Def) => (k === "" ? true : k === "admin" ? isAdmin : isAdmin || !!perms[k]);
   const groups: Group[] =
     isManager || isAdmin
-      ? MASTER.map((g) => ({ title: g.title, items: g.defs.filter(allowed).map(([, href, label, icon]) => ({ href, label, icon })) })).filter((g) => g.items.length > 0)
+      ? MASTER.map((g) => ({
+          title: g.title,
+          items: g.title === "Sayt sahifalari"
+            ? SITE.map((p) => ({
+                href: `/site/${p.key}`, label: p.label, icon: p.icon,
+                children: p.leaves.filter((l) => allowed([l.perm, "", "", ""])).map((l) => ({ href: l.href, label: l.label, icon: l.icon })),
+              })).filter((p) => p.children.length > 0)
+            : g.defs.filter(allowed).map(([, href, label, icon]) => ({ href, label, icon })),
+        })).filter((g) => g.items.length > 0)
       : [
           {
             items: [
@@ -83,7 +74,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         ];
 
   const searchItems = useMemo(() => {
-    const all = groups.flatMap((g) => g.items);
+    const all = groups.flatMap((g) => g.items.flatMap((i) => [i, ...(i.children || [])]));
     const t = q.trim().toLocaleLowerCase("uz");
     return all.filter((i) => i.label.toLocaleLowerCase("uz").includes(t));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -129,7 +120,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         </Link>
         <nav aria-label="Admin menyu">
           {groups.map((g, gi) => {
-            const hasActive = g.items.some((n) => isActive(n.href));
+            const hasActive = g.items.some((n) => isActive(n.href) || (n.children || []).some((c) => isActive(c.href)));
             const isOpen = !g.title || (collapsed[g.title] === undefined ? true : !collapsed[g.title]) || hasActive;
             return (
             <div className="nav-group" key={gi}>
@@ -138,12 +129,41 @@ export default function Shell({ children }: { children: React.ReactNode }) {
                   <span>{g.title}</span><i aria-hidden="true" className={isOpen ? "open" : ""}>›</i>
                 </button>
               )}
-              {isOpen && g.items.map((n) => (
-                <Link key={n.href} href={n.href} className={isActive(n.href) ? "active" : ""} aria-current={isActive(n.href) ? "page" : undefined} onClick={() => setOpen(false)}>
-                  <span className="nav-ico"><Icon name={n.icon} size={19} /></span>
-                  {n.label}
-                </Link>
-              ))}
+              {isOpen && g.items.map((n) => {
+                if (!n.children) {
+                  return (
+                    <Link key={n.href} href={n.href} className={isActive(n.href) ? "active" : ""} aria-current={isActive(n.href) ? "page" : undefined} onClick={() => setOpen(false)}>
+                      <span className="nav-ico"><Icon name={n.icon} size={19} /></span>
+                      {n.label}
+                    </Link>
+                  );
+                }
+                const childActive = n.children.some((c) => isActive(c.href));
+                const hubActive = isActive(n.href);
+                const exp = openSub[n.href] ?? (childActive || hubActive);
+                return (
+                  <div className={`nav-sub ${exp ? "open" : ""}`} key={n.href}>
+                    <div className="nav-sub-head">
+                      <Link href={n.href} className={hubActive ? "active" : childActive ? "has-active" : ""} onClick={() => { setOpen(false); setOpenSub((o) => ({ ...o, [n.href]: true })); }}>
+                        <span className="nav-ico"><Icon name={n.icon} size={19} /></span>
+                        {n.label}
+                      </Link>
+                      <button type="button" className="nav-sub-btn" aria-expanded={exp} aria-label={`${n.label} bölimlarini ${exp ? "yig‘iş" : "oçiş"}`} onClick={() => setOpenSub((o) => ({ ...o, [n.href]: !exp }))}>
+                        <i className={exp ? "open" : ""} aria-hidden="true">›</i>
+                      </button>
+                    </div>
+                    {exp && (
+                      <div className="nav-sub-list">
+                        {n.children.map((c) => (
+                          <Link key={c.href} href={c.href} className={isActive(c.href) ? "active" : ""} aria-current={isActive(c.href) ? "page" : undefined} onClick={() => setOpen(false)}>
+                            {c.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
             );
           })}
