@@ -108,3 +108,6 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 - Tugadi: admin panelning barcha «saqlandi/xato» xabarlari (`.notice.ok/.err`) endi ekranning yuqori markazida iPhone uslubidagi toast (`components/Toaster.tsx`, MutationObserver; Shell’da). Muvaffaqiyat xabari sahifa ichida yashirildi (`.shell .notice.ok{display:none}`), xato xabari ham sahifada qoladi. Sozlamalar sahifasi tagida «Saqlangan ma’lumotlar»: Aloqa (manzil, email, telefon, tarmoqlar) va Texnik yordam (xodimlar) kartalari + «Tahrirlaş» (qalamcha) tugmasi tegishli tabni ochib yuqoriga olib chiqadi.
 - Fayllar: admin/src/components/{Toaster,Shell}.tsx, app/(panel)/settings/page.tsx, app/skin.css.
 - Tekshirilmadi: next build, brauzer (toast ko‘rinishi/animatsiya).
+
+## Qaytarildi (2026-11-02)
+- Foydalanuvchi so‘rovi bilan 456410e («saqlangan ma’lumotlar tabma-tab, bosiladigan havolalar, picker») qaytarildi. Holat: 046e896 dagidek (Saqlangan ma’lumotlar ikki kartada birga, toast bor).
