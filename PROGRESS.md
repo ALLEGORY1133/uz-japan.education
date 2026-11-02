@@ -153,3 +153,7 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 
 ## Footer xaritasi (2026-11-02)
 - Footerga 4-ustun: Google Maps (API kalitsiz `output=embed`), «Xaritada oçiş» havolasi. Standart nuqta: ÖzMU qoşidagi Fizika-matematika maktabi (41.289318, 69.196078). Admin «Sozlamalar» → «Xarita uçun manzil» (`SiteSettings.map_query`, tarjima/alifbo o'girilmaydi; koordinata yoki lotinça manzil) bilan almaştiriladi. Migratsiya `content.0012_sitesettings_map_query`. 1600px da 4 ustun, ≤1100px da 2 ustun, ≤860px da 1 ustun. Brauzerda tekşirildi.
+
+## Admin menyu soddalashtirildi (2026-11-02)
+- Tugadi: ortiqcha bandlar olib tashlandi. Menyuda: Boş sahifa ▸ Slayder, Statistika, Galereya, Foydali havolalar, Matnlar; Yangiliklar ▸ Yangiliklar, Hamkorlik, Tadbirlar, Sayt yangiliklari; Universitetlar (bitta havola); Biz haqimizda (markaziy sahifa). «Katta rasm va videolar» va «Sahifa matni» kartalari faqat markaziy sahifada (hubOnly) qoldi. Fayllar: admin/src/lib/sitemap.ts, components/Shell.tsx.
+- GitHub tekshirildi: main’da footer-totop ishlari birlashgan + boshqa sessiya (footer xaritasi, sidebar scroll, testlar). Bu ish `menu-simplify` shoxida (main 996f86f’dan).
