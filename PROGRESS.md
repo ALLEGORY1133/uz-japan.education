@@ -73,6 +73,7 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 ## Footer pastki qator + tepaga tugma (2026-11-02)
 - Tugadi: footer-bottom bitta qator (mobilda wrap); tepadagi qizil o‘qish chizig‘i (#rv-progress) olib tashlandi; dumaloq "tepaga" tugmasi (`ToTop.tsx`, layout’da, `footer.top` kaliti 3 tilda).
 - Fayllar: web/src/components/{ToTop,RevealRoot}.tsx, app/[locale]/layout.tsx, app/natural.css, app/refine.css, lib/i18n.ts.
+- 2026-11-02: «tepaga» tugmasi chap pastga ko‘chirildi (`natural.css` `.to-top { left: 22px }`) — o‘ngda «Savol bering» tugmasini to‘sib qolardi.
 - Tekshirilmadi: real `next build`, brauzerda ko‘rinish.
 
 ## Universitetlar marquee — 1 qator (2026-11-02)
