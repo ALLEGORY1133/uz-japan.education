@@ -128,3 +128,6 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 ## Footer aloqa ustuni kengaytirildi (2026-11-02)
 - Tugadi: sayt footerida email qutidan chiqib ketayotgan edi — aloqa ustuni kengaytirildi (grid 1 : 1.3 : 1.9), matn o‘ralishi (min-width:0, overflow-wrap) qo‘shildi; <1100px da aloqa ustuni butun qatorni egallaydi. Fayl: web/src/app/natural.css.
 - Tekshirilmadi: brauzerda ko‘rinish.
+
+## Admin footer texnik yordam kartasi (2026-11-02)
+- Tugadi: email kartadan chiqib ketayotgan edi — karta endi mazmuniga qarab kengayadi (flex, width: fit-content, max-width 100%), uzun email o‘raladi. Fayl: admin/src/app/skin.css.
