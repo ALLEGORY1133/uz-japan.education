@@ -108,7 +108,3 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 - Tugadi: admin panelning barcha «saqlandi/xato» xabarlari (`.notice.ok/.err`) endi ekranning yuqori markazida iPhone uslubidagi toast (`components/Toaster.tsx`, MutationObserver; Shell’da). Muvaffaqiyat xabari sahifa ichida yashirildi (`.shell .notice.ok{display:none}`), xato xabari ham sahifada qoladi. Sozlamalar sahifasi tagida «Saqlangan ma’lumotlar»: Aloqa (manzil, email, telefon, tarmoqlar) va Texnik yordam (xodimlar) kartalari + «Tahrirlaş» (qalamcha) tugmasi tegishli tabni ochib yuqoriga olib chiqadi.
 - Fayllar: admin/src/components/{Toaster,Shell}.tsx, app/(panel)/settings/page.tsx, app/skin.css.
 - Tekshirilmadi: next build, brauzer (toast ko‘rinishi/animatsiya).
-
-## Sozlamalar: saqlangan ma’lumotlar tabma-tab (2026-11-02)
-- Tugadi: «Saqlangan ma’lumotlar» endi faqat joriy tabniki (Aloqa — Aloqa kartasi, Texnik yordam — xodimlar kartasi). Ijtimoiy tarmoq qatorlari bosiladigan havola (↗, yangi oynada, sxema yo‘q bo‘lsa https:// qo‘shiladi). Xodim tanlash kartasi allaqachon qo‘shilgan xodimlarni (ism yoki email bo‘yicha) ko‘rsatmaydi, hammasi qo‘shilsa karta yashirinadi.
-- Fayl: admin/src/app/(panel)/settings/page.tsx.
