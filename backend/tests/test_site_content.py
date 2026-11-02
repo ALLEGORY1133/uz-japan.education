@@ -128,3 +128,17 @@ class SiteContentTests(TestCase):
         self.assertNotIn("operators", pub)
         got = self.api.get("/api/admin/operators/").json()
         self.assertEqual([o["name"] for o in got], ["adm"])
+
+    # ---- Biz haqimizda: tarix / yutuqlar / tahlillar
+    def test_about_items_admin_and_public(self):
+        for kind, title in (("achievement", "Yutuq 1"), ("history", "Tarix 1"), ("analysis", "Tahlil 1")):
+            r = self.api.post("/api/admin/about-items/", {"kind": kind, "title": title, "title_uz": title, "year": 2024, "is_visible": True}, format="multipart")
+            self.assertEqual(r.status_code, 201, r.content)
+        hidden = self.api.post("/api/admin/about-items/", {"kind": "achievement", "title": "Yashirin", "title_uz": "Yashirin", "is_visible": False}, format="multipart")
+        self.assertEqual(hidden.status_code, 201, hidden.content)
+        pub = self.api.get("/api/public/about/").json()
+        self.assertEqual([x["title"] for x in pub["achievements"]], ["Yutuq 1"])
+        self.assertEqual(len(pub["history"]), 1)
+        self.assertEqual(len(pub["analyses"]), 1)
+        home = self.api.get("/api/public/home/").json()
+        self.assertEqual([x["title"] for x in home["achievements"]], ["Yutuq 1"])

@@ -36,11 +36,14 @@ export const SITE: SitePage[] = [
     ],
   },
   {
-    key: "about", label: "Biz haqimizda", icon: "cap", direct: "/site/about",
-    lead: "«Biz haqimizda» va «Talaba kabineti» sahifalari.",
+    key: "about", label: "Biz haqimizda", icon: "cap",
+    lead: "«Biz haqimizda» sahifasi: yutuqlar katalogi, tarix va tahlillar — har biriga rasm, video va matn qöşiladi.",
     leaves: [
-      { perm: "pages", href: "/pages/about", label: "Biz haqimizda", icon: "news", desc: "Sahifa boşi, «Biz nima qilamiz», «Kabinetda nimalar bor» va pastki chaqiruv.", tags: ["Matn", "Rasm", "Havola"] },
-      { perm: "pages", href: "/pages/cabinet", label: "Talaba kabineti", icon: "hero", desc: "Kabinet sahifasining sarlavhasi, matni va fon rasmi/videosi.", tags: ["Matn", "Rasm", "Video"] },
+      { perm: "pages", href: "/about/achievements", label: "Yutuqlarimiz", icon: "stats", desc: "Yutuqlar katalogi. Bosh sahifadagi video band yonidagi blokda ham chiqadi.", tags: ["Matn", "Rasm", "Video", "Yil"] },
+      { perm: "pages", href: "/about/history", label: "Tarix", icon: "clock", desc: "Sayt va loyiha tarixi: yil bölyiça lavhalar.", tags: ["Matn", "Rasm", "Video", "Yil"] },
+      { perm: "pages", href: "/about/analysis", label: "Tahlillar", icon: "news", desc: "Ta’lim va hamkorlik bölyiça qisqa tahlillar.", tags: ["Matn", "Rasm", "Video"] },
+      { perm: "pages", href: "/pages/about", label: "Matnlar", icon: "hero", desc: "Sahifa boşi, «Biz nima qilamiz», bölim sarlavhalari va pastki chaqiruv.", tags: ["Matn", "Rasm", "Havola"] },
+      { perm: "pages", href: "/pages/cabinet", label: "Talaba kabineti sahifasi", icon: "hero", desc: "Kabinet sahifasining sarlavhasi, matni va fon rasmi/videosi.", tags: ["Matn", "Rasm", "Video"], hubOnly: true },
     ],
   },
 ];
