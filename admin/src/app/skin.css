@@ -611,3 +611,16 @@ h1, h2, h3 { font-weight: 800; letter-spacing: -.02em; }
 .sp-role { color: #8a86a6; font-size: 13px; }
 .sp-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 @media (max-width: 900px) { .sp-fields, .sp-social { grid-template-columns: minmax(0, 1fr); } }
+
+/* Bir nechta email / telefon */
+.mf-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+@media (max-width: 900px) { .mf-grid { grid-template-columns: minmax(0, 1fr); } }
+.mf { display: grid; gap: 8px; align-content: start; }
+.mf-label { font-weight: 700; font-size: 14px; }
+.mf-tag { font-style: normal; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 99px; background: #efecff; color: #4b3ae3; }
+.mf-extra .mf-x { flex: none; width: 28px; height: 28px; border-radius: 50%; border: 0; background: #f4eef0; color: #c43b4b; font-size: 18px; line-height: 1; cursor: pointer; transition: background .2s, transform .2s; }
+.mf-extra .mf-x:hover { background: #fde1e5; transform: scale(1.08); }
+.mf-add { display: inline-flex; align-items: center; gap: 8px; justify-self: start; padding: 9px 16px; border-radius: 12px; border: 1.5px dashed #b9b1ee; background: transparent; color: #4b3ae3; font: inherit; font-weight: 700; cursor: pointer; transition: background .2s, border-color .2s; }
+.mf-add span { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: #5b4de8; color: #fff; line-height: 1; }
+.mf-add:hover { background: #f3f1ff; border-color: #5b4de8; }
+.mf-err { color: #c43b4b; }

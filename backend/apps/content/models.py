@@ -213,6 +213,8 @@ class SiteSettings(models.Model):
     contact_email = models.EmailField(blank=True)
     contact_phone = models.CharField(max_length=40, blank=True)
     address = models.CharField(max_length=250, blank=True)  # tarjima
+    extra_emails = models.JSONField(default=list, blank=True)  # qo'shimcha emaillar: ["a@b.uz", ...]
+    extra_phones = models.JSONField(default=list, blank=True)  # qo'shimcha telefonlar
     telegram_url = models.URLField(blank=True)
     youtube_url = models.URLField(blank=True)
     linkedin_url = models.URLField(blank=True)

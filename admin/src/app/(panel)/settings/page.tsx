@@ -6,17 +6,13 @@ import { api } from "@/lib/api";
 import type { Operator } from "@/components/Operators";
 
 const ADDRESS: FieldDef[] = [{ name: "address", label: "Manzil", tr: true }];
-const MAIL_PHONE: FieldDef[] = [
-  { name: "contact_email", label: "Email", type: "email" },
-  { name: "contact_phone", label: "Telefon" },
-];
 const SOCIAL: { name: string; label: string; ph: string; color: string; icon: ReactNode }[] = [
   { name: "telegram_url", label: "Telegram", ph: "https://t.me/…", color: "#229ed9", icon: <path d="M21.5 3.5L2.5 10.8l6.2 2.3 2.3 6.4 3.2-4.2 5.3 3.9zM8.7 13.1l12.8-9.6" /> },
   { name: "instagram_url", label: "Instagram", ph: "https://instagram.com/…", color: "#e1306c", icon: <><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.3" cy="6.7" r=".6" /></> },
   { name: "youtube_url", label: "YouTube", ph: "https://youtube.com/…", color: "#ff0033", icon: <><rect x="2.5" y="5.5" width="19" height="13" rx="4" /><path d="M10 9.5v5l4.5-2.5z" /></> },
   { name: "linkedin_url", label: "LinkedIn", ph: "https://linkedin.com/…", color: "#0a66c2", icon: <><rect x="3" y="3" width="18" height="18" rx="3" /><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7" /></> },
 ];
-const ALL_FIELDS: FieldDef[] = [...ADDRESS, ...MAIL_PHONE, ...SOCIAL.map((s) => ({ name: s.name, label: s.label, type: "url" } as FieldDef))];
+const ALL_FIELDS: FieldDef[] = [...ADDRESS, { name: "contact_email", label: "Email", type: "email" }, { name: "contact_phone", label: "Telefon" }, ...SOCIAL.map((s) => ({ name: s.name, label: s.label, type: "url" } as FieldDef))];
 
 function Ic({ children, color }: { children: ReactNode; color?: string }) {
   return (
@@ -118,14 +114,42 @@ function SupportTab() {
   );
 }
 
+function MultiField({ icon, label, type, ph, main, list, onMain, onList, error }: {
+  icon: ReactNode; label: string; type: string; ph: string; main: string; list: string[]; error?: string;
+  onMain: (v: string) => void; onList: (l: string[]) => void;
+}) {
+  const setAt = (i: number, v: string) => onList(list.map((x, j) => (j === i ? v : x)));
+  return (
+    <div className="mf">
+      <span className="mf-label">{label}</span>
+      <label className="sp-in"><span className="sp-ic">{icon}</span><input type={type} placeholder={ph} value={main} onChange={(e) => onMain(e.target.value)} /><em className="mf-tag">Asosiy</em></label>
+      {list.map((v, i) => (
+        <div key={i} className="sp-in mf-extra">
+          <span className="sp-ic">{icon}</span>
+          <input type={type} placeholder={ph} value={v} autoFocus={v === ""} onChange={(e) => setAt(i, e.target.value)} />
+          <button type="button" className="mf-x" aria-label="Öçiriş" onClick={() => onList(list.filter((_, j) => j !== i))}>×</button>
+        </div>
+      ))}
+      {list.length < 5 && (
+        <button type="button" className="mf-add" onClick={() => onList([...list, ""])}>
+          <span aria-hidden="true">+</span> {label} qöşiş
+        </button>
+      )}
+      {error && <small className="mf-err">{error}</small>}
+    </div>
+  );
+}
+
 function ContactTab() {
+  const [emails, setEmails] = useState<string[]>([]);
+  const [phones, setPhones] = useState<string[]>([]);
   const [values, setValues] = useState<Record<string, any> | null>(null);
   const [errors, setErrors] = useState<any>(null);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    api("/site-settings/").then((d) => setValues(initValues(ALL_FIELDS, d))).catch((e) => setMsg({ ok: false, text: errorSummary(e) }));
+    api("/site-settings/").then((d) => { setValues(initValues(ALL_FIELDS, d)); setEmails(d.extra_emails || []); setPhones(d.extra_phones || []); }).catch((e) => setMsg({ ok: false, text: errorSummary(e) }));
   }, []);
 
   async function submit(e: React.FormEvent) {
@@ -133,8 +157,13 @@ function ContactTab() {
     setBusy(true);
     setErrors(null);
     try {
-      const d = await api("/site-settings/", { method: "PATCH", form: buildFormData(ALL_FIELDS, values!) });
+      const fd = buildFormData(ALL_FIELDS, values!);
+      fd.append("extra_emails", JSON.stringify(emails.map((x) => x.trim()).filter(Boolean)));
+      fd.append("extra_phones", JSON.stringify(phones.map((x) => x.trim()).filter(Boolean)));
+      const d = await api("/site-settings/", { method: "PATCH", form: fd });
       setValues(initValues(ALL_FIELDS, d));
+      setEmails(d.extra_emails || []);
+      setPhones(d.extra_phones || []);
       setMsg({ ok: true, text: "Saqlandi." });
     } catch (err: any) {
       setErrors(err?.data);
@@ -155,7 +184,10 @@ function ContactTab() {
       </div>
       <div className="card sp-sec">
         <h2><span className="sp-ic">{MailI}</span> Email va <span className="sp-ic">{PhoneI}</span> telefon</h2>
-        <FormFields fields={MAIL_PHONE} values={values} errors={errors} onChange={on} />
+        <div className="mf-grid">
+          <MultiField icon={MailI} label="Email" type="email" ph="info@misol.uz" main={values.contact_email || ""} list={emails} onMain={(v) => on("contact_email", v)} onList={setEmails} error={errors?.contact_email?.[0] || errors?.extra_emails?.[0]} />
+          <MultiField icon={PhoneI} label="Telefon" type="text" ph="+998 90 123 45 67" main={values.contact_phone || ""} list={phones} onMain={(v) => on("contact_phone", v)} onList={setPhones} error={errors?.contact_phone?.[0] || errors?.extra_phones?.[0]} />
+        </div>
       </div>
       <div className="card sp-sec">
         <h2>Ijtimoiy tarmoqlar</h2>
@@ -174,7 +206,7 @@ function ContactTab() {
       </div>
       <div className="form-foot">
         <button className="btn primary" disabled={busy}>{busy ? "Saqlanmoqda…" : "Saqlaş"}</button>
-        <button type="button" className="btn ghost" disabled={busy} onClick={() => { setValues(blankValues(ALL_FIELDS)); setErrors(null); setMsg(null); }}>Tozalaş</button>
+        <button type="button" className="btn ghost" disabled={busy} onClick={() => { setValues(blankValues(ALL_FIELDS)); setEmails([]); setPhones([]); setErrors(null); setMsg(null); }}>Tozalaş</button>
       </div>
     </form>
   );

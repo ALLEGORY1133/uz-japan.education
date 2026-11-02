@@ -114,6 +114,8 @@ export type Stat = { id: number; label: string; value: number; suffix: string };
 export type SiteSettings = {
   contact_email: string;
   contact_phone: string;
+  extra_emails?: string[];
+  extra_phones?: string[];
   address: string;
   telegram_url: string;
   youtube_url: string;

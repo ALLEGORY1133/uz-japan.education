@@ -98,3 +98,8 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 - Tugadi: admin footeridagi «Aloqa operatorlari» kartasi olib tashlandi (Shell.tsx). «Aloqa» tabi: Manzil / Email va telefon / ijtimoiy tarmoqlar (brend ikonkali Telegram, Instagram, YouTube, LinkedIn). «Texnik yordam» tabi: qidiruvli xodim tanlash kartalari (bosib qo‘shiladi) + har bir xodim uchun email, telefon, Telegram. Operator JSON’iga `email` maydoni qo‘shildi (migratsiya shart emas, JSONField); validatsiya: email/telefon/Telegram’dan kamida bittasi; candidates API email qaytaradi.
 - Fayllar: admin/src/app/(panel)/settings/page.tsx, components/{Shell,Operators}.tsx, app/skin.css; backend/apps/content/{serializers,admin_api}.py.
 - Eslatma: sayt uchun email/telefon hali bittadan (ko‘p qiymat kerak bo‘lsa — modelni o‘zgartirish kerak). Tekshirilmadi: next build, brauzer.
+
+## Aloqa: bir nechta email va telefon (2026-11-02)
+- Tugadi: `SiteSettings.extra_emails` / `extra_phones` (JSONField, ko‘pi bilan 5 ta, validatsiya) + migratsiya `0011_sitesettings_extra_contacts` (qo‘lda yozilgan); public API shu maydonlarni beradi; web footer hammasini ikonkalar bilan ko‘rsatadi; admin «Aloqa» tabida «Asosiy» + «+ Email/Telefon qöşiş» tugmalari (×, dashed tugma).
+- Fayllar: backend/apps/content/{models,serializers}.py, migrations/0011, web/src/{components/Footer.tsx,lib/types.ts}, admin/.../settings/page.tsx, admin/src/app/skin.css.
+- Tekshirilmadi: migrate/makemigrations --check, testlar, next build, brauzer.

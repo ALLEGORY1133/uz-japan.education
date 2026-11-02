@@ -1,3 +1,5 @@
+from django.core.exceptions import ValidationError as DjangoValidationError
+from django.core.validators import validate_email
 from rest_framework import serializers
 
 from apps.core.serializers import AdminModelSerializer, BaseModelSerializer
@@ -89,7 +91,7 @@ class PublicSiteSettingsSerializer(BaseModelSerializer):
     class Meta:
         model = SiteSettings
         fields = [
-            "contact_email", "contact_phone", "address",
+            "contact_email", "contact_phone", "extra_emails", "extra_phones", "address",
             "telegram_url", "youtube_url", "linkedin_url", "instagram_url",
         ]
 
@@ -162,6 +164,32 @@ class AdminSiteSettingsSerializer(AdminModelSerializer):
     class Meta:
         model = SiteSettings
         fields = "__all__"
+
+    @staticmethod
+    def _clean_list(value, label, check=None):
+        if not isinstance(value, list):
+            raise serializers.ValidationError(f"{label} ro'yxati noto'g'ri.")
+        out = []
+        for v in value:
+            v = str(v or "").strip()[:80]
+            if not v:
+                continue
+            if check:
+                try:
+                    check(v)
+                except DjangoValidationError:
+                    raise serializers.ValidationError(f"«{v}» noto'g'ri kiritilgan.")
+            if v not in out:
+                out.append(v)
+        if len(out) > 5:
+            raise serializers.ValidationError("Ko'pi bilan 5 ta qo'shimcha qo'shish mumkin.")
+        return out
+
+    def validate_extra_emails(self, value):
+        return self._clean_list(value, "Email", validate_email)
+
+    def validate_extra_phones(self, value):
+        return self._clean_list(value, "Telefon")
 
     def validate_operators(self, value):
         if not isinstance(value, list):
