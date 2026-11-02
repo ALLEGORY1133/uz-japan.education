@@ -132,11 +132,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 </li>
               ))}
             </ul>
-            <div className="vb-chips">
-              <SmartLink href="#students" locale={locale}>{t("nav.scholarships")}</SmartLink>
-              <SmartLink href="#cooperation" locale={locale}>{t("nav.cooperation")}</SmartLink>
-              <SmartLink href="#exchange" locale={locale}>{t("nav.news")}</SmartLink>
-            </div>
           </div>
           {updates.length > 0 && (
             <aside className="vb-ev" aria-label={upTitle}>

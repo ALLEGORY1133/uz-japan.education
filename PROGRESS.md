@@ -170,3 +170,6 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 ## Build tuzatish (2026-11-02)
 - Foydalanuvchining haqiqiy `docker compose up --build` (next build) natijasi: admin Shell.tsx:68 da TS xatosi (type predicate). Tuzatildi: menyu elementlari oddiy sikl bilan `Item[]` ga yig‘iladi. Migratsiyalar 0012, 0013 haqiqiy bazada OK.
 - Eslatma: web `next build` xato topishdan oldin bekor qilingan (CANCELED) — web’ning tur tekshiruvi hali o‘tmagan.
+
+## Bosh sahifa: video banddagi 3 tugma olib tashlandi (2026-11-02)
+- «Biz haqimizda» yozuvli video bandda ostidagi Stipendiyalar / Hamkorlik / Yangiliklar tugmalari (`.vb-chips`) olib tashlandi. Fayl: web/src/app/[locale]/page.tsx.
