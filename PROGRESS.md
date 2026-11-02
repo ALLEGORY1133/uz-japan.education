@@ -124,3 +124,7 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 ## «Körsatiş/Yaşiriş» tugmalari → ko‘z ikonkasi (2026-11-02)
 - Tugadi: ro‘yxatlardagi «Körsatiş/Yaşiriş» tugmasi (ResourceManager: Statistika, Slayder, Havolalar, Universitet bo‘limlari) endi ko‘z ikonkasi (ko‘rinadi — ochiq ko‘z, yashirin — chizilgan ko‘z, tooltip bilan); login/parol tiklashdagi parolni ko‘rsatish tugmasi ham ikonka. Yangi `admin/src/components/EyeIcon.tsx`.
 - Tekshirilmadi: next build, brauzer.
+
+## Footer aloqa ustuni kengaytirildi (2026-11-02)
+- Tugadi: sayt footerida email qutidan chiqib ketayotgan edi — aloqa ustuni kengaytirildi (grid 1 : 1.3 : 1.9), matn o‘ralishi (min-width:0, overflow-wrap) qo‘shildi; <1100px da aloqa ustuni butun qatorni egallaydi. Fayl: web/src/app/natural.css.
+- Tekshirilmadi: brauzerda ko‘rinish.
