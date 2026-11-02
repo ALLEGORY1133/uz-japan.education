@@ -216,9 +216,17 @@ function ContactTab({ onSaved }: { onSaved: () => void }) {
 
 const PencilI = <Ic><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z" /><path d="m13.5 6.5 4 4" /></Ic>;
 const tg = (v: string) => (/^https?:\/\//i.test(v) ? v.replace(/^https?:\/\/(t\.me|telegram\.me)\//i, "@") : `@${v.replace(/^@/, "")}`);
+const socialHref = (v: string, name: string) => {
+  v = (v || "").trim();
+  if (/^https?:\/\//i.test(v)) return v;
+  const h = v.replace(/^@/, "").replace(/^\/+/, "");
+  if (/^(www\.)?[\w-]+\.[a-z]{2,}(\/|$)/i.test(h)) return `https://${h}`;
+  const base: Record<string, string> = { telegram_url: "https://t.me/", instagram_url: "https://instagram.com/", youtube_url: "https://youtube.com/@", linkedin_url: "https://linkedin.com/in/" };
+  return (base[name] || "https://") + h;
+};
 const host = (u: string) => u.replace(/^https?:\/\/(www\.)?/i, "").replace(/\/$/, "");
 
-function Saved({ rev, onEdit }: { rev: number; onEdit: (t: "contact" | "support") => void }) {
+function Saved({ rev, only, onEdit }: { rev: number; only: "contact" | "support"; onEdit: (t: "contact" | "support") => void }) {
   const [d, setD] = useState<any>(null);
   useEffect(() => { api("/site-settings/").then(setD).catch(() => {}); }, [rev]);
   if (!d) return null;
@@ -232,26 +240,30 @@ function Saved({ rev, onEdit }: { rev: number; onEdit: (t: "contact" | "support"
   );
   return (
     <section className="sv" aria-label="Saqlangan ma’lumotlar">
-      <h2 className="sv-title">Saqlangan ma’lumotlar</h2>
+      <h2 className="sv-title">{only === "contact" ? "Saqlangan aloqa ma’lumotlari" : "Saqlangan texnik yordam xodimlari"}</h2>
       <div className="sv-grid">
-        <div className="card sv-card">
+        {only === "contact" && <div className="card sv-card">
           <div className="sv-head">
             <b>Aloqa</b>
             <button type="button" className="sv-edit" onClick={() => onEdit("contact")} aria-label="Aloqa ma’lumotlarini tahrirlaş" title="Tahrirlaş">{PencilI}<span>Tahrirlaş</span></button>
           </div>
           <ul className="sv-list">
             {address && <Row icon={PinI}>{address}</Row>}
-            {emails.map((m) => <Row key={m} icon={MailI}>{m}</Row>)}
-            {phones.map((p) => <Row key={p} icon={PhoneI}>{p}</Row>)}
+            {emails.map((m) => <Row key={m} icon={MailI}><a href={`mailto:${m}`}>{m}</a></Row>)}
+            {phones.map((p) => <Row key={p} icon={PhoneI}><a href={`tel:${p.replace(/[^\d+]/g, "")}`}>{p}</a></Row>)}
             {socials.map((x) => (
-              <Row key={x.name} icon={<span className="sv-brand" style={{ background: x.color }}><Ic color="#fff">{x.icon}</Ic></span>}>
-                <a href={d[x.name]} target="_blank" rel="noopener noreferrer">{host(d[x.name])}</a>
-              </Row>
+              <li key={x.name} className="sv-linkrow">
+                <a href={socialHref(d[x.name], x.name)} target="_blank" rel="noopener noreferrer" title={`${x.label} sahifasini oçiş`}>
+                  <span className="sv-ic"><span className="sv-brand" style={{ background: x.color }}><Ic color="#fff">{x.icon}</Ic></span></span>
+                  <span className="sv-tx"><small>{x.label}</small>{host(d[x.name])}</span>
+                  <span className="sv-go" aria-hidden="true">↗</span>
+                </a>
+              </li>
             ))}
             {!address && !emails.length && !phones.length && !socials.length && <li className="muted">Hali ma’lumot kiritilmagan.</li>}
           </ul>
-        </div>
-        <div className="card sv-card">
+        </div>}
+        {only === "support" && <div className="card sv-card">
           <div className="sv-head">
             <b>Texnik yordam</b>
             <button type="button" className="sv-edit" onClick={() => onEdit("support")} aria-label="Texnik yordam xodimlarini tahrirlaş" title="Tahrirlaş">{PencilI}<span>Tahrirlaş</span></button>
@@ -273,7 +285,7 @@ function Saved({ rev, onEdit }: { rev: number; onEdit: (t: "contact" | "support"
             ))}
             {!ops.length && <li className="muted">Hali xodim qöşilmagan.</li>}
           </ul>
-        </div>
+        </div>}
       </div>
     </section>
   );
@@ -294,7 +306,7 @@ export default function SettingsPage() {
         <button type="button" role="tab" aria-selected={tab === "support"} className={tab === "support" ? "on" : ""} onClick={() => setTab("support")}>Texnik yordam</button>
       </div>
       {tab === "support" ? <SupportTab onSaved={bump} /> : <ContactTab onSaved={bump} />}
-      <Saved rev={rev} onEdit={edit} />
+      <Saved rev={rev} only={tab} onEdit={edit} />
     </>
   );
 }

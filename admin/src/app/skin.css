@@ -656,3 +656,13 @@ h1, h2, h3 { font-weight: 800; letter-spacing: -.02em; }
 .sv-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
 .sv-chips a, .sv-chips span { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 99px; background: #efecff; color: #4b3ae3; font-size: 12.5px; text-decoration: none; }
 .sv-chips svg { width: 14px; height: 14px; }
+
+/* Saqlangan ma'lumotlar: butun qator bosiladigan havola */
+.sv-list li.sv-linkrow { padding: 0; }
+.sv-linkrow > a { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 12px; border-radius: 14px; color: inherit; text-decoration: none; transition: background .2s, transform .2s; }
+.sv-linkrow > a:hover { background: #f3f1ff; transform: translateX(2px); }
+.sv-linkrow .sv-tx { flex: 1; display: flex; flex-direction: column; }
+.sv-linkrow .sv-tx small { color: #8a86a6; font-weight: 600; }
+.sv-linkrow .sv-ic { background: transparent; }
+.sv-go { flex: none; font-weight: 800; color: #5b4de8; }
+.sv-tx a { color: inherit; text-decoration: none; }

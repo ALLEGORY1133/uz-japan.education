@@ -111,3 +111,7 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 
 ## Qaytarildi (2026-11-02)
 - Foydalanuvchi so‘rovi bilan 456410e («saqlangan ma’lumotlar tabma-tab, bosiladigan havolalar, picker») qaytarildi. Holat: 046e896 dagidek (Saqlangan ma’lumotlar ikki kartada birga, toast bor).
+
+## Sozlamalar: saqlangan ma’lumotlar tabma-tab (qayta, 2026-11-02)
+- Tugadi: «Saqlangan ma’lumotlar» faqat joriy tabniki (Aloqa / Texnik yordam alohida). Ijtimoiy tarmoq qatori to‘liq bosiladigan havola (↗, yangi oynada, sxema yo‘q bo‘lsa https://), email/telefon ham mailto:/tel:. Xodim tanlash ro‘yxati o‘zgarishsiz (avvalgidek).
+- Fayllar: admin/src/app/(panel)/settings/page.tsx, app/skin.css.
