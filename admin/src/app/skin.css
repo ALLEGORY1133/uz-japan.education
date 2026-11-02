@@ -574,3 +574,40 @@ h1, h2, h3 { font-weight: 800; letter-spacing: -.02em; }
 .set-tabs button.on { opacity: 1; background: #fff; color: #2a2656; box-shadow: 0 1px 4px rgba(20, 18, 50, .18); }
 @media (prefers-color-scheme: dark) { .set-tabs button.on { background: #2a2656; color: #fff; } }
 @media (max-width: 480px) { .set-tabs { display: flex; } .set-tabs button { flex: 1; padding: 9px 10px; } }
+
+/* Sozlamalar: aloqa va texnik yordam */
+.sp { display: grid; gap: 16px; }
+.sp h2 { margin: 0 0 6px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+.sp-ic { display: inline-grid; place-items: center; flex: none; color: #5b4de8; }
+.sp-sec .sp-ic { width: 32px; height: 32px; border-radius: 10px; background: #efecff; }
+.sp-social { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.sp-in { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border: 1px solid #e0dcf0; border-radius: 14px; background: #fff; transition: border-color .2s, box-shadow .2s; }
+.sp-in:focus-within { border-color: #5b4de8; box-shadow: 0 0 0 3px rgba(91, 77, 232, .15); }
+.sp-in input { flex: 1; min-width: 0; border: 0 !important; outline: 0; box-shadow: none !important; background: transparent; padding: 6px 0; font: inherit; }
+.sp-soc .sp-brand { width: 40px; height: 40px; border-radius: 12px; }
+.sp-soc-body { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.sp-soc-body small { color: #8a86a6; font-weight: 600; }
+.sp-search { width: 100%; margin: 8px 0 12px; padding: 11px 14px; border-radius: 12px; border: 1px solid #e0dcf0; font: inherit; }
+.sp-people { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px; max-height: 280px; overflow: auto; }
+.sp-person { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid #e7e4f0; border-radius: 14px; background: #faf9ff; text-align: left; font: inherit; color: inherit; cursor: pointer; transition: transform .2s, border-color .2s, background .2s; }
+.sp-person:hover:not(:disabled) { transform: translateY(-2px); border-color: #5b4de8; background: #f3f1ff; }
+.sp-person:disabled { opacity: .5; cursor: not-allowed; }
+.sp-av { flex: none; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 14px; color: #fff; background: linear-gradient(140deg, #5b4de8, #8a7bff); }
+.sp-av.lg { width: 48px; height: 48px; font-size: 16px; }
+.sp-pt { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.sp-pt b, .sp-pt small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sp-pt small { color: #8a86a6; }
+.sp-plus { flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: #5b4de8; color: #fff; font-size: 18px; line-height: 1; }
+.sp-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.sp-head h2 { margin: 0; }
+.sp-count { font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 99px; background: #efecff; color: #4b3ae3; }
+.sp-list { display: grid; gap: 12px; }
+.sp-card { padding: 14px; border: 1px solid #e7e4f0; border-radius: 16px; background: #faf9ff; }
+.sp-card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.sp-id { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.sp-id input { width: 100%; border: 0; border-bottom: 1px dashed #d6d1ec; background: transparent; padding: 3px 0; font: inherit; outline: 0; }
+.sp-id input:focus { border-bottom-color: #5b4de8; }
+.sp-name { font-weight: 700; font-size: 16px; }
+.sp-role { color: #8a86a6; font-size: 13px; }
+.sp-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 900px) { .sp-fields, .sp-social { grid-template-columns: minmax(0, 1fr); } }

@@ -93,3 +93,8 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 - Tugadi: admin «Sozlamalar» sahifasi endi 2 tab: «Aloqa» (email/telefon/manzil/ijtimoiy tarmoqlar) va «Texnik yordam» (admin footeridagi operatorlar; oldingi «Aloqa operatorlari»). Fayl: admin/src/app/(panel)/settings/page.tsx.
 - Tekshirilmadi: real `next build`, brauzer.
 - Sozlamalar tablari segmentli dizaynga o‘tkazildi (`.set-tabs` in admin/src/app/skin.css).
+
+## Sozlamalar qayta dizayn: Aloqa + Texnik yordam (2026-11-02)
+- Tugadi: admin footeridagi «Aloqa operatorlari» kartasi olib tashlandi (Shell.tsx). «Aloqa» tabi: Manzil / Email va telefon / ijtimoiy tarmoqlar (brend ikonkali Telegram, Instagram, YouTube, LinkedIn). «Texnik yordam» tabi: qidiruvli xodim tanlash kartalari (bosib qo‘shiladi) + har bir xodim uchun email, telefon, Telegram. Operator JSON’iga `email` maydoni qo‘shildi (migratsiya shart emas, JSONField); validatsiya: email/telefon/Telegram’dan kamida bittasi; candidates API email qaytaradi.
+- Fayllar: admin/src/app/(panel)/settings/page.tsx, components/{Shell,Operators}.tsx, app/skin.css; backend/apps/content/{serializers,admin_api}.py.
+- Eslatma: sayt uchun email/telefon hali bittadan (ko‘p qiymat kerak bo‘lsa — modelni o‘zgartirish kerak). Tekshirilmadi: next build, brauzer.

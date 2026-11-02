@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 
-export type Operator = { name: string; role: string; phone: string; telegram: string };
+export type Operator = { name: string; role: string; email: string; phone: string; telegram: string };
 
 function Svg({ size, children }: { size: number; children: ReactNode }) {
   return (

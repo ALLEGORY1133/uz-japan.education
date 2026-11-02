@@ -172,11 +172,11 @@ class AdminSiteSettingsSerializer(AdminModelSerializer):
         for o in value:
             if not isinstance(o, dict):
                 continue
-            item = {k: str(o.get(k) or "").strip()[:80] for k in ("name", "role", "phone", "telegram")}
-            if not (item["name"] or item["phone"] or item["telegram"]):
+            item = {k: str(o.get(k) or "").strip()[:80] for k in ("name", "role", "email", "phone", "telegram")}
+            if not (item["name"] or item["email"] or item["phone"] or item["telegram"]):
                 continue  # bo'sh qator
-            if not (item["phone"] or item["telegram"]):
-                raise serializers.ValidationError("Har bir operator uchun telefon yoki Telegram kiriting.")
+            if not (item["email"] or item["phone"] or item["telegram"]):
+                raise serializers.ValidationError("Har bir xodim uchun email, telefon yoki Telegram kiriting.")
             clean.append(item)
         return clean
 

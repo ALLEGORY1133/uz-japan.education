@@ -89,7 +89,7 @@ class AdminOperatorCandidatesView(APIView):
             if not u.has_panel_access:
                 continue
             role = u.custom_role.name if u.custom_role_id else u.get_role_display()
-            users.append({"id": u.id, "name": u.get_full_name().strip() or u.username, "role": role})
+            users.append({"id": u.id, "name": u.get_full_name().strip() or u.username, "role": role, "email": u.email or ""})
         roles = [label for _, label in User.Role.choices if _ != "custom"]
         roles += [r.name for r in Role.objects.all()]
         return Response({"users": users, "roles": list(dict.fromkeys(roles))})
