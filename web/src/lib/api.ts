@@ -179,3 +179,12 @@ export async function getBlocks(locale: Locale): Promise<Blocks> {
     return {};
   }
 }
+
+/** «Biz haqimizda»: tarix, yutuqlar va tahlillar (admin paneldan). Xato bo'lsa — bo'sh. */
+export async function getAbout(locale: Locale): Promise<import("./types").AboutData> {
+  try {
+    return await get<import("./types").AboutData>("/about/", locale);
+  } catch {
+    return { history: [], achievements: [], analyses: [] };
+  }
+}

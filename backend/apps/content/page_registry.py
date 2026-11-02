@@ -8,7 +8,7 @@ PAGES = [
         "key": "home", "label": "Bosh sahifa", "path": "",
         "sections": [
             {"key": "home.intro", "label": "Katta video bandi", "hint": "Statistikadan keyingi katta rasm/video va uning ustidagi matn.", "fields": ["title", "text", "image", "video"]},
-            {"key": "home.updates", "label": "Sayt yangiliklari bloki (video band yonida)", "hint": "Blok sarlavhasi.", "fields": ["title"]},
+            {"key": "home.updates", "label": "Yutuqlarimiz bloki (video band yonida)", "hint": "Blok sarlavhasi.", "fields": ["title"]},
             {"key": "home.news", "label": "Yangiliklar bo'limi", "hint": "Karusel tepasidagi sarlavha va matn.", "fields": ["title", "text"]},
             {"key": "home.students", "label": "Talaba kabineti bo'limi", "hint": "Sarlavha, matn va birinchi karta (kabinetga kirish) rasmi/videosi.", "fields": ["title", "text", "image", "video"]},
             {"key": "home.cooperation", "label": "Universitetlar va hamkorlik bo'limi", "hint": "Karusel tepasidagi sarlavha va matn.", "fields": ["title", "text"]},
@@ -20,7 +20,9 @@ PAGES = [
         "sections": [
             {"key": "about.hero", "label": "Sahifa boshi", "hint": "Sarlavha, qisqa matn va fon rasmi.", "fields": ["title", "text", "image"]},
             {"key": "about.s2", "label": "«Biz nima qilamiz» bo'limi", "hint": "Matn, rasm va tugma.", "fields": ["title", "text", "link", "image"]},
-            {"key": "about.s3", "label": "«Kabinetda nimalar bor» bo'limi", "hint": "Sarlavha va matn.", "fields": ["title", "text"]},
+            {"key": "about.history", "label": "«Tarix» bo'limi sarlavhasi", "hint": "Tarix lavhalari tepasidagi sarlavha va matn (lavhalarning özi — «Biz haqimizda» → Tarix).", "fields": ["title", "text"]},
+            {"key": "about.achievements", "label": "«Yutuqlarimiz» bo'limi sarlavhasi", "hint": "Katalog tepasidagi sarlavha va matn.", "fields": ["title", "text"]},
+            {"key": "about.analysis", "label": "«Tahlillar» bo'limi sarlavhasi", "hint": "Tahlillar tepasidagi sarlavha va matn.", "fields": ["title", "text"]},
             {"key": "about.cta", "label": "Pastki chaqiruv", "hint": "Sahifa oxiridagi chaqiruv bloki.", "fields": ["title", "text", "link"]},
         ],
     },

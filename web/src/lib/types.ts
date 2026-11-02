@@ -126,6 +126,18 @@ export type SiteSettings = {
 
 export type Operator = { name: string; role: string; phone: string; telegram: string };
 
+export type AboutItem = {
+  id: number;
+  kind: "history" | "achievement" | "analysis";
+  title: string;
+  summary: string;
+  body: string;
+  year: number | null;
+  image: string | null;
+  video: string | null;
+};
+export type AboutData = { history: AboutItem[]; achievements: AboutItem[]; analyses: AboutItem[] };
+
 export type HomeData = {
   hero: HeroSlide[];
   stats: Stat[];
@@ -133,6 +145,7 @@ export type HomeData = {
   news: NewsItem[];
   events?: NewsItem[];
   updates?: NewsItem[];
+  achievements?: AboutItem[];
   links: LinkItem[];
   media: Record<string, SiteMediaItem>;
   gallery_extra?: { id: number; image: string | null }[];

@@ -31,16 +31,16 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const studentsVideo = bm(blocks, "home.students").video;
 
   // Yaqinda bo'ladigan tadbirlar (video band yonidagi karusel)
-  const updates = data.updates || [];
+  const updates = data.achievements || [];
   const upTitle = txt("home.updates", "title", t("home.up.title"));
   const events = data.events || [];
   const daysLeft = (iso: string | null) => (iso ? Math.ceil((new Date(iso).getTime() - Date.now()) / 86400000) : null);
   const leftLabel = (n: number | null) =>
     n === null ? "" : n <= 0 ? t("home.ev.today") : n === 1 ? t("home.ev.tomorrow") : t("home.ev.in").replace("{n}", String(n));
   const infoItems = [
-    { icon: "university", k: "1" },
-    { icon: "visa", k: "2" },
-    { icon: "news", k: "3" },
+    { icon: "events", k: "1", href: "/about#history" },
+    { icon: "news", k: "2", href: "/news" },
+    { icon: "visa", k: "3", href: "/about#analysis" },
   ];
 
   const gallery = [
@@ -125,8 +125,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <ul className="vb-info">
               {infoItems.map((it) => (
                 <li key={it.k} style={{ "--i": Number(it.k) } as CSSProperties}>
-                  <span className="vb-info-ic"><Icon name={it.icon} color="#fff" size={20} /></span>
-                  <span><b>{t(`home.info.${it.k}.t`)}</b><small>{t(`home.info.${it.k}.d`)}</small></span>
+                  <SmartLink href={it.href} locale={locale} className="vb-info-link">
+                    <span className="vb-info-ic"><Icon name={it.icon} color="#fff" size={20} /></span>
+                    <span><b>{t(`home.info.${it.k}.t`)}</b><small>{t(`home.info.${it.k}.d`)}</small></span>
+                  </SmartLink>
                 </li>
               ))}
             </ul>
@@ -140,14 +142,13 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
             <aside className="vb-ev" aria-label={upTitle}>
               <div className="vb-ev-head">
                 <h3>{upTitle}</h3>
-                <SmartLink href="/news?tab=3" locale={locale}>{t("home.up.all")} →</SmartLink>
+                <SmartLink href="/about#achievements" locale={locale}>{t("home.up.all")} →</SmartLink>
               </div>
               <Carousel label={upTitle} {...cr} auto={4200} className="cr-dark ev-cr">
                 {updates.map((n, i) => {
-                  const cover = mediaUrl(n.cover) || pickDemo(DEMO.platform, i);
-                  const external = n.link_type === "external" && !!n.external_url;
+                  const cover = mediaUrl(n.image) || pickDemo(DEMO.platform, i);
                   return (
-                    <SmartLink key={n.id} href={n.href} locale={locale} className="ev-card" style={{ "--i": i } as CSSProperties}>
+                    <SmartLink key={n.id} href="/about#achievements" locale={locale} className="ev-card" style={{ "--i": i } as CSSProperties}>
                       <span className="ev-pic">
                         {n.video ? (
                           <video src={mediaUrl(n.video) || undefined} poster={cover} muted loop autoPlay playsInline preload="metadata" aria-hidden="true" />
@@ -155,12 +156,12 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                           // eslint-disable-next-line @next/next/no-img-element
                           <img src={cover} alt="" loading="lazy" />
                         )}
-                        <span className="ev-date up-date"><em>{formatDate(n.published_at, locale)}</em></span>
+                        {n.year && <span className="ev-date up-date"><em>{n.year}</em></span>}
                       </span>
                       <span className="ev-body">
                         <b>{n.title}</b>
                         {n.summary && <small className="ev-sum">{n.summary}</small>}
-                        <span className="ev-go">{external ? "↗" : t("news.read")} {external ? "" : "→"}</span>
+                        <span className="ev-go">{t("about.more")} →</span>
                       </span>
                     </SmartLink>
                   );

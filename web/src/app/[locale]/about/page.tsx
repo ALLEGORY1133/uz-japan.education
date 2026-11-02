@@ -1,8 +1,9 @@
 import BridgeScene from "@/components/BridgeScene";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Icon from "@/components/Icons";
-import { getBlocks } from "@/lib/api";
+import { getAbout, getBlocks } from "@/lib/api";
+import { mediaUrl } from "@/lib/media";
+import type { AboutItem } from "@/lib/types";
 import { bl, bm, bt, heroBg } from "@/lib/blocks";
 import { getT, isLocale } from "@/lib/i18n";
 import SmartLink from "@/components/SmartLink";
@@ -18,13 +19,30 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = getT(locale);
-  const blocks = await getBlocks(locale);
+  const [blocks, about] = await Promise.all([getBlocks(locale), getAbout(locale)]);
   const s2img = bm(blocks, "about.s2").image;
-  const feats = [
-    { icon: "news", c: "#e5483b", k: "f1" },
-    { icon: "visa", c: "#0fa896", k: "f2" },
-    { icon: "events", c: "#5b3fd0", k: "f3" },
-  ];
+  const Media = ({ it }: { it: AboutItem }) => {
+    const img = mediaUrl(it.image);
+    const vid = mediaUrl(it.video);
+    if (!img && !vid) return null;
+    return (
+      <span className="ab-media">
+        {vid ? (
+          <video src={vid} poster={img || undefined} muted loop autoPlay playsInline preload="metadata" />
+        ) : (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={img!} alt="" loading="lazy" />
+        )}
+      </span>
+    );
+  };
+  const Body = ({ it }: { it: AboutItem }) =>
+    it.body ? (
+      <details className="ab-more">
+        <summary>{t("about.more")}</summary>
+        <p>{it.body}</p>
+      </details>
+    ) : null;
 
   return (
     <main className="about">
@@ -65,23 +83,73 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         )}
       </section>
 
-      {/* 3. Kabinetda nimalar bor */}
-      <section className="wrap ab-feats">
-        <span className="eyebrow">{t("about.s3.eyebrow")}</span>
-        <h2 className="h2 disp">{bt(blocks, "about.s3", "title", locale, t("about.s3.title"))}</h2>
-        <p className="ab-text">{bt(blocks, "about.s3", "text", locale, t("about.s3.text"))}</p>
-        <div className="ab-grid">
-          {feats.map((f) => (
-            <article className="ab-feat" key={f.k} style={{ ["--c" as string]: f.c }}>
-              <span className="ab-ico"><Icon name={f.icon} color="#fff" size={26} /></span>
-              <h3>{t(`about.${f.k}.t`)}</h3>
-              <p>{t(`about.${f.k}.d`)}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+      {/* 3. Tarix */}
+      {about.history.length > 0 && (
+        <section className="wrap ab-hist" id="history">
+          <span className="eyebrow">{t("about.hist.eyebrow")}</span>
+          <h2 className="h2 disp">{bt(blocks, "about.history", "title", locale, t("about.hist.title"))}</h2>
+          <p className="ab-text">{bt(blocks, "about.history", "text", locale, t("about.hist.text"))}</p>
+          <ol className="ab-tl">
+            {about.history.map((it) => (
+              <li key={it.id}>
+                <span className="ab-tl-year">{it.year || "•"}</span>
+                <div className="ab-tl-card">
+                  <Media it={it} />
+                  <h3>{it.title}</h3>
+                  {it.summary && <p>{it.summary}</p>}
+                  <Body it={it} />
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
 
-      {/* 4. Chaqiruv */}
+      {/* 4. Yutuqlarimiz katalogi */}
+      {about.achievements.length > 0 && (
+        <section className="wrap ab-ach" id="achievements">
+          <span className="eyebrow">{t("about.ach.eyebrow")}</span>
+          <h2 className="h2 disp">{bt(blocks, "about.achievements", "title", locale, t("about.ach.title"))}</h2>
+          <p className="ab-text">{bt(blocks, "about.achievements", "text", locale, t("about.ach.text"))}</p>
+          <div className="ab-cards">
+            {about.achievements.map((it) => (
+              <article className="ab-card" key={it.id}>
+                <Media it={it} />
+                <div className="ab-card-body">
+                  {it.year && <span className="ab-chip">{it.year}</span>}
+                  <h3>{it.title}</h3>
+                  {it.summary && <p>{it.summary}</p>}
+                  <Body it={it} />
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 5. Tahlillar */}
+      {about.analyses.length > 0 && (
+        <section className="wrap ab-ana" id="analysis">
+          <span className="eyebrow">{t("about.ana.eyebrow")}</span>
+          <h2 className="h2 disp">{bt(blocks, "about.analysis", "title", locale, t("about.ana.title"))}</h2>
+          <p className="ab-text">{bt(blocks, "about.analysis", "text", locale, t("about.ana.text"))}</p>
+          <div className="ab-cards">
+            {about.analyses.map((it) => (
+              <article className="ab-card" key={it.id}>
+                <Media it={it} />
+                <div className="ab-card-body">
+                  {it.year && <span className="ab-chip">{it.year}</span>}
+                  <h3>{it.title}</h3>
+                  {it.summary && <p>{it.summary}</p>}
+                  <Body it={it} />
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 6. Chaqiruv */}
       <section className="wrap ab-ctaw">
         <div className="ab-cta">
           <i className="ab-cta-glow" aria-hidden="true" />
