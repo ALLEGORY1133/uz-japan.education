@@ -146,3 +146,7 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
   - Universitetlar: röyxat, Sahifa matni. Biz haqimizda: `/pages/about`, `/pages/cabinet`.
 - Yangi/o‘zgargan: lib/sitemap.ts (yagona ro‘yxat), components/{PagesEditor,SiteMediaManager}.tsx, app/(panel)/{site/[key],gallery,pages/[key]}, Shell.tsx, skin.css. Qidiruv (Ctrl+K) ichki bandlarni ham topadi. Umumiy: Media kutubxonasi, Sozlamalar; Tizim: foydalanuvchilar, rollar, tarix.
 - Tekshirilmadi: next build, brauzer.
+
+## PR #2 merge (2026-11-02)
+- `footer-totop` (PR #2: admin sozlamalari/Texnik yordam, ko'p email/telefon, galereya rasmlari, admin menyusi sayt tuzilishi bo'yicha) `main` ga qo'shildi; konflikt faqat `natural.css` izohida. web/admin `next build` OK, migratsiyalar `content.0010_galleryimage`, `0011_sitesettings_extra_contacts` qo'llandi, Docker'da localhost yangilandi.
+- Backend testlari: 10/10 OK. Ikki test tuzatildi (kod emas, test xatosi): platform demo yozuvlari migratsiyada qo'shilgani uchun aniq ro'yxat o'rniga tegishlilik tekshiriladi; multipart POST'da `is_published` yuborilmasa DRF uni `False` qiladi — testda `True` beriladi.

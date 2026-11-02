@@ -83,19 +83,22 @@ class SiteContentTests(TestCase):
     def test_platform_news_goes_to_updates_not_news_carousel(self):
         News.objects.create(title="Yangilik", title_uz="Yangilik", category="news", slug="n1")
         News.objects.create(title="Sayt", title_uz="Sayt", category="platform", slug="p1")
+        # migratsiya demo "sayt yangiliklari"ni ham qo'shadi — shuning uchun aniq ro'yxat emas, tegishlilik tekshiriladi
         home = self.api.get("/api/public/home/").json()
-        self.assertEqual([n["slug"] for n in home["updates"]], ["p1"])
+        self.assertIn("p1", [n["slug"] for n in home["updates"]])
+        self.assertNotIn("n1", [n["slug"] for n in home["updates"]])
         self.assertNotIn("p1", [n["slug"] for n in home["news"]])
         lst = self.api.get("/api/public/news/?category=platform").json()
         rows = lst["results"] if isinstance(lst, dict) else lst
-        self.assertEqual([n["slug"] for n in rows], ["p1"])
+        self.assertIn("p1", [n["slug"] for n in rows])
+        self.assertTrue(all(n["category"] == "platform" for n in rows))
 
     def test_seed_platform_updates_exist_after_migrations(self):
         self.assertTrue(News.objects.filter(category="platform").exists())
 
     def test_news_video_upload_and_public_field(self):
         vid = SimpleUploadedFile("v.mp4", b"\x00\x00\x00\x18ftypmp42" + b"0" * 64, content_type="video/mp4")
-        r = self.api.post("/api/admin/news/", {"title_uz": "Videoli", "category": "platform", "link_type": "internal", "video": vid}, format="multipart")
+        r = self.api.post("/api/admin/news/", {"title_uz": "Videoli", "category": "platform", "link_type": "internal", "is_published": True, "video": vid}, format="multipart")
         self.assertEqual(r.status_code, 201, r.content)
         slug = r.json()["slug"]
         pub = self.api.get(f"/api/public/news/{slug}/").json()
