@@ -54,12 +54,12 @@ export default function Footer({ locale, t, settings, links = [] }: { locale: Lo
           <div className="fs-contact">
             <h4>{t("footer.contact")}</h4>
             <ul>
-              {s?.contact_email && (
-                <li><span className="fs-ci"><MailIcon size={17} /></span><a href={`mailto:${s.contact_email}`}>{s.contact_email}</a></li>
-              )}
-              {s?.contact_phone && (
-                <li><span className="fs-ci"><PhoneIcon size={17} /></span><a href={`tel:${s.contact_phone.replace(/[^\d+]/g, "")}`}>{s.contact_phone}</a></li>
-              )}
+              {[s?.contact_email, ...(s?.extra_emails || [])].filter(Boolean).map((m) => (
+                <li key={`m-${m}`}><span className="fs-ci"><MailIcon size={17} /></span><a href={`mailto:${m}`}>{m}</a></li>
+              ))}
+              {[s?.contact_phone, ...(s?.extra_phones || [])].filter(Boolean).map((ph) => (
+                <li key={`p-${ph}`}><span className="fs-ci"><PhoneIcon size={17} /></span><a href={`tel:${ph!.replace(/[^\d+]/g, "")}`}>{ph}</a></li>
+              ))}
               {s?.address && (
                 <li><span className="fs-ci"><PinIcon size={17} /></span><span>{s.address}</span></li>
               )}

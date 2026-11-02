@@ -5,8 +5,9 @@ from rest_framework.views import APIView
 from apps.core.permissions import IsPlatformAdmin, SectionPermission
 from apps.core.viewsets import AdminOnlyViewSet
 
-from .models import HeroSlide, HeroSlideImage, News, NewsMedia, SiteMedia, SiteSettings, Stat
+from .models import GalleryImage, HeroSlide, HeroSlideImage, News, NewsMedia, SiteMedia, SiteSettings, Stat
 from .serializers import (
+    AdminGalleryImageSerializer,
     AdminHeroSlideImageSerializer,
     AdminHeroSlideSerializer,
     AdminNewsMediaSerializer,
@@ -36,6 +37,12 @@ class AdminSiteMediaViewSet(AdminOnlyViewSet):
     serializer_class = AdminSiteMediaSerializer
 
 
+class AdminGalleryImageViewSet(AdminOnlyViewSet):
+    section = "site_media"
+    queryset = GalleryImage.objects.all()
+    serializer_class = AdminGalleryImageSerializer
+
+
 class AdminNewsViewSet(AdminOnlyViewSet):
     section = "news"
     queryset = News.objects.all()
@@ -57,12 +64,23 @@ class AdminStatViewSet(AdminOnlyViewSet):
 
 
 class AdminOperatorsView(APIView):
-    """Admin footeri uchun: tizimga kirgan har bir xodim operatorlarni ko'ra oladi."""
+    """Admin footeri uchun texnik yordam: faqat platforma administratori(lari)ning ma'lumotlari."""
 
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        return Response(SiteSettings.load().operators or [])
+        from django.contrib.auth import get_user_model
+
+        User = get_user_model()
+        admins = User.objects.filter(is_active=True, role=User.Role.PLATFORM_ADMIN)
+        names = set()
+        for u in admins:
+            names.add(u.username.strip().lower())
+            full = u.get_full_name().strip().lower()
+            if full:
+                names.add(full)
+        ops = SiteSettings.load().operators or []
+        return Response([o for o in ops if str(o.get("name", "")).strip().lower() in names])
 
 
 class AdminOperatorCandidatesView(APIView):
@@ -82,7 +100,7 @@ class AdminOperatorCandidatesView(APIView):
             if not u.has_panel_access:
                 continue
             role = u.custom_role.name if u.custom_role_id else u.get_role_display()
-            users.append({"id": u.id, "name": u.get_full_name().strip() or u.username, "role": role})
+            users.append({"id": u.id, "name": u.get_full_name().strip() or u.username, "role": role, "email": u.email or ""})
         roles = [label for _, label in User.Role.choices if _ != "custom"]
         roles += [r.name for r in Role.objects.all()]
         return Response({"users": users, "roles": list(dict.fromkeys(roles))})

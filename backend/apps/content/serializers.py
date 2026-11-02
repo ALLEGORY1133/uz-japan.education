@@ -1,8 +1,10 @@
+from django.core.exceptions import ValidationError as DjangoValidationError
+from django.core.validators import validate_email
 from rest_framework import serializers
 
 from apps.core.serializers import AdminModelSerializer, BaseModelSerializer
 
-from .models import HeroSlide, HeroSlideImage, MediaKind, News, NewsMedia, SiteMedia, SiteSettings, Stat
+from .models import GalleryImage, HeroSlide, HeroSlideImage, MediaKind, News, NewsMedia, SiteMedia, SiteSettings, Stat
 
 # ---------------------------------------------------------------- ochiq
 
@@ -27,6 +29,12 @@ class PublicSiteMediaSerializer(BaseModelSerializer):
     class Meta:
         model = SiteMedia
         fields = ["key", "kind", "image", "video", "video_url", "caption"]
+
+
+class PublicGalleryImageSerializer(BaseModelSerializer):
+    class Meta:
+        model = GalleryImage
+        fields = ["id", "image"]
 
 
 class PublicNewsListSerializer(BaseModelSerializer):
@@ -83,7 +91,7 @@ class PublicSiteSettingsSerializer(BaseModelSerializer):
     class Meta:
         model = SiteSettings
         fields = [
-            "contact_email", "contact_phone", "address",
+            "contact_email", "contact_phone", "extra_emails", "extra_phones", "address",
             "telegram_url", "youtube_url", "linkedin_url", "instagram_url",
         ]
 
@@ -126,6 +134,12 @@ class AdminSiteMediaSerializer(AdminModelSerializer):
         return attrs
 
 
+class AdminGalleryImageSerializer(AdminModelSerializer):
+    class Meta:
+        model = GalleryImage
+        fields = "__all__"
+
+
 class AdminNewsSerializer(AdminModelSerializer):
     class Meta:
         model = News
@@ -151,6 +165,32 @@ class AdminSiteSettingsSerializer(AdminModelSerializer):
         model = SiteSettings
         fields = "__all__"
 
+    @staticmethod
+    def _clean_list(value, label, check=None):
+        if not isinstance(value, list):
+            raise serializers.ValidationError(f"{label} ro'yxati noto'g'ri.")
+        out = []
+        for v in value:
+            v = str(v or "").strip()[:80]
+            if not v:
+                continue
+            if check:
+                try:
+                    check(v)
+                except DjangoValidationError:
+                    raise serializers.ValidationError(f"«{v}» noto'g'ri kiritilgan.")
+            if v not in out:
+                out.append(v)
+        if len(out) > 5:
+            raise serializers.ValidationError("Ko'pi bilan 5 ta qo'shimcha qo'shish mumkin.")
+        return out
+
+    def validate_extra_emails(self, value):
+        return self._clean_list(value, "Email", validate_email)
+
+    def validate_extra_phones(self, value):
+        return self._clean_list(value, "Telefon")
+
     def validate_operators(self, value):
         if not isinstance(value, list):
             raise serializers.ValidationError("Operatorlar ro'yxati noto'g'ri.")
@@ -160,11 +200,11 @@ class AdminSiteSettingsSerializer(AdminModelSerializer):
         for o in value:
             if not isinstance(o, dict):
                 continue
-            item = {k: str(o.get(k) or "").strip()[:80] for k in ("name", "role", "phone", "telegram")}
-            if not (item["name"] or item["phone"] or item["telegram"]):
+            item = {k: str(o.get(k) or "").strip()[:80] for k in ("name", "role", "email", "phone", "telegram")}
+            if not (item["name"] or item["email"] or item["phone"] or item["telegram"]):
                 continue  # bo'sh qator
-            if not (item["phone"] or item["telegram"]):
-                raise serializers.ValidationError("Har bir operator uchun telefon yoki Telegram kiriting.")
+            if not (item["email"] or item["phone"] or item["telegram"]):
+                raise serializers.ValidationError("Har bir xodim uchun email, telefon yoki Telegram kiriting.")
             clean.append(item)
         return clean
 

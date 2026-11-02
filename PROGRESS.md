@@ -79,3 +79,70 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 ## Universitetlar marquee — 1 qator (2026-11-02)
 - Tugadi: `Marquee.tsx` da ikkinchi (teskari) qator olib tashlandi, faqat bitta qator aylanadi.
 - Tekshirilmadi: real `next build`, brauzerda ko‘rinish.
+
+## Tepaga tugma chapga (2026-11-02)
+- Tugadi: `.to-top` natural.css’da chap pastga ko‘chirildi (left:22px).
+
+## Galereya: hover dizayni + qo‘shimcha rasmlar (2026-11-02)
+- Tugadi: kursor tushgan rasm kattalashadi (scale 1.12), qolganlari xira/blur (natural.css, sensorli ekranda o‘chiq). Yangi model `GalleryImage` + migratsiya `0010_galleryimage` (qo‘lda yozilgan), admin API `/api/admin/gallery-images/` (RBAC: site_media), public `home.gallery_extra`, admin «Sayt rasm va videolari» sahifasida «Galereya: qöşimça rasmlar» (ko‘p rasm yuklash/o‘chirish), web lentasi 12 ta + qo‘shimcha rasmlar.
+- Fayllar: backend/apps/content/{models,serializers,admin_api,public}.py, migrations/0010, config/urls.py, web/src/app/[locale]/page.tsx, lib/types.ts, app/natural.css, admin/.../site-media/page.tsx.
+- Tekshirilmadi: `makemigrations --check`, Django testlar, `next build`, brauzer.
+- Qo‘shimcha: `public.py` da `gallery_extra` DB xatosida bo‘sh ro‘yxat qaytaradi (migratsiya 0010 qo‘llanmagan bo‘lsa ham bosh sahifa ishlaydi).
+- Tuzatish: natural.css dagi "rasm: yaqinlashish yo‘q" qoidasi `.gl-track img` ni `transform:none !important` bilan o‘chirib qo‘ygan edi — galereya rasmi ro‘yxatdan olindi, hover kattalashishi ishlaydi (animatsiya/zoom boshqa rasmlarda o‘chiq qoladi).
+
+## Sozlamalar: 2 ta bo‘lim (2026-11-02)
+- Tugadi: admin «Sozlamalar» sahifasi endi 2 tab: «Aloqa» (email/telefon/manzil/ijtimoiy tarmoqlar) va «Texnik yordam» (admin footeridagi operatorlar; oldingi «Aloqa operatorlari»). Fayl: admin/src/app/(panel)/settings/page.tsx.
+- Tekshirilmadi: real `next build`, brauzer.
+- Sozlamalar tablari segmentli dizaynga o‘tkazildi (`.set-tabs` in admin/src/app/skin.css).
+
+## Sozlamalar qayta dizayn: Aloqa + Texnik yordam (2026-11-02)
+- Tugadi: admin footeridagi «Aloqa operatorlari» kartasi olib tashlandi (Shell.tsx). «Aloqa» tabi: Manzil / Email va telefon / ijtimoiy tarmoqlar (brend ikonkali Telegram, Instagram, YouTube, LinkedIn). «Texnik yordam» tabi: qidiruvli xodim tanlash kartalari (bosib qo‘shiladi) + har bir xodim uchun email, telefon, Telegram. Operator JSON’iga `email` maydoni qo‘shildi (migratsiya shart emas, JSONField); validatsiya: email/telefon/Telegram’dan kamida bittasi; candidates API email qaytaradi.
+- Fayllar: admin/src/app/(panel)/settings/page.tsx, components/{Shell,Operators}.tsx, app/skin.css; backend/apps/content/{serializers,admin_api}.py.
+- Eslatma: sayt uchun email/telefon hali bittadan (ko‘p qiymat kerak bo‘lsa — modelni o‘zgartirish kerak). Tekshirilmadi: next build, brauzer.
+
+## Aloqa: bir nechta email va telefon (2026-11-02)
+- Tugadi: `SiteSettings.extra_emails` / `extra_phones` (JSONField, ko‘pi bilan 5 ta, validatsiya) + migratsiya `0011_sitesettings_extra_contacts` (qo‘lda yozilgan); public API shu maydonlarni beradi; web footer hammasini ikonkalar bilan ko‘rsatadi; admin «Aloqa» tabida «Asosiy» + «+ Email/Telefon qöşiş» tugmalari (×, dashed tugma).
+- Fayllar: backend/apps/content/{models,serializers}.py, migrations/0011, web/src/{components/Footer.tsx,lib/types.ts}, admin/.../settings/page.tsx, admin/src/app/skin.css.
+- Tekshirilmadi: migrate/makemigrations --check, testlar, next build, brauzer.
+
+## Toast bildirishnomalar + Sozlamalarda saqlangan ma’lumotlar (2026-11-02)
+- Tugadi: admin panelning barcha «saqlandi/xato» xabarlari (`.notice.ok/.err`) endi ekranning yuqori markazida iPhone uslubidagi toast (`components/Toaster.tsx`, MutationObserver; Shell’da). Muvaffaqiyat xabari sahifa ichida yashirildi (`.shell .notice.ok{display:none}`), xato xabari ham sahifada qoladi. Sozlamalar sahifasi tagida «Saqlangan ma’lumotlar»: Aloqa (manzil, email, telefon, tarmoqlar) va Texnik yordam (xodimlar) kartalari + «Tahrirlaş» (qalamcha) tugmasi tegishli tabni ochib yuqoriga olib chiqadi.
+- Fayllar: admin/src/components/{Toaster,Shell}.tsx, app/(panel)/settings/page.tsx, app/skin.css.
+- Tekshirilmadi: next build, brauzer (toast ko‘rinishi/animatsiya).
+
+## Qaytarildi (2026-11-02)
+- Foydalanuvchi so‘rovi bilan 456410e («saqlangan ma’lumotlar tabma-tab, bosiladigan havolalar, picker») qaytarildi. Holat: 046e896 dagidek (Saqlangan ma’lumotlar ikki kartada birga, toast bor).
+
+## Sozlamalar: saqlangan ma’lumotlar tabma-tab (qayta, 2026-11-02)
+- Tugadi: «Saqlangan ma’lumotlar» faqat joriy tabniki (Aloqa / Texnik yordam alohida). Ijtimoiy tarmoq qatori to‘liq bosiladigan havola (↗, yangi oynada, sxema yo‘q bo‘lsa https://), email/telefon ham mailto:/tel:. Xodim tanlash ro‘yxati o‘zgarishsiz (avvalgidek).
+- Fayllar: admin/src/app/(panel)/settings/page.tsx, app/skin.css.
+
+## Admin footer: Texnik yordam — faqat admin (2026-11-02)
+- Tugadi: admin footerida yana «Texnik yordam» bloki, lekin faqat platforma administratori(lari)ga mos xodim yozuvi (ism = foydalanuvchi nomi yoki to‘liq ismi) ko‘rsatiladi: email, telefon, Telegram. `/api/admin/operators/` shunga filtrlaydi; test yangilandi. Mos yozuv yo‘q bo‘lsa blok chiqmaydi.
+- Fayllar: backend/apps/content/admin_api.py, backend/tests/test_site_content.py, admin/src/components/{Shell,Operators}.tsx.
+- Tekshirilmadi: Django testlar, next build, brauzer.
+
+## «Körsatiş/Yaşiriş» tugmalari → ko‘z ikonkasi (2026-11-02)
+- Tugadi: ro‘yxatlardagi «Körsatiş/Yaşiriş» tugmasi (ResourceManager: Statistika, Slayder, Havolalar, Universitet bo‘limlari) endi ko‘z ikonkasi (ko‘rinadi — ochiq ko‘z, yashirin — chizilgan ko‘z, tooltip bilan); login/parol tiklashdagi parolni ko‘rsatish tugmasi ham ikonka. Yangi `admin/src/components/EyeIcon.tsx`.
+- Tekshirilmadi: next build, brauzer.
+
+## Footer aloqa ustuni kengaytirildi (2026-11-02)
+- Tugadi: sayt footerida email qutidan chiqib ketayotgan edi — aloqa ustuni kengaytirildi (grid 1 : 1.3 : 1.9), matn o‘ralishi (min-width:0, overflow-wrap) qo‘shildi; <1100px da aloqa ustuni butun qatorni egallaydi. Fayl: web/src/app/natural.css.
+- Tekshirilmadi: brauzerda ko‘rinish.
+
+## Admin footer texnik yordam kartasi (2026-11-02)
+- Tugadi: email kartadan chiqib ketayotgan edi — karta endi mazmuniga qarab kengayadi (flex, width: fit-content, max-width 100%), uzun email o‘raladi. Fayl: admin/src/app/skin.css.
+- Tuzatish: footer kartasidagi email/telefon endi qatorga o‘tmaydi (nowrap), karta `width: max-content` bilan uzunligiga moslashadi.
+
+## Admin menyu qayta tartiblandi (2026-11-02)
+- Tugadi: yon menyu sayt sahifalari bo‘yicha guruhlandi (yig‘iladigan sarlavhalar, faol bölim doim ochiq): Boşqaruv · Arizalar (arizalar, murojaatlar, KPI) · Boş sahifa (slayder, matn va rasm bölimlari, rasm/video/galereya, statistika) · Yangiliklar (barça yozuvlar, hamkorlik, tadbirlar, sayt yangiliklari) · Universitetlar · Umumiy (media kutubxonasi, havolalar, sozlamalar) · Tizim (foydalanuvçilar, rollar, tarix). Admin va menejer uchun bitta MASTER ro‘yxat (ruxsatga qarab filtrlanadi).
+- Fayllar: admin/src/components/Shell.tsx, app/skin.css.
+- Tekshirilmadi: next build, brauzer.
+
+## Admin menyu — veb-sayt tuzilmasiga moslandi (2026-11-02, oldingi guruhlash o‘rniga)
+- Tugadi: menyu endi saytdagi sahifalar bo‘yicha: «Sayt sahifalari» ostida Boş sahifa / Yangiliklar / Universitetlar / Biz haqimizda; har birini bossangiz markaziy sahifa (`/site/[key]`, kartalar) ochiladi, menyuda ichki bölimlar chiqadi.
+  - Boş sahifa: Slayder, Statistika, Galereya (`/gallery`, yangi), Matn va rasm bölimlari (`/pages/home`), Katta rasm va videolar (`/site-media`), Foydali havolalar.
+  - Yangiliklar: Barça yozuvlar, Hamkorlik, Tadbirlar, Sayt yangiliklari, Sahifa matni (`/pages/news`).
+  - Universitetlar: röyxat, Sahifa matni. Biz haqimizda: `/pages/about`, `/pages/cabinet`.
+- Yangi/o‘zgargan: lib/sitemap.ts (yagona ro‘yxat), components/{PagesEditor,SiteMediaManager}.tsx, app/(panel)/{site/[key],gallery,pages/[key]}, Shell.tsx, skin.css. Qidiruv (Ctrl+K) ichki bandlarni ham topadi. Umumiy: Media kutubxonasi, Sozlamalar; Tizim: foydalanuvchilar, rollar, tarix.
+- Tekshirilmadi: next build, brauzer.

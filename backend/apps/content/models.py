@@ -110,6 +110,22 @@ class SiteMedia(models.Model):
         return self.get_key_display()
 
 
+class GalleryImage(models.Model):
+    """Bosh sahifa galereya lentasiga qo'shimcha rasmlar (12 ta qat'iy joydan tashqari)."""
+
+    image = models.ImageField(upload_to="gallery/", validators=[image_extensions, validate_image_size])
+    sort_order = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["sort_order", "id"]
+        verbose_name = "Galereya qöşimça rasmi"
+        verbose_name_plural = "Galereya qöşimça rasmlari"
+
+    def __str__(self):
+        return f"gallery:{self.pk}"
+
+
 class News(models.Model):
     class Category(models.TextChoices):
         NEWS = "news", "Yangilik"
@@ -197,6 +213,8 @@ class SiteSettings(models.Model):
     contact_email = models.EmailField(blank=True)
     contact_phone = models.CharField(max_length=40, blank=True)
     address = models.CharField(max_length=250, blank=True)  # tarjima
+    extra_emails = models.JSONField(default=list, blank=True)  # qo'shimcha emaillar: ["a@b.uz", ...]
+    extra_phones = models.JSONField(default=list, blank=True)  # qo'shimcha telefonlar
     telegram_url = models.URLField(blank=True)
     youtube_url = models.URLField(blank=True)
     linkedin_url = models.URLField(blank=True)
