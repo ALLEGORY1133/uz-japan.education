@@ -1,5 +1,6 @@
 "use client";
 
+import Toaster from "./Toaster";
 import AdminAssistant from "./AdminAssistant";
 import UploadTray from "./UploadTray";
 import Link from "next/link";
@@ -197,6 +198,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
             <kbd>Ctrl + K</kbd>
           </span>
         </footer>
+        <Toaster />
         <AdminAssistant />
         <UploadTray />
       </main>

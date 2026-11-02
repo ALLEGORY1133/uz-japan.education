@@ -103,3 +103,8 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 - Tugadi: `SiteSettings.extra_emails` / `extra_phones` (JSONField, ko‘pi bilan 5 ta, validatsiya) + migratsiya `0011_sitesettings_extra_contacts` (qo‘lda yozilgan); public API shu maydonlarni beradi; web footer hammasini ikonkalar bilan ko‘rsatadi; admin «Aloqa» tabida «Asosiy» + «+ Email/Telefon qöşiş» tugmalari (×, dashed tugma).
 - Fayllar: backend/apps/content/{models,serializers}.py, migrations/0011, web/src/{components/Footer.tsx,lib/types.ts}, admin/.../settings/page.tsx, admin/src/app/skin.css.
 - Tekshirilmadi: migrate/makemigrations --check, testlar, next build, brauzer.
+
+## Toast bildirishnomalar + Sozlamalarda saqlangan ma’lumotlar (2026-11-02)
+- Tugadi: admin panelning barcha «saqlandi/xato» xabarlari (`.notice.ok/.err`) endi ekranning yuqori markazida iPhone uslubidagi toast (`components/Toaster.tsx`, MutationObserver; Shell’da). Muvaffaqiyat xabari sahifa ichida yashirildi (`.shell .notice.ok{display:none}`), xato xabari ham sahifada qoladi. Sozlamalar sahifasi tagida «Saqlangan ma’lumotlar»: Aloqa (manzil, email, telefon, tarmoqlar) va Texnik yordam (xodimlar) kartalari + «Tahrirlaş» (qalamcha) tugmasi tegishli tabni ochib yuqoriga olib chiqadi.
+- Fayllar: admin/src/components/{Toaster,Shell}.tsx, app/(panel)/settings/page.tsx, app/skin.css.
+- Tekshirilmadi: next build, brauzer (toast ko‘rinishi/animatsiya).

@@ -28,7 +28,7 @@ const initials = (n: string) => n.trim().split(/\s+/).slice(0, 2).map((w) => w[0
 const EMPTY_OP: Operator = { name: "", role: "", email: "", phone: "", telegram: "" };
 type Cand = { id: number; name: string; role: string; email?: string };
 
-function SupportTab() {
+function SupportTab({ onSaved }: { onSaved: () => void }) {
   const [ops, setOps] = useState<Operator[] | null>(null);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
   const [busy, setBusy] = useState(false);
@@ -52,6 +52,7 @@ function SupportTab() {
       const d = await api("/site-settings/", { method: "PATCH", json: { operators: ops } });
       setOps((d.operators || []).map((o: any) => ({ ...EMPTY_OP, ...o })));
       setMsg({ ok: true, text: "Texnik yordam xodimlari saqlandi." });
+      onSaved();
     } catch (err: any) {
       setMsg({ ok: false, text: err?.data?.operators?.[0] || errorSummary(err) });
     } finally {
@@ -140,7 +141,7 @@ function MultiField({ icon, label, type, ph, main, list, onMain, onList, error }
   );
 }
 
-function ContactTab() {
+function ContactTab({ onSaved }: { onSaved: () => void }) {
   const [emails, setEmails] = useState<string[]>([]);
   const [phones, setPhones] = useState<string[]>([]);
   const [values, setValues] = useState<Record<string, any> | null>(null);
@@ -164,7 +165,8 @@ function ContactTab() {
       setValues(initValues(ALL_FIELDS, d));
       setEmails(d.extra_emails || []);
       setPhones(d.extra_phones || []);
-      setMsg({ ok: true, text: "Saqlandi." });
+      setMsg({ ok: true, text: "Aloqa ma’lumotlari saqlandi." });
+      onSaved();
     } catch (err: any) {
       setErrors(err?.data);
       setMsg({ ok: false, text: errorSummary(err) });
@@ -212,8 +214,76 @@ function ContactTab() {
   );
 }
 
+const PencilI = <Ic><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z" /><path d="m13.5 6.5 4 4" /></Ic>;
+const tg = (v: string) => (/^https?:\/\//i.test(v) ? v.replace(/^https?:\/\/(t\.me|telegram\.me)\//i, "@") : `@${v.replace(/^@/, "")}`);
+const host = (u: string) => u.replace(/^https?:\/\/(www\.)?/i, "").replace(/\/$/, "");
+
+function Saved({ rev, onEdit }: { rev: number; onEdit: (t: "contact" | "support") => void }) {
+  const [d, setD] = useState<any>(null);
+  useEffect(() => { api("/site-settings/").then(setD).catch(() => {}); }, [rev]);
+  if (!d) return null;
+  const emails = [d.contact_email, ...(d.extra_emails || [])].filter(Boolean);
+  const phones = [d.contact_phone, ...(d.extra_phones || [])].filter(Boolean);
+  const address = d.address_uz || d.address_en || d.address_ja || d.address || "";
+  const socials = SOCIAL.filter((x) => d[x.name]);
+  const ops: Operator[] = d.operators || [];
+  const Row = ({ icon, children }: { icon: ReactNode; children: ReactNode }) => (
+    <li><span className="sv-ic">{icon}</span><span className="sv-tx">{children}</span></li>
+  );
+  return (
+    <section className="sv" aria-label="Saqlangan ma’lumotlar">
+      <h2 className="sv-title">Saqlangan ma’lumotlar</h2>
+      <div className="sv-grid">
+        <div className="card sv-card">
+          <div className="sv-head">
+            <b>Aloqa</b>
+            <button type="button" className="sv-edit" onClick={() => onEdit("contact")} aria-label="Aloqa ma’lumotlarini tahrirlaş" title="Tahrirlaş">{PencilI}<span>Tahrirlaş</span></button>
+          </div>
+          <ul className="sv-list">
+            {address && <Row icon={PinI}>{address}</Row>}
+            {emails.map((m) => <Row key={m} icon={MailI}>{m}</Row>)}
+            {phones.map((p) => <Row key={p} icon={PhoneI}>{p}</Row>)}
+            {socials.map((x) => (
+              <Row key={x.name} icon={<span className="sv-brand" style={{ background: x.color }}><Ic color="#fff">{x.icon}</Ic></span>}>
+                <a href={d[x.name]} target="_blank" rel="noopener noreferrer">{host(d[x.name])}</a>
+              </Row>
+            ))}
+            {!address && !emails.length && !phones.length && !socials.length && <li className="muted">Hali ma’lumot kiritilmagan.</li>}
+          </ul>
+        </div>
+        <div className="card sv-card">
+          <div className="sv-head">
+            <b>Texnik yordam</b>
+            <button type="button" className="sv-edit" onClick={() => onEdit("support")} aria-label="Texnik yordam xodimlarini tahrirlaş" title="Tahrirlaş">{PencilI}<span>Tahrirlaş</span></button>
+          </div>
+          <ul className="sv-staff">
+            {ops.map((o, i) => (
+              <li key={i}>
+                <span className="sp-av">{initials(o.name || o.role)}</span>
+                <span className="sv-st">
+                  <b>{o.name || "Xodim"}</b>
+                  {o.role && <small>{o.role}</small>}
+                  <span className="sv-chips">
+                    {o.email && <a href={`mailto:${o.email}`}>{MailI}{o.email}</a>}
+                    {o.phone && <a href={`tel:${o.phone.replace(/[^\d+]/g, "")}`}>{PhoneI}{o.phone}</a>}
+                    {o.telegram && <span>{TgI}{tg(o.telegram)}</span>}
+                  </span>
+                </span>
+              </li>
+            ))}
+            {!ops.length && <li className="muted">Hali xodim qöşilmagan.</li>}
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function SettingsPage() {
   const [tab, setTab] = useState<"contact" | "support">("contact");
+  const [rev, setRev] = useState(0);
+  const bump = () => setRev((v) => v + 1);
+  const edit = (t: "contact" | "support") => { setTab(t); window.scrollTo({ top: 0, behavior: "smooth" }); };
   return (
     <>
       <div className="page-head">
@@ -223,7 +293,8 @@ export default function SettingsPage() {
         <button type="button" role="tab" aria-selected={tab === "contact"} className={tab === "contact" ? "on" : ""} onClick={() => setTab("contact")}>Aloqa</button>
         <button type="button" role="tab" aria-selected={tab === "support"} className={tab === "support" ? "on" : ""} onClick={() => setTab("support")}>Texnik yordam</button>
       </div>
-      {tab === "support" ? <SupportTab /> : <ContactTab />}
+      {tab === "support" ? <SupportTab onSaved={bump} /> : <ContactTab onSaved={bump} />}
+      <Saved rev={rev} onEdit={edit} />
     </>
   );
 }
