@@ -35,6 +35,7 @@ from apps.applications.views import (
 from apps.applications.cabinet import CabinetInquiryView, CabinetLoginView, CabinetMeView, CabinetVerifyView
 from apps.content.media_library import MediaLibraryItemView, MediaLibraryView
 from apps.content.admin_api import (
+    AdminAboutItemViewSet,
     AdminGalleryImageViewSet,
     AdminHeroSlideImageViewSet,
     AdminHeroSlideViewSet,
@@ -47,7 +48,7 @@ from apps.content.admin_api import (
     AdminStatViewSet,
 )
 from apps.content.page_api import AdminPageSectionView, AdminPagesView, PublicBlocksView
-from apps.content.public import HomeView, PublicNewsViewSet
+from apps.content.public import AboutView, HomeView, PublicNewsViewSet
 from apps.core.permissions import IsPlatformAdmin
 from apps.universities.admin_api import (
     AdminProgramViewSet,
@@ -129,6 +130,7 @@ admin_router.register("hero-slides", AdminHeroSlideViewSet, basename="admin-hero
 admin_router.register("hero-slide-images", AdminHeroSlideImageViewSet, basename="admin-hero-image")
 admin_router.register("site-media", AdminSiteMediaViewSet, basename="admin-site-media")
 admin_router.register("gallery-images", AdminGalleryImageViewSet, basename="admin-gallery-images")
+admin_router.register("about-items", AdminAboutItemViewSet, basename="admin-about-item")
 admin_router.register("news", AdminNewsViewSet, basename="admin-news")
 admin_router.register("news-media", AdminNewsMediaViewSet, basename="admin-news-media")
 admin_router.register("stats", AdminStatViewSet, basename="admin-stat")
@@ -140,6 +142,7 @@ urlpatterns = [
     path("django-admin/", admin.site.urls),
     path("api/health/", health),
     path("api/public/home/", HomeView.as_view()),
+    path("api/public/about/", AboutView.as_view()),
     path("api/public/blocks/", PublicBlocksView.as_view()),
     path("api/public/assistant/", PublicAssistantView.as_view()),
     path("api/public/applications/", ApplicationCreateView.as_view()),

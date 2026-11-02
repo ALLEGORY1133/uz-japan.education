@@ -157,3 +157,7 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 ## Admin menyu soddalashtirildi (2026-11-02)
 - Tugadi: ortiqcha bandlar olib tashlandi. Menyuda: Boş sahifa ▸ Slayder, Statistika, Galereya, Foydali havolalar, Matnlar; Yangiliklar ▸ Yangiliklar, Hamkorlik, Tadbirlar, Sayt yangiliklari; Universitetlar (bitta havola); Biz haqimizda (markaziy sahifa). «Katta rasm va videolar» va «Sahifa matni» kartalari faqat markaziy sahifada (hubOnly) qoldi. Fayllar: admin/src/lib/sitemap.ts, components/Shell.tsx.
 - GitHub tekshirildi: main’da footer-totop ishlari birlashgan + boshqa sessiya (footer xaritasi, sidebar scroll, testlar). Bu ish `menu-simplify` shoxida (main 996f86f’dan).
+
+## Biz haqimizda: tarix / yutuqlar / tahlillar — 1-qadam backend (2026-11-02)
+- Tugadi: `AboutItem` modeli (kind: history/achievement/analysis; title/summary/body uz-ja-en, year, image, video, sort_order, is_visible) + migratsiya `0013_aboutitem` (qo‘lda yozilgan, 0012 dan keyin), admin API `/api/admin/about-items/?kind=` (RBAC: pages), public `/api/public/about/` ({history, achievements, analyses}), home API’da `achievements` (8 ta gacha).
+- Keyingi: page_registry (about.s3 «Kabinetda nimalar bor» o‘rniga tarix/yutuq/tahlil sarlavhalari), web About sahifasi, bosh sahifadagi video band (o‘ng — yutuqlar, chap — tarix/axborot/tahlil), admin boshqaruv.

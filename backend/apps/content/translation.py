@@ -1,6 +1,6 @@
 from modeltranslation.translator import TranslationOptions, register
 
-from .models import HeroSlide, News, SiteMedia, SiteSettings, Stat
+from .models import AboutItem, HeroSlide, News, SiteMedia, SiteSettings, Stat
 
 
 @register(HeroSlide)
@@ -26,3 +26,8 @@ class StatTR(TranslationOptions):
 @register(SiteSettings)
 class SiteSettingsTR(TranslationOptions):
     fields = ("address",)
+
+
+@register(AboutItem)
+class AboutItemTR(TranslationOptions):
+    fields = ("title", "summary", "body")

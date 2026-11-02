@@ -4,7 +4,7 @@ from rest_framework import serializers
 
 from apps.core.serializers import AdminModelSerializer, BaseModelSerializer
 
-from .models import GalleryImage, HeroSlide, HeroSlideImage, MediaKind, News, NewsMedia, SiteMedia, SiteSettings, Stat
+from .models import AboutItem, GalleryImage, HeroSlide, HeroSlideImage, MediaKind, News, NewsMedia, SiteMedia, SiteSettings, Stat
 
 # ---------------------------------------------------------------- ochiq
 
@@ -35,6 +35,12 @@ class PublicGalleryImageSerializer(BaseModelSerializer):
     class Meta:
         model = GalleryImage
         fields = ["id", "image"]
+
+
+class PublicAboutItemSerializer(BaseModelSerializer):
+    class Meta:
+        model = AboutItem
+        fields = ["id", "kind", "title", "summary", "body", "year", "image", "video"]
 
 
 class PublicNewsListSerializer(BaseModelSerializer):
@@ -137,6 +143,12 @@ class AdminSiteMediaSerializer(AdminModelSerializer):
 class AdminGalleryImageSerializer(AdminModelSerializer):
     class Meta:
         model = GalleryImage
+        fields = "__all__"
+
+
+class AdminAboutItemSerializer(AdminModelSerializer):
+    class Meta:
+        model = AboutItem
         fields = "__all__"
 
 

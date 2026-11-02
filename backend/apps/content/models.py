@@ -207,6 +207,33 @@ class Stat(models.Model):
         return f"{self.value}{self.suffix} {self.label}"
 
 
+class AboutItem(models.Model):
+    """«Biz haqimizda» sahifasi: tarix lavhalari, yutuqlar katalogi va tahlillar."""
+
+    class Kind(models.TextChoices):
+        HISTORY = "history", "Tarix"
+        ACHIEVEMENT = "achievement", "Yutuq"
+        ANALYSIS = "analysis", "Tahlil"
+
+    kind = models.CharField(max_length=12, choices=Kind.choices, default=Kind.ACHIEVEMENT, db_index=True)
+    title = models.CharField(max_length=250)  # tarjima
+    summary = models.CharField(max_length=400, blank=True)  # tarjima
+    body = models.TextField(blank=True)  # tarjima
+    year = models.PositiveSmallIntegerField(null=True, blank=True, help_text="Yil (tarix va yutuqlar uchun)")
+    image = models.ImageField(upload_to="about/", blank=True, validators=[image_extensions, validate_image_size])
+    video = models.FileField(upload_to="about/", blank=True, validators=[video_extensions, validate_video_size])
+    sort_order = models.PositiveIntegerField(default=0)
+    is_visible = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["sort_order", "-year", "id"]
+        verbose_name = "Biz haqimizda yozuvi"
+        verbose_name_plural = "Biz haqimizda yozuvlari"
+
+    def __str__(self):
+        return f"{self.get_kind_display()}: {self.title}"
+
+
 class SiteSettings(models.Model):
     """Yagona yozuv (pk=1): aloqa va ijtimoiy tarmoqlar."""
 

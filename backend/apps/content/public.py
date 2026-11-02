@@ -13,11 +13,12 @@ from apps.core.alphabet import to_new_alphabet
 from apps.universities.models import University, UsefulLink
 from apps.universities.serializers import PublicLinkSerializer, UniversityListSerializer
 
-from .models import GalleryImage, HeroSlide, News, SiteMedia, SiteSettings, Stat
+from .models import AboutItem, GalleryImage, HeroSlide, News, SiteMedia, SiteSettings, Stat
 from .serializers import (
     PublicHeroSlideSerializer,
     PublicNewsDetailSerializer,
     PublicNewsListSerializer,
+    PublicAboutItemSerializer,
     PublicGalleryImageSerializer,
     PublicSiteMediaSerializer,
     PublicSiteSettingsSerializer,
@@ -32,6 +33,23 @@ def _gallery_extra(ctx):
             return PublicGalleryImageSerializer(list(GalleryImage.objects.all()), many=True, context=ctx).data
     except DatabaseError:
         return []
+
+
+class AboutView(APIView):
+    """«Biz haqimizda»: tarix, yutuqlar va tahlillar."""
+
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        ctx = {"request": request}
+        rows = list(AboutItem.objects.filter(is_visible=True))
+        out = {"history": [], "achievements": [], "analyses": []}
+        bucket = {"history": "history", "achievement": "achievements", "analysis": "analyses"}
+        for r in rows:
+            out[bucket[r.kind]].append(r)
+        for k in out:
+            out[k] = PublicAboutItemSerializer(out[k], many=True, context=ctx).data
+        return Response(out)
 
 
 class HomeView(APIView):
@@ -69,6 +87,9 @@ class HomeView(APIView):
                 m["key"]: m
                 for m in PublicSiteMediaSerializer(SiteMedia.objects.all(), many=True, context=ctx).data
             },
+            "achievements": PublicAboutItemSerializer(
+                AboutItem.objects.filter(is_visible=True, kind=AboutItem.Kind.ACHIEVEMENT)[:8], many=True, context=ctx
+            ).data,
             "gallery_extra": _gallery_extra(ctx),
             "settings": PublicSiteSettingsSerializer(SiteSettings.load(), context=ctx).data,
         }
