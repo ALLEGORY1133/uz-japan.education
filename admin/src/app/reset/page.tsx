@@ -1,5 +1,6 @@
 "use client";
 
+import { EyeIcon } from "@/components/EyeIcon";
 import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
 import LoginArt from "@/components/LoginArt";
@@ -73,7 +74,7 @@ export default function ResetPage() {
                 <span className="label">Yangi parol</span>
                 <span className="lc-in"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><rect x="5" y="11" width="14" height="10" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></svg>
                   <input type={show ? "text" : "password"} autoComplete="new-password" required minLength={8} value={pw} onChange={(e) => setPw(e.target.value)} autoFocus />
-                  <button type="button" className="lc-eye" onClick={() => setShow((v) => !v)}>{show ? "Yaşiriş" : "Körsatiş"}</button></span>
+                  <button type="button" className="lc-eye" onClick={() => setShow((v) => !v)}><EyeIcon off={show} size={17} /></button></span>
               </label>
               {pw && (
                 <div className={`lc-str s${st}`} aria-live="polite">

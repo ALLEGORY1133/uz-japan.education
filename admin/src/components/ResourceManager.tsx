@@ -3,6 +3,7 @@
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import { api, listOf, mediaUrl } from "@/lib/api";
 import QualitySelect from "./QualitySelect";
+import { EyeIcon } from "./EyeIcon";
 import { blankValues, buildFormData, errorSummary, FieldDef, FormFields, initValues } from "./Form";
 
 export type RowInfo = { title: string; sub?: string; thumb?: string | null; badge?: ReactNode; video?: boolean };
@@ -248,8 +249,8 @@ export default function ResourceManager({
                       </span>
                     )}
                     {toggle && (
-                      <button type="button" className="btn ghost sm" onClick={() => flip(item)}>
-                        {item[toggle.field] ? toggle.off : toggle.on}
+                      <button type="button" className={`btn ghost sm eye-btn${item[toggle.field] ? "" : " is-off"}`} onClick={() => flip(item)} title={item[toggle.field] ? "Saytda körinadi — yaşiriş" : "Yaşirin — körsatiş"} aria-label={item[toggle.field] ? "Yaşiriş" : "Körsatiş"}>
+                        <EyeIcon off={!item[toggle.field]} />
                       </button>
                     )}
                     <button type="button" className="btn outline sm" onClick={() => openEdit(item)}>Tahrirlaş</button>
@@ -291,8 +292,8 @@ export default function ResourceManager({
                     </>
                   )}
                   {toggle && (
-                    <button type="button" className="btn ghost sm" onClick={() => flip(item)}>
-                      {item[toggle.field] ? toggle.off : toggle.on}
+                    <button type="button" className={`btn ghost sm eye-btn${item[toggle.field] ? "" : " is-off"}`} onClick={() => flip(item)} title={item[toggle.field] ? "Saytda körinadi — yaşiriş" : "Yaşirin — körsatiş"} aria-label={item[toggle.field] ? "Yaşiriş" : "Körsatiş"}>
+                      <EyeIcon off={!item[toggle.field]} />
                     </button>
                   )}
                   <button type="button" className="btn outline sm" onClick={() => openEdit(item)}>Tahrirlaş</button>

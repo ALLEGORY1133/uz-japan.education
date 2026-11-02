@@ -1,5 +1,6 @@
 "use client";
 
+import { EyeIcon } from "@/components/EyeIcon";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
@@ -82,7 +83,7 @@ export default function LoginPage() {
             <span className="label">Parol</span>
             <span className="lc-in"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><rect x="5" y="11" width="14" height="10" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></svg>
               <input name="password" type={show ? "text" : "password"} autoComplete="current-password" required disabled={lock > 0} />
-              <button type="button" className="lc-eye" onClick={() => setShow((v) => !v)} aria-label={show ? "Parolni yaşiriş" : "Parolni körsatiş"}>{show ? "Yaşiriş" : "Körsatiş"}</button></span>
+              <button type="button" className="lc-eye" onClick={() => setShow((v) => !v)} aria-label={show ? "Parolni yaşiriş" : "Parolni körsatiş"}><EyeIcon off={show} size={17} /></button></span>
           </label>
           <div className="lc-links"><Link href="/forgot">Parolni unutdingizmi?</Link></div>
           <button type="submit" className="btn primary lc-btn" style={{ width: "100%" }} disabled={busy || lock > 0}>

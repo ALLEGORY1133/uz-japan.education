@@ -120,3 +120,7 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 - Tugadi: admin footerida yana «Texnik yordam» bloki, lekin faqat platforma administratori(lari)ga mos xodim yozuvi (ism = foydalanuvchi nomi yoki to‘liq ismi) ko‘rsatiladi: email, telefon, Telegram. `/api/admin/operators/` shunga filtrlaydi; test yangilandi. Mos yozuv yo‘q bo‘lsa blok chiqmaydi.
 - Fayllar: backend/apps/content/admin_api.py, backend/tests/test_site_content.py, admin/src/components/{Shell,Operators}.tsx.
 - Tekshirilmadi: Django testlar, next build, brauzer.
+
+## «Körsatiş/Yaşiriş» tugmalari → ko‘z ikonkasi (2026-11-02)
+- Tugadi: ro‘yxatlardagi «Körsatiş/Yaşiriş» tugmasi (ResourceManager: Statistika, Slayder, Havolalar, Universitet bo‘limlari) endi ko‘z ikonkasi (ko‘rinadi — ochiq ko‘z, yashirin — chizilgan ko‘z, tooltip bilan); login/parol tiklashdagi parolni ko‘rsatish tugmasi ham ikonka. Yangi `admin/src/components/EyeIcon.tsx`.
+- Tekshirilmadi: next build, brauzer.
