@@ -92,3 +92,4 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 ## Sozlamalar: 2 ta bo‘lim (2026-11-02)
 - Tugadi: admin «Sozlamalar» sahifasi endi 2 tab: «Aloqa» (email/telefon/manzil/ijtimoiy tarmoqlar) va «Texnik yordam» (admin footeridagi operatorlar; oldingi «Aloqa operatorlari»). Fayl: admin/src/app/(panel)/settings/page.tsx.
 - Tekshirilmadi: real `next build`, brauzer.
+- Sozlamalar tablari segmentli dizaynga o‘tkazildi (`.set-tabs` in admin/src/app/skin.css).

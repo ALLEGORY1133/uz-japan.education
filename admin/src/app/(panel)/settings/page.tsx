@@ -125,9 +125,9 @@ export default function SettingsPage() {
       <div className="page-head">
         <div><h1>Sozlamalar</h1><p>{tab === "contact" ? "Sayt footer’idagi aloqa ma’lumotlari (email, telefon, manzil) va ijtimoiy tarmoq havolalari." : "Admin panel footerida körinadigan texnik yordam operatorlari."}</p></div>
       </div>
-      <div className="tabs" role="tablist" style={{ display: "flex", gap: 8, margin: "0 0 16px" }}>
-        <button type="button" role="tab" aria-selected={tab === "contact"} className={`btn ${tab === "contact" ? "primary" : "ghost"}`} onClick={() => setTab("contact")}>Aloqa</button>
-        <button type="button" role="tab" aria-selected={tab === "support"} className={`btn ${tab === "support" ? "primary" : "ghost"}`} onClick={() => setTab("support")}>Texnik yordam</button>
+      <div className="set-tabs" role="tablist">
+        <button type="button" role="tab" aria-selected={tab === "contact"} className={tab === "contact" ? "on" : ""} onClick={() => setTab("contact")}>Aloqa</button>
+        <button type="button" role="tab" aria-selected={tab === "support"} className={tab === "support" ? "on" : ""} onClick={() => setTab("support")}>Texnik yordam</button>
       </div>
       {tab === "support" ? <OperatorsCard /> : !values ? <p className="muted">Yuklanmoqda…</p> : (
         <form className="card" onSubmit={submit}>
