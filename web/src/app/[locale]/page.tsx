@@ -175,7 +175,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <p>{txt("home.news", "text", t("home.c3.d"))}</p>
           <div className="hx-chips">
             <SmartLink href="/news" locale={locale}>{t("nav.news")}</SmartLink>
-            <SmartLink href="/cooperation" locale={locale}>{t("nav.cooperation")}</SmartLink>
+            <SmartLink href="/news?tab=3" locale={locale}>{t("nav.updates")}</SmartLink>
             <SmartLink href="/news?tab=2" locale={locale}>{t("nav.events")}</SmartLink>
             <SmartLink href="/news" locale={locale}>{t("news.all")} →</SmartLink>
           </div>
@@ -183,7 +183,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         {data.news.length > 0 && (
           <Carousel label={t("home.c3.t")} {...cr} auto={3400}>
             {data.news.map((n, i) => {
-              const cover = mediaUrl(n.cover) || pickDemo(DEMO[n.category as "news" | "cooperation" | "event"] || DEMO.news, i);
+              const cover = mediaUrl(n.cover) || pickDemo(DEMO[n.category as "news" | "cooperation" | "event" | "platform"] || DEMO.news, i);
               const external = n.link_type === "external" && !!n.external_url;
               return (
                 <SmartLink key={n.id} href={n.href} locale={locale} className="cs cs-news">

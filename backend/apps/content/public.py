@@ -68,7 +68,7 @@ class HomeView(APIView):
                 University.objects.filter(is_published=True), many=True, context=ctx
             ).data,
             "news": PublicNewsListSerializer(
-                News.objects.filter(is_published=True).exclude(category="platform").prefetch_related("media")[:8], many=True, context=ctx
+                News.objects.filter(is_published=True).exclude(category="cooperation").prefetch_related("media")[:8], many=True, context=ctx
             ).data,
             "updates": PublicNewsListSerializer(
                 News.objects.filter(is_published=True, category="platform").prefetch_related("media")[:6], many=True, context=ctx

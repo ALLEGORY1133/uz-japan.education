@@ -80,14 +80,17 @@ class SiteContentTests(TestCase):
         self.assertEqual(c.get("/api/admin/pages/").status_code, 403)
 
     # ---- Sayt yangiliklari va video
-    def test_platform_news_goes_to_updates_not_news_carousel(self):
+    def test_home_news_carousel_has_announcements_not_cooperation(self):
         News.objects.create(title="Yangilik", title_uz="Yangilik", category="news", slug="n1")
         News.objects.create(title="Sayt", title_uz="Sayt", category="platform", slug="p1")
         # migratsiya demo "sayt yangiliklari"ni ham qo'shadi — shuning uchun aniq ro'yxat emas, tegishlilik tekshiriladi
         home = self.api.get("/api/public/home/").json()
         self.assertIn("p1", [n["slug"] for n in home["updates"]])
         self.assertNotIn("n1", [n["slug"] for n in home["updates"]])
-        self.assertNotIn("p1", [n["slug"] for n in home["news"]])
+        self.assertIn("p1", [n["slug"] for n in home["news"]])
+        News.objects.create(title="Hamkor", title_uz="Hamkor", category="cooperation", slug="c1")
+        home = self.api.get("/api/public/home/").json()
+        self.assertNotIn("c1", [n["slug"] for n in home["news"]])
         lst = self.api.get("/api/public/news/?category=platform").json()
         rows = lst["results"] if isinstance(lst, dict) else lst
         self.assertIn("p1", [n["slug"] for n in rows])

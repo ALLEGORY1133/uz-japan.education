@@ -173,3 +173,7 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 
 ## Bosh sahifa: video banddagi 3 tugma olib tashlandi (2026-11-02)
 - «Biz haqimizda» yozuvli video bandda ostidagi Stipendiyalar / Hamkorlik / Yangiliklar tugmalari (`.vb-chips`) olib tashlandi. Fayl: web/src/app/[locale]/page.tsx.
+
+## Bosh sahifa «Yangi imkoniyatlar»: Hamkorlik → E’lonlar (2026-11-02)
+- Tugadi: tugma «Hamkorlik» o‘rniga «E’lonlar» (`/news?tab=3`); karuselda hamkorlik yozuvlari o‘rniga e’lonlar (platform) — backend `HomeView.news` endi `cooperation`ni chiqarib tashlaydi; kartadagi teg «E’lon / Announcement / お知らせ» (`news.cat.platform`); `home.c3.d` matni 3 tilda yangilandi. Test yangilandi (ishga tushirilmagan).
+- Fayllar: backend/apps/content/public.py, backend/tests/test_site_content.py, web/src/{app/[locale]/page.tsx, lib/i18n.ts}.
