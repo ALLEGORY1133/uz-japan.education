@@ -132,3 +132,8 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 ## Admin footer texnik yordam kartasi (2026-11-02)
 - Tugadi: email kartadan chiqib ketayotgan edi — karta endi mazmuniga qarab kengayadi (flex, width: fit-content, max-width 100%), uzun email o‘raladi. Fayl: admin/src/app/skin.css.
 - Tuzatish: footer kartasidagi email/telefon endi qatorga o‘tmaydi (nowrap), karta `width: max-content` bilan uzunligiga moslashadi.
+
+## Admin menyu qayta tartiblandi (2026-11-02)
+- Tugadi: yon menyu sayt sahifalari bo‘yicha guruhlandi (yig‘iladigan sarlavhalar, faol bölim doim ochiq): Boşqaruv · Arizalar (arizalar, murojaatlar, KPI) · Boş sahifa (slayder, matn va rasm bölimlari, rasm/video/galereya, statistika) · Yangiliklar (barça yozuvlar, hamkorlik, tadbirlar, sayt yangiliklari) · Universitetlar · Umumiy (media kutubxonasi, havolalar, sozlamalar) · Tizim (foydalanuvçilar, rollar, tarix). Admin va menejer uchun bitta MASTER ro‘yxat (ruxsatga qarab filtrlanadi).
+- Fayllar: admin/src/components/Shell.tsx, app/skin.css.
+- Tekshirilmadi: next build, brauzer.

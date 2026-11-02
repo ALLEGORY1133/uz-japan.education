@@ -680,3 +680,9 @@ h1, h2, h3 { font-weight: 800; letter-spacing: -.02em; }
 /* Email/telefon bir qatorda qoladi, quti uzunligiga moslashadi (juda tor ekranda kesiladi) */
 .af-op-links a { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; overflow-wrap: normal; word-break: normal; }
 .af-op { width: max-content; }
+
+/* Menyu bölimlari: yig'iladigan sarlavhalar */
+.nav-toggle { display: flex; align-items: center; justify-content: space-between; width: 100%; border: 0; background: transparent; cursor: pointer; font-family: inherit; text-align: left; }
+.nav-toggle:hover { color: #fff; }
+.nav-toggle i { font-style: normal; font-size: 16px; line-height: 1; transition: transform .2s; }
+.nav-toggle i.open { transform: rotate(90deg); }
