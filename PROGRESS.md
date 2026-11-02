@@ -115,3 +115,8 @@ Oxirgi yangilanish: 2026-10-29 (zip uzjapan_17 dan davom)
 ## Sozlamalar: saqlangan ma’lumotlar tabma-tab (qayta, 2026-11-02)
 - Tugadi: «Saqlangan ma’lumotlar» faqat joriy tabniki (Aloqa / Texnik yordam alohida). Ijtimoiy tarmoq qatori to‘liq bosiladigan havola (↗, yangi oynada, sxema yo‘q bo‘lsa https://), email/telefon ham mailto:/tel:. Xodim tanlash ro‘yxati o‘zgarishsiz (avvalgidek).
 - Fayllar: admin/src/app/(panel)/settings/page.tsx, app/skin.css.
+
+## Admin footer: Texnik yordam — faqat admin (2026-11-02)
+- Tugadi: admin footerida yana «Texnik yordam» bloki, lekin faqat platforma administratori(lari)ga mos xodim yozuvi (ism = foydalanuvchi nomi yoki to‘liq ismi) ko‘rsatiladi: email, telefon, Telegram. `/api/admin/operators/` shunga filtrlaydi; test yangilandi. Mos yozuv yo‘q bo‘lsa blok chiqmaydi.
+- Fayllar: backend/apps/content/admin_api.py, backend/tests/test_site_content.py, admin/src/components/{Shell,Operators}.tsx.
+- Tekshirilmadi: Django testlar, next build, brauzer.

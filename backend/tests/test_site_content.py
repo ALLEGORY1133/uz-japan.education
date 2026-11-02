@@ -116,8 +116,12 @@ class SiteContentTests(TestCase):
         from apps.content.models import SiteSettings
 
         s = SiteSettings.load()
-        s.operators = [{"name": "A", "role": "", "phone": "+998901112233", "telegram": ""}]
+        s.operators = [
+            {"name": "adm", "role": "", "email": "a@b.uz", "phone": "+998901112233", "telegram": ""},
+            {"name": "Boshqa", "role": "", "email": "", "phone": "+998901112244", "telegram": ""},
+        ]
         s.save()
         pub = self.api.get("/api/public/home/").json()["settings"]
         self.assertNotIn("operators", pub)
-        self.assertEqual(self.api.get("/api/admin/operators/").json()[0]["name"], "A")
+        got = self.api.get("/api/admin/operators/").json()
+        self.assertEqual([o["name"] for o in got], ["adm"])

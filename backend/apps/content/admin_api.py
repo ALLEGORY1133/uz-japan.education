@@ -64,12 +64,23 @@ class AdminStatViewSet(AdminOnlyViewSet):
 
 
 class AdminOperatorsView(APIView):
-    """Admin footeri uchun: tizimga kirgan har bir xodim operatorlarni ko'ra oladi."""
+    """Admin footeri uchun texnik yordam: faqat platforma administratori(lari)ning ma'lumotlari."""
 
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        return Response(SiteSettings.load().operators or [])
+        from django.contrib.auth import get_user_model
+
+        User = get_user_model()
+        admins = User.objects.filter(is_active=True, role=User.Role.PLATFORM_ADMIN)
+        names = set()
+        for u in admins:
+            names.add(u.username.strip().lower())
+            full = u.get_full_name().strip().lower()
+            if full:
+                names.add(full)
+        ops = SiteSettings.load().operators or []
+        return Response([o for o in ops if str(o.get("name", "")).strip().lower() in names])
 
 
 class AdminOperatorCandidatesView(APIView):

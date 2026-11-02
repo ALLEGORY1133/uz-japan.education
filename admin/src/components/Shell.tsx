@@ -1,5 +1,6 @@
 "use client";
 
+import Operators, { type Operator } from "./Operators";
 import Toaster from "./Toaster";
 import AdminAssistant from "./AdminAssistant";
 import UploadTray from "./UploadTray";
@@ -121,6 +122,11 @@ export default function Shell({ children }: { children: React.ReactNode }) {
     if (!isManager) api<{ applications: { new: number } }>("/dashboard/").then((d) => setNewCount(d.applications.new)).catch(() => {});
   }, [pathname]);
 
+  const [support, setSupport] = useState<Operator[]>([]);
+  useEffect(() => {
+    api<Operator[]>("/operators/").then((d) => setSupport(Array.isArray(d) ? d : [])).catch(() => {});
+  }, []);
+
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
   const initial = (user?.username || "?").slice(0, 1).toUpperCase();
 
@@ -190,6 +196,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
         </header>
         {children}
         <footer className="admin-foot">
+          <Operators items={support} />
           <span>© {new Date().getFullYear()} UzJapan Education · Admin panel</span>
           <span className="af-links">
             <a href={WEB} target="_blank" rel="noopener noreferrer">Oçiq sayt ↗</a>
